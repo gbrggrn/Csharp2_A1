@@ -2,7 +2,7 @@
 using System.Data;
 using System.Windows;
 
-namespace C_2_A1
+namespace CSharp2_A1
 {
     /// <summary>
     /// Interaction logic for App.xaml

@@ -1,0 +1,136 @@
+﻿<Window x:Class="CSharp2_A1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CSharp2_A1"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="650" Width="700">
+    <Grid>
+        <!-- Main Rows -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <!-- Top Bar -->
+            <RowDefinition Height="*"/>
+            <!-- Content/Input Pane -->
+        </Grid.RowDefinitions>
+        
+        <!-- Main Columns -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <!-- Input Column -->
+            <ColumnDefinition/>
+            <!-- Output Column-->
+        </Grid.ColumnDefinitions>
+
+        <!-- Header -->
+        <Label x:Name="headerLabel" Content="Animal Specifications" Grid.Row="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" FontSize="26"/>
+
+        <!-- Input Pane -->
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <!-- User input pane-->
+                <RowDefinition/>
+                <!-- Category/Species -->
+                <RowDefinition/>
+                <!-- Button/display animals pane -->
+            </Grid.RowDefinitions>
+
+            <!-- User input pane -->
+            <Grid Grid.Row="0" Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <!-- Input Labels -->
+                <Label x:Name="nameLabel" Content="Name" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" FontSize="14"/>
+                <Label x:Name="ageLabel" Content="Age" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" FontSize="14"/>
+                <Label x:Name="genderLabel" Content="Gender" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" FontSize="14"/>
+                <Label x:Name="domesticatedLabel" Content="Domesticated" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" FontSize="14"/>
+                
+                <!-- Input controls -->
+                <TextBox x:Name="nameTextBox" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center"/>
+                <TextBox x:Name="ageTextBox" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"/>
+                <ComboBox x:Name="genderComboBox" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center"/>
+                <CheckBox x:Name="domesticatedCheckBox" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </Grid>
+
+            <!-- Category/species pane -->
+            <Grid Grid.Row="1" Grid.Column="0" Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
+
+                <!-- Output labels -->
+                <Label x:Name="categoryLabel" Content="Category" Grid.Row="0" Grid.Column="0" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <Label x:Name="speciesLabel" Content="Species" Grid.Row="0" Grid.Column="1" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <Label x:Name="listAllLabel" Content="List All Animals" Grid.Row="2" Grid.Column="0" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                
+                <!-- Output controls -->
+                <ListBox x:Name="categoryListBox" Grid.Row="1" Grid.Column="0" Margin="5"/>
+                <ListBox x:Name="speciesListBox" Grid.Row="1" Grid.Column="1" Margin="5"/>
+                <CheckBox x:Name="listAllCheckBox" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Grid>
+
+            <!-- Button/display animals pane -->
+            <Grid Grid.Row="2" Grid.Column="0" Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="50"/>
+                </Grid.RowDefinitions>
+
+                <!-- Button/display labels -->
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <!-- Labels -->
+                    <Label x:Name="displayNameLabel" Content="Name" Grid.Column="0" VerticalAlignment="Bottom"/>
+                    <Label x:Name="displaySpeciesLabel" Content="Species" Grid.Column="1" VerticalAlignment="Bottom"/>
+                    <Label x:Name="displayCategoryLabel" Content="Category" Grid.Column="2" VerticalAlignment="Bottom"/>
+                </Grid>
+                
+                
+                <!-- Button/display controls -->
+                <ListBox x:Name="displayAllListBox" Grid.Row="1" Margin="5"/>
+                <Button x:Name="addButton" Content="+ Add" Grid.Row="2" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="Transparent" Background="Transparent" />
+            </Grid>
+        </Grid>
+
+        <!-- Output Pane -->
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+            <!-- Output Controls -->
+            <Button x:Name="addImgButton" Content="+ Add Image" Grid.Row="0" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="Transparent" Background="Transparent"/>
+            <Border Grid.Row="1" Margin="10,5" BorderThickness="0.5" BorderBrush="Black" Background="Transparent">
+                <!-- ADD IMAGE -->
+            </Border>
+            <ListBox x:Name="animalSpecListBox" Grid.Row="2" Margin="10,5"/>
+        </Grid>
+    </Grid>
+</Window>
