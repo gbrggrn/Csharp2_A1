@@ -5,8 +5,72 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:C_2_A1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="650" Width="700">
     <Grid>
+        <!-- Main Rows -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <!-- Top Bar -->
+            <RowDefinition Height="*"/>
+            <!-- Content/Input Pane -->
+        </Grid.RowDefinitions>
+        
+        <!-- Main Columns -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <!-- Input Column -->
+            <ColumnDefinition/>
+            <!-- Output Column-->
+        </Grid.ColumnDefinitions>
+        
+        <!-- Input Pane -->
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <!-- User input pane-->
+                <RowDefinition/>
+                <!-- Category/Species -->
+                <RowDefinition/>
+                <!-- Add-button pane -->
+            </Grid.RowDefinitions>
 
+            <!-- User input pane -->
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+            </Grid>
+
+            <!-- Category/species pane -->
+            <Grid Grid.Row="1" Grid.Column="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="25"/>
+                </Grid.RowDefinitions>
+            </Grid>
+        </Grid>
+
+        <!-- Output Pane -->
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+        </Grid>
     </Grid>
 </Window>
