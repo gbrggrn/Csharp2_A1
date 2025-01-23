@@ -6,6 +6,15 @@
         xmlns:local="clr-namespace:CSharp2_A1"
         mc:Ignorable="d"
         Title="MainWindow" Height="650" Width="700">
+    <Window.Resources>
+        <Style TargetType="Label">
+            <Setter Property="FontFamily" Value="Calibri"/>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="FontFamily" Value="Calibri"/>
+        </Style>
+    </Window.Resources>
+    
     <Grid>
         <!-- Main Rows -->
         <Grid.RowDefinitions>
@@ -23,8 +32,30 @@
             <!-- Output Column-->
         </Grid.ColumnDefinitions>
 
+        <!-- Design specifics-->
+        <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Background="#D2B48C"/>
+        <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Background="#D2B48C"/>
+
         <!-- Header -->
-        <Label x:Name="headerLabel" Content="Animal Specifications" Grid.Row="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" FontSize="26"/>
+        <Label x:Name="headerLabel" Content="Animal Specifications" Grid.Row="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" FontSize="26" FontWeight="Bold" FontFamily="Aptos"/>
+
+        <!-- Header controls -->
+        <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
+            <StackPanel.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="Margin" Value="0,0,10,0"/>
+                </Style>
+            </StackPanel.Resources>
+            <Border CornerRadius="10" Background="#A0522D" Width="75" Height="30">
+                <Button x:Name="exitButton" Content="Exit" FontSize="14" BorderThickness="0" Background="Transparent"/>
+            </Border>
+            <Border CornerRadius="10" Background="#A0522D" Width="75" Height="30">
+                <Button x:Name="aboutButton" Content="About" FontSize="14" BorderThickness="0" Background="Transparent"/>
+            </Border>
+            <Border CornerRadius="10" Background="#A0522D" Width="75" Height="30">
+                <Button x:Name="saveButton" Content="Save" FontSize="14" BorderThickness="0" Background="Transparent"/>
+            </Border>
+        </StackPanel>
 
         <!-- Input Pane -->
         <Grid Grid.Row="1" Grid.Column="0">
@@ -45,20 +76,24 @@
                 </Grid.ColumnDefinitions>
 
                 <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
+                    <RowDefinition Height="85"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
                 </Grid.RowDefinitions>
+                
+                <!-- Subheader -->
+                <Label x:Name="subheaderLabel" Content="Keep track of your best friends!" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="0,15,0,0" FontSize="24"/>
 
                 <!-- Input Labels -->
-                <Label x:Name="nameLabel" Content="Name" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" FontSize="14"/>
+                <Label x:Name="nameLabel" Content="Name" Grid.Row="0" Grid.Column="0" VerticalAlignment="Bottom" FontSize="14"/>
                 <Label x:Name="ageLabel" Content="Age" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" FontSize="14"/>
                 <Label x:Name="genderLabel" Content="Gender" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" FontSize="14"/>
                 <Label x:Name="domesticatedLabel" Content="Domesticated" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" FontSize="14"/>
                 
                 <!-- Input controls -->
-                <TextBox x:Name="nameTextBox" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center"/>
+                <TextBox x:Name="nameTextBox" Grid.Row="0" Grid.Column="1" VerticalAlignment="Bottom"/>
                 <TextBox x:Name="ageTextBox" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"/>
                 <ComboBox x:Name="genderComboBox" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center"/>
                 <CheckBox x:Name="domesticatedCheckBox" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
@@ -78,9 +113,9 @@
                 </Grid.RowDefinitions>
 
                 <!-- Output labels -->
-                <Label x:Name="categoryLabel" Content="Category" Grid.Row="0" Grid.Column="0" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <Label x:Name="speciesLabel" Content="Species" Grid.Row="0" Grid.Column="1" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <Label x:Name="listAllLabel" Content="List All Animals" Grid.Row="2" Grid.Column="0" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <Label x:Name="categoryLabel" Content="Category" Grid.Row="0" Grid.Column="0" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                <Label x:Name="speciesLabel" Content="Species" Grid.Row="0" Grid.Column="1" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                <Label x:Name="listAllLabel" Content="List All Animals" Grid.Row="2" Grid.Column="0" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
                 
                 <!-- Output controls -->
                 <ListBox x:Name="categoryListBox" Grid.Row="1" Grid.Column="0" Margin="5"/>
@@ -113,7 +148,10 @@
                 
                 <!-- Button/display controls -->
                 <ListBox x:Name="displayAllListBox" Grid.Row="1" Margin="5"/>
-                <Button x:Name="addButton" Content="+ Add" Grid.Row="2" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="Transparent" Background="Transparent" />
+                <Border CornerRadius="10" Background="#A0522D" Width="150" Height="30" Grid.Row="2">
+                    <Button x:Name="addButton" Content="+ Add" FontSize="14" BorderBrush="Transparent" Background="Transparent" />
+                </Border>
+                
             </Grid>
         </Grid>
 
@@ -126,7 +164,10 @@
             </Grid.RowDefinitions>
             
             <!-- Output Controls -->
-            <Button x:Name="addImgButton" Content="+ Add Image" Grid.Row="0" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="Transparent" Background="Transparent"/>
+            <Border CornerRadius="10" Background="#A0522D" Width="150" Height="30">
+                <Button x:Name="addImgButton" Content="+ Add Image" FontSize="14" BorderBrush="Transparent" Background="Transparent"/>
+            </Border>
+            
             <Border Grid.Row="1" Margin="10,5" BorderThickness="0.5" BorderBrush="Black" Background="Transparent">
                 <!-- ADD IMAGE -->
             </Border>
