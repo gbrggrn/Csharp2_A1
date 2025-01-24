@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Navigation;
 
-namespace Csharp2_A1.Enums
+namespace Csharp2_A1.Models.Enums
 {
     class Enums
     {
-        internal enum Gender
+        public enum Gender
         {
             Male,
             Female,

@@ -8,5 +8,6 @@ namespace Csharp2_A1.Models.Categories
 {
     class Amphibians : Animal
     {
+    
     }
 }
