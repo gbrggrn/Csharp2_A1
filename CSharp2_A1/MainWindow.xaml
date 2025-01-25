@@ -139,15 +139,10 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     
-                    <!-- Labels -->
-                    <Label x:Name="displayNameLabel" Content="Name" Grid.Column="0" VerticalAlignment="Bottom"/>
-                    <Label x:Name="displaySpeciesLabel" Content="Species" Grid.Column="1" VerticalAlignment="Bottom"/>
-                    <Label x:Name="displayCategoryLabel" Content="Category" Grid.Column="2" VerticalAlignment="Bottom"/>
                 </Grid>
                 
                 
                 <!-- Button/display controls -->
-                <ListBox x:Name="displayAllListBox" Grid.Row="1" Margin="5"/>
                 <Border CornerRadius="10" Background="#A0522D" Width="150" Height="30" Grid.Row="2">
                     <Button x:Name="addButton" Content="+ Add" FontSize="14" BorderBrush="Transparent" Background="Transparent" />
                 </Border>
