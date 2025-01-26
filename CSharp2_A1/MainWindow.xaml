@@ -13,6 +13,9 @@
         <Style TargetType="Button">
             <Setter Property="FontFamily" Value="Calibri"/>
         </Style>
+        <Style TargetType="ListBox">
+            <Setter Property="FontFamily" Value="Courier new"/>
+        </Style>
     </Window.Resources>
     
     <Grid>
@@ -76,27 +79,26 @@
                 </Grid.ColumnDefinitions>
 
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="85"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                
-                <!-- Subheader -->
-                <Label x:Name="subheaderLabel" Content="Keep track of your best friends!" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="0,15,0,0" FontSize="24"/>
 
                 <!-- Input Labels -->
-                <Label x:Name="nameLabel" Content="Name" Grid.Row="0" Grid.Column="0" VerticalAlignment="Bottom" FontSize="14"/>
-                <Label x:Name="ageLabel" Content="Age" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" FontSize="14"/>
-                <Label x:Name="genderLabel" Content="Gender" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" FontSize="14"/>
-                <Label x:Name="domesticatedLabel" Content="Domesticated" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" FontSize="14"/>
-                
+                <Label x:Name="nameLabel" Content="Name" Grid.Row="0" VerticalAlignment="Bottom" FontSize="14"/>
+                <Label x:Name="ageLabel" Content="Age" Grid.Row="1" VerticalAlignment="Center" FontSize="14"/>
+                <Label x:Name="genderLabel" Content="Gender" Grid.Row="2" VerticalAlignment="Center" FontSize="14"/>
+                <Label x:Name="domesticatedLabel" Content="Domesticated" Grid.Row="3" VerticalAlignment="Center" FontSize="14"/>
+
                 <!-- Input controls -->
-                <TextBox x:Name="nameTextBox" Grid.Row="0" Grid.Column="1" VerticalAlignment="Bottom"/>
+                <TextBox x:Name="nameTextBox" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center"/>
                 <TextBox x:Name="ageTextBox" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"/>
                 <ComboBox x:Name="genderComboBox" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center"/>
                 <CheckBox x:Name="domesticatedCheckBox" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            
             </Grid>
 
             <!-- Category/species pane -->

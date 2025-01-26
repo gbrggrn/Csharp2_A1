@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using Microsoft.VisualBasic;
+using System.Reflection;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -19,6 +21,44 @@ namespace CSharp2_A1
         public MainWindow()
         {
             InitializeComponent();
+
+            LoadCategories();
+
+            categoryListBox.SelectionChanged += LoadSpecies;
+
+            speciesListBox.SelectionChanged += UpdateGUI;
+        }
+
+        internal void LoadCategories()
+        {
+            List<string> categoryNames = Assembly.GetExecutingAssembly().GetTypes().Where(name => name.Namespace == "Csharp2_A1.Models.AnimalCategories" && name.IsClass).Select(name => name.Name).ToList();
+
+            foreach (var name in categoryNames)
+            {
+                categoryListBox.Items.Add(name);
+            }
+        }
+
+        internal void LoadSpecies(Object sender, EventArgs e)
+        {
+            if (categoryListBox.SelectedIndex != -1)
+            {
+                speciesListBox.Items.Clear();
+
+                string category = categoryListBox.SelectedItem.ToString()!.Trim();
+
+                List<string> speciesNames = Assembly.GetExecutingAssembly().GetTypes().Where(name => name.Namespace == $"Csharp2_A1.Models.AnimalSpecies.Species{category}" && name.IsClass).Select(Name => Name.Name).ToList();
+
+                foreach (var name in speciesNames)
+                {
+                    speciesListBox.Items.Add(name);
+                }
+            }
+        }
+
+        internal void UpdateGUI(Object sender, EventArgs e)
+        {
+
         }
     }
 }

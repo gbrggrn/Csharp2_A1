@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Csharp2_A1.Models.Categories
+namespace Csharp2_A1.Models.AnimalCategories
 {
     class Insects : Animal
     {

@@ -1,4 +1,4 @@
-﻿using Csharp2_A1.Models.Categories;
+﻿using Csharp2_A1.Models.AnimalCategories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
