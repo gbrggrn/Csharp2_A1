@@ -21,8 +21,6 @@ namespace CSharp2_A1
     /// </summary>
     public partial class MainWindow : Window
     {
-        private Animal currentAnimal;
-
         public MainWindow()
         {
             InitializeComponent();
@@ -88,6 +86,7 @@ namespace CSharp2_A1
             {
                 string selectedCategory = categoryListBox.SelectedItem.ToString()!.Trim();
                 string selectedSpecies = speciesListBox.SelectedItem.ToString()!.Trim();
+                Animal currentAnimal;
 
                 try
                 {
