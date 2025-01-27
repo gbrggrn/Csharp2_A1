@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Csharp2_A1.Control;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,22 +9,35 @@ namespace Csharp2_A1.Models.AnimalCategories
 {
     class Mammals : Animal
     {
-        private bool isBipedal;
+        private string isBipedal;
 
         public Mammals()
         {
-            isBipedal = false;
+            isBipedal = string.Empty;
         }
 
-        public override List<string> GetQuestion()
+        public override List<string> GetQuestions()
         {
             return new List<string> { "Bipedal" };
         }
 
-        public bool IsBipedal
+        public override void SaveInput(string firstInput, string secondInput)
+        {
+            IsBipedal = firstInput;
+        }
+
+        public string IsBipedal
         {
             get => isBipedal;
-            set => isBipedal = value;
+            set
+            {
+                if (!InputVal.ValidateName(value, out string errorMessage))
+                {
+                    throw new ArgumentException(errorMessage);
+                }
+
+                isBipedal = value;
+            }
         }
     }
 }

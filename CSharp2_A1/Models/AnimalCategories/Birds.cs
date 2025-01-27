@@ -15,9 +15,15 @@ namespace Csharp2_A1.Models.AnimalCategories
         {
             wingspanCm = string.Empty;
         }
-        public override List<string> GetQuestion()
+
+        public override List<string> GetQuestions()
         {
             return new List<string> { "Wingspan (cm)" };
+        }
+
+        public override void SaveInput(string firstInput, string secondInput)
+        {
+            WingspanCm = firstInput;
         }
 
         public string WingspanCm

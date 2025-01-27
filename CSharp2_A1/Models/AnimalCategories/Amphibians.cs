@@ -2,8 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace Csharp2_A1.Models.AnimalCategories
 {
@@ -16,9 +18,14 @@ namespace Csharp2_A1.Models.AnimalCategories
             primaryHabitat = string.Empty;
         }
 
-        public override List<string> GetQuestion()
+        public override List<string> GetQuestions()
         {
             return new List<string> { "Primary habitat" };
+        }
+
+        public override void SaveInput(string firstInput, string secondInput)
+        {
+            PrimaryHabitat = firstInput;
         }
 
         public string PrimaryHabitat

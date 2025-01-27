@@ -1,4 +1,5 @@
-﻿using Csharp2_A1.Models.AnimalCategories;
+﻿using Csharp2_A1.Control;
+using Csharp2_A1.Models.AnimalCategories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,12 +10,39 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesBirds
 {
     class Falcon : Birds
     {
-        public override List<string> GetQuestion()
+        private string avgAirSpeed;
+
+        public Falcon()
         {
-            List<string> questions = base.GetQuestion();
+            avgAirSpeed = string.Empty;
+        }
+
+        public override List<string> GetQuestions()
+        {
+            List<string> questions = base.GetQuestions();
             questions.Add("Avg airspeed (km/h)");
 
             return questions;
+        }
+
+        public override void SaveInput(string firstInput, string secondInput)
+        {
+            base.SaveInput(firstInput, secondInput);
+            AvgAirSpeed = secondInput;
+        }
+
+        public string AvgAirSpeed
+        {
+            get => avgAirSpeed;
+            set
+            {
+                if (!InputVal.ValidateAvgAirSpeed(value, out string errorMessage))
+                {
+                    throw new ArgumentException(errorMessage);
+                }
+
+                avgAirSpeed = value;
+            }
         }
     }
 }

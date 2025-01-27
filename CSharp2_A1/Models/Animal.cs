@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Csharp2_A1.Models
 {
@@ -23,7 +24,9 @@ namespace Csharp2_A1.Models
             isDomesticated = false;
         }
 
-        public abstract List<string> GetQuestion();
+        public abstract List<string> GetQuestions();
+
+        public abstract void SaveInput(string firstInput, string secondInput);
 
         public string Name
         {

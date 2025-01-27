@@ -21,9 +21,12 @@ namespace CSharp2_A1
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly Dictionary<string, List<String>> categoriesAndSpecies;
+
         public MainWindow()
         {
             InitializeComponent();
+            categoriesAndSpecies = GetCategoriesAndSpecies();
             LoadCategories();
             categoryListBox.SelectionChanged += LoadSpecies;
             speciesListBox.SelectionChanged += UpdateInputControls;
@@ -33,24 +36,18 @@ namespace CSharp2_A1
 
         internal void LoadCategories()
         {
-            List<string> categories = GetCategories();
-            foreach (var name in categories)
-            {
-                categoryListBox.Items.Add(name);
-            }
+            categoryListBox.ItemsSource = categoriesAndSpecies.Keys;
         }
 
         internal void LoadSpecies(Object sender, EventArgs e)
         {
             if (categoryListBox.SelectedIndex != -1)
             {
-                speciesListBox.Items.Clear();
-                string category = categoryListBox.SelectedItem.ToString()!.Trim();
+                string category = categoryListBox.SelectedItem.ToString()!;
 
-                List<string> species = GetSpecies(category);
-                foreach (var name in species)
+                if (categoriesAndSpecies.ContainsKey(category))
                 {
-                    speciesListBox.Items.Add(name);
+                    speciesListBox.ItemsSource = categoriesAndSpecies[category];
                 }
             }
         }
@@ -59,18 +56,15 @@ namespace CSharp2_A1
         {
             speciesListBox.Items.Clear();
             categoryListBox.IsEnabled = false;
-            List<string> categories = [];
-            
-            foreach (var item in categoryListBox.Items)
-            {
-                categories.Add(item.ToString()!.Trim());
-            }
 
-            List<string> species = GetSpecies(categories);
-            foreach (var name in species)
+            List<string> categories = categoriesAndSpecies.Keys.ToList();
+
+            foreach (var listOfSpecies in categoriesAndSpecies.Values)
             {
-                speciesListBox.Items.Add(name);
-                Console.WriteLine(name);
+                foreach (string species in listOfSpecies)
+                {
+                    speciesListBox.Items.Add(species);
+                }
             }
         }
 
@@ -97,39 +91,51 @@ namespace CSharp2_A1
                     return;
                 }
                 
-                List<string> questions = currentAnimal.GetQuestion();
+                List<string> questions = currentAnimal.GetQuestions();
 
                 categoryQuestionLabel.Content = questions[0];
                 speciesQuestionLabel.Content = questions[1];
+
+                firstQTextBox.Visibility = Visibility.Visible;
+                secondQTextBox.Visibility = Visibility.Visible;
             }
-        }
-
-        internal List<string> GetCategories()
-        {
-            List<string> categoryNames = [];
-            return categoryNames = Assembly.GetExecutingAssembly().GetTypes().Where(name => name.Namespace == "Csharp2_A1.Models.AnimalCategories" && name.IsClass).Select(name => name.Name).ToList();
-        }
-
-        internal List<string> GetSpecies(List<string> categories)
-        {
-            List<string> speciesFromAllCategories = [];
-
-            foreach (var category in categories)
+            else
             {
-                List<string> speciesFromACategory = Assembly.GetExecutingAssembly().GetTypes().Where(name => name.Namespace == $"Csharp2_A1.Models.AnimalSpecies.Species{category}" && name.IsClass).Select(Name => Name.Name).ToList();
-                speciesFromAllCategories.AddRange(speciesFromACategory);
-            }
+                categoryQuestionLabel.Content = string.Empty;
+                speciesQuestionLabel.Content = string.Empty;
 
-            return speciesFromAllCategories;
+                firstQTextBox.Visibility = Visibility.Hidden;
+                secondQTextBox.Visibility = Visibility.Hidden;
+            }
         }
 
-        internal List<string> GetSpecies(string category)
+        /// <summary>
+        /// Retrieves all types in the assembly, then iterates over them to filter out categories and species.
+        /// Adds the categories as keys and the species in a list as values to the dictionary.
+        /// </summary>
+        /// <returns>the complete dictionary of categories and corresponding species</returns>
+        internal Dictionary<string, List<string>> GetCategoriesAndSpecies()
         {
-            List<string> speciesFromOneCategory = [];
+            Dictionary<string, List<string>> categoriesAndSpecies = new();
+            Type[] allTypes = Assembly.GetExecutingAssembly().GetTypes();
 
-            speciesFromOneCategory = Assembly.GetExecutingAssembly().GetTypes().Where(name => name.Namespace == $"Csharp2_A1.Models.AnimalSpecies.Species{category}" && name.IsClass).Select(Name => Name.Name).ToList();
-            
-            return speciesFromOneCategory;
+            foreach (Type category in allTypes)
+            {
+                if (category.IsClass && category.Namespace == "Csharp2_A1.Models.AnimalCategories")
+                {
+                    List<string> speciesList = new List<string>();
+
+                    foreach (var species in allTypes)
+                    {
+                        if (species.IsClass && species.Namespace == $"Csharp2_A1.Models.AnimalSpecies.Species{category.Name}")
+                        {
+                            speciesList.Add(species.Name);
+                        }
+                    }
+                    categoriesAndSpecies.Add(category.Name, speciesList);
+                }
+            }
+            return categoriesAndSpecies;
         }
 
         internal void DisplayErrorBox(string message)

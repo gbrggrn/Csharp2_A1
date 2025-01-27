@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Csharp2_A1.Control;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,26 +9,35 @@ namespace Csharp2_A1.Models.AnimalCategories
 {
     class Reptiles : Animal
     {
-        private bool hasScales;
-        private readonly string hasScalesQ;
+        private string hasScales;
 
         public Reptiles()
         {
-            hasScales = false;
-            hasScalesQ = "Has scales";
+            hasScales = string.Empty;
         }
 
-        public override List<string> GetQuestion()
+        public override List<string> GetQuestions()
         {
             return new List<string> { "Has scales" };
         }
 
-        public bool HasScales
+        public override void SaveInput(string firstInput, string secondInput)
         {
-            get => hasScales;
-            set => hasScales = value;
+            HasScales = firstInput;
         }
 
-        public string HasScalesQ => hasScalesQ;
+        public string HasScales
+        {
+            get => hasScales;
+            set 
+            {
+                if (!InputVal.ValidateName(value, out string errorMessage))
+                {
+                    throw new ArgumentException(errorMessage);
+                }
+
+                hasScales = value;
+            }
+        }
     }
 }

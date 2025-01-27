@@ -103,5 +103,51 @@ namespace Csharp2_A1.Control
             errorMessage = "Success";
             return true;
         }
+
+        public static bool ValidateBirdType(string birdType, List<string> types, out string errorMessage)
+        {
+            if (!string.IsNullOrEmpty(birdType))
+            {
+                errorMessage = "Bird type can not be empty";
+                return false;
+            }
+            else
+            {
+                if (!types.Contains(birdType))
+                {
+                    errorMessage = $"Dove type has to be '{types[0]}' or '{types[1]}'";
+                    return false;
+                }
+            }
+
+            errorMessage = "Success";
+            return true;
+        }
+
+        public static bool ValidateAvgAirSpeed(string avgAirSpeed, out string errorMessage)
+        {
+            if (!string.IsNullOrEmpty(avgAirSpeed))
+            {
+                errorMessage = "Avg airspeed can not be empty";
+                return false;
+            }
+            else
+            {
+                if (!double.TryParse(avgAirSpeed, out double intAverageAirSpeed))
+                {
+                    errorMessage = "Avg airspeed has to be a number";
+                    return false;
+                }
+
+                if (intAverageAirSpeed < 0 || intAverageAirSpeed > 500)
+                {
+                    errorMessage = "Airspeed can not exceed 500km/h";
+                    return false;
+                }
+            }
+
+            errorMessage = "Success";
+            return true;
+        }
     }
 }

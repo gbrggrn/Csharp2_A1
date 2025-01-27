@@ -1,4 +1,5 @@
-﻿using Csharp2_A1.Models.AnimalCategories;
+﻿using Csharp2_A1.Control;
+using Csharp2_A1.Models.AnimalCategories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,12 +10,39 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesAmphibians
 {
     class Salamander : Amphibians
     {
-        public override List<string> GetQuestion()
+        private string favoriteFoods;
+
+        public Salamander()
         {
-            List<string> questions = base.GetQuestion();
+            favoriteFoods = string.Empty;
+        }
+
+        public override List<string> GetQuestions()
+        {
+            List<string> questions = base.GetQuestions();
             questions.Add("Favorite foods");
 
             return questions;
+        }
+
+        public override void SaveInput(string firstInput, string secondInput)
+        {
+            base.SaveInput(firstInput, secondInput);
+            FavoriteFoods = secondInput;
+        }
+
+        public string FavoriteFoods
+        {
+            get => favoriteFoods;
+            set
+            {
+                if (!InputVal.ValidateName(value, out string errorMessage))
+                {
+                    throw new ArgumentException(errorMessage);
+                }
+
+                favoriteFoods = value;
+            }
         }
     }
 }

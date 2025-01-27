@@ -17,9 +17,14 @@ namespace Csharp2_A1.Models.AnimalCategories
             lengthCm = string.Empty;
         }
 
-        public override List<string> GetQuestion()
+        public override List<string> GetQuestions()
         {
             return new List<string> { "Length (cm)" };
+        }
+
+        public override void SaveInput(string firstInput, string secondInput)
+        {
+            LengthCm = firstInput;
         }
 
         public string LengthCm

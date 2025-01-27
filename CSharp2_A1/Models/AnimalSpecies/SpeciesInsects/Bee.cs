@@ -1,4 +1,5 @@
-﻿using Csharp2_A1.Models.AnimalCategories;
+﻿using Csharp2_A1.Control;
+using Csharp2_A1.Models.AnimalCategories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,12 +10,39 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesInsects
 {
     class Bee : Insects
     {
-        public override List<string> GetQuestion()
+        private string makesHoney;
+
+        public Bee()
         {
-            List<string> questions = base.GetQuestion();
+            makesHoney = string.Empty;
+        }
+
+        public override List<string> GetQuestions()
+        {
+            List<string> questions = base.GetQuestions();
             questions.Add("Produces honey");
 
             return questions;
+        }
+
+        public override void SaveInput(string firstInput, string secondInput)
+        {
+            base.SaveInput(firstInput, secondInput);
+            MakesHoney = secondInput;
+        }
+
+        public string MakesHoney
+        {
+            get => makesHoney;
+            set
+            {
+                if (!InputVal.ValidateName(value, out string errorMessage))
+                {
+                    throw new ArgumentException(errorMessage);
+                }
+
+                makesHoney = value;
+            }
         }
     }
 }

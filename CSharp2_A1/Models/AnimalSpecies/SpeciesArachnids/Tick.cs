@@ -1,4 +1,5 @@
-﻿using Csharp2_A1.Models.AnimalCategories;
+﻿using Csharp2_A1.Control;
+using Csharp2_A1.Models.AnimalCategories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,12 +10,34 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesArachnids
 {
     class Tick : Arachnids
     {
-        public override List<string> GetQuestion()
+        private string howDisgusting;
+
+        public override List<string> GetQuestions()
         {
-            List<string> questions = base.GetQuestion();
+            List<string> questions = base.GetQuestions();
             questions.Add("How disgusting");
 
             return questions;
+        }
+
+        public override void SaveInput(string firstInput, string secondInput)
+        {
+            base.SaveInput(firstInput, secondInput);
+            HowDisgusting = secondInput;
+        }
+
+        public string HowDisgusting
+        {
+            get => howDisgusting;
+            set
+            {
+                if (!InputVal.ValidateName(value, out string errorMessage))
+                {
+                    throw new ArgumentException(errorMessage);
+                }
+
+                howDisgusting = value;
+            }
         }
     }
 }

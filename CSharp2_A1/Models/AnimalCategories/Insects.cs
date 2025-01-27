@@ -16,9 +16,14 @@ namespace Csharp2_A1.Models.AnimalCategories
             numOfLegs = string.Empty;
         }
 
-        public override List<string> GetQuestion()
+        public override List<string> GetQuestions()
         {
             return new List<string> { "Number of legs" };
+        }
+
+        public override void SaveInput(string firstInput, string secondInput)
+        {
+            NumOfLegs = firstInput;
         }
 
         public string NumOfLegs

@@ -100,7 +100,9 @@
                 <TextBox x:Name="ageTextBox" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"/>
                 <ComboBox x:Name="genderComboBox" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center"/>
                 <CheckBox x:Name="domesticatedCheckBox" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            
+                <TextBox x:Name="firstQTextBox" Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" Visibility="Hidden"/>
+                <TextBox x:Name="secondQTextBox" Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" Visibility="Hidden"/>
+
             </Grid>
 
             <!-- Category/species pane -->

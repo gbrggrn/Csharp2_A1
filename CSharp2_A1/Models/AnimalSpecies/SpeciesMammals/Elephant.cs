@@ -1,4 +1,5 @@
-﻿using Csharp2_A1.Models.AnimalCategories;
+﻿using Csharp2_A1.Control;
+using Csharp2_A1.Models.AnimalCategories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,12 +10,39 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesMammals
 {
     class Elephant : Mammals
     {
-        public override List<string> GetQuestion()
+        private string weight;
+
+        public Elephant()
         {
-            List<string> questions = base.GetQuestion();
+            weight = string.Empty;
+        }
+
+        public override List<string> GetQuestions()
+        {
+            List<string> questions = base.GetQuestions();
             questions.Add("Weighs");
 
             return questions;
+        }
+
+        public override void SaveInput(string firstInput, string secondInput)
+        {
+            base.SaveInput(firstInput, secondInput);
+
+        }
+
+        public string Weight
+        {
+            get => weight;
+            set
+            {
+                if (!InputVal.ValidateAvgAirSpeed(value, out string errorMessage))
+                {
+                    throw new ArgumentException(errorMessage);
+                }
+
+                weight = value;
+            }
         }
     }
 }
