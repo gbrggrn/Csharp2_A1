@@ -21,6 +21,7 @@ namespace CSharp2_A1
     /// </summary>
     public partial class MainWindow : Window
     {
+        private Animal currentAnimal;
 
         public MainWindow()
         {
@@ -88,8 +89,15 @@ namespace CSharp2_A1
                 string selectedCategory = categoryListBox.SelectedItem.ToString()!.Trim();
                 string selectedSpecies = speciesListBox.SelectedItem.ToString()!.Trim();
 
-                Animal currentAnimal = AnimalFactory.CreateAnimal(selectedCategory, selectedSpecies);
-
+                try
+                {
+                    currentAnimal = AnimalFactory.CreateAnimal(selectedCategory, selectedSpecies);
+                } catch (ArgumentException ax)
+                {
+                    DisplayErrorBox(ax.ToString());
+                    return;
+                }
+                
                 List<string> questions = currentAnimal.GetQuestion();
 
                 categoryQuestionLabel.Content = questions[0];
@@ -123,6 +131,14 @@ namespace CSharp2_A1
             speciesFromOneCategory = Assembly.GetExecutingAssembly().GetTypes().Where(name => name.Namespace == $"Csharp2_A1.Models.AnimalSpecies.Species{category}" && name.IsClass).Select(Name => Name.Name).ToList();
             
             return speciesFromOneCategory;
+        }
+
+        internal void DisplayErrorBox(string message)
+        {
+            MessageBox.Show(message,
+                "Error",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
         }
     }
 }
