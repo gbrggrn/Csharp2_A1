@@ -1,6 +1,7 @@
 ﻿using Csharp2_A1.Control;
 using Csharp2_A1.Models;
 using Csharp2_A1.Models.AnimalCategories;
+using Csharp2_A1.Models.Enums;
 using Microsoft.VisualBasic;
 using System.Reflection;
 using System.Text;
@@ -28,10 +29,17 @@ namespace CSharp2_A1
             InitializeComponent();
             categoriesAndSpecies = GetCategoriesAndSpecies();
             LoadCategories();
+            LoadGenderComboBox();
             categoryListBox.SelectionChanged += LoadSpecies;
             speciesListBox.SelectionChanged += UpdateInputControls;
             listAllCheckBox.Checked += LoadAllSpecies;
             listAllCheckBox.Unchecked += EnableCategories;
+        }
+
+        internal void LoadGenderComboBox()
+        {
+            genderComboBox.ItemsSource = Enum.GetNames(typeof(Enums.Gender));
+            genderComboBox.SelectedIndex = 2;
         }
 
         internal void LoadCategories()
