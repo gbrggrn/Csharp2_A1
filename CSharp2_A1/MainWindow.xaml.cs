@@ -54,7 +54,6 @@ namespace CSharp2_A1
 
         internal void LoadAllSpecies(Object sender, EventArgs e)
         {
-            speciesListBox.Items.Clear();
             categoryListBox.IsEnabled = false;
 
             List<string> categories = categoriesAndSpecies.Keys.ToList();
@@ -78,8 +77,8 @@ namespace CSharp2_A1
         {
             if (speciesListBox.SelectedIndex != -1)
             {
-                string selectedCategory = categoryListBox.SelectedItem.ToString()!.Trim();
                 string selectedSpecies = speciesListBox.SelectedItem.ToString()!.Trim();
+                string selectedCategory = GetCorrespondingCategory(selectedSpecies);
                 Animal currentAnimal;
 
                 try
@@ -110,10 +109,27 @@ namespace CSharp2_A1
         }
 
         /// <summary>
-        /// Retrieves all types in the assembly, then iterates over them to filter out categories and species.
+        /// Returns the name of the category corresponding to the chosen species.
+        /// </summary>
+        /// <param name="species">The chosen species</param>
+        /// <returns>The corresponding category</returns>
+        internal string GetCorrespondingCategory(string species)
+        {
+            foreach (var category in categoriesAndSpecies)
+            {
+                if (category.Value.Contains(species))
+                {
+                    return category.Key;
+                }
+            }
+            return string.Empty;
+        }
+
+        /// <summary>
+        /// Retrieves all types in the assembly, then iterates over them to filter out classnames of categories and species.
         /// Adds the categories as keys and the species in a list as values to the dictionary.
         /// </summary>
-        /// <returns>the complete dictionary of categories and corresponding species</returns>
+        /// <returns>The complete dictionary of categories and corresponding species</returns>
         internal Dictionary<string, List<string>> GetCategoriesAndSpecies()
         {
             Dictionary<string, List<string>> categoriesAndSpecies = new();
@@ -138,6 +154,10 @@ namespace CSharp2_A1
             return categoriesAndSpecies;
         }
 
+        /// <summary>
+        /// Displays a messagebox with an error-message.
+        /// </summary>
+        /// <param name="message">The message to be displayed</param>
         internal void DisplayErrorBox(string message)
         {
             MessageBox.Show(message,
