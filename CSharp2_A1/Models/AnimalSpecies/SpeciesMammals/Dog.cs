@@ -9,5 +9,12 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesMammals
 {
     class Dog : Mammals
     {
+        public override List<string> GetQuestion()
+        {
+            List<string> questions = base.GetQuestion();
+            questions.Add("Barks");
+
+            return questions;
+        }
     }
 }

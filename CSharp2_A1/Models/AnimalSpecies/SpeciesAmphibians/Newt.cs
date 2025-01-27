@@ -9,5 +9,12 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesAmphibians
 {
     class Newt : Amphibians
     {
+        public override List<string> GetQuestion()
+        {
+            List<string> questions = base.GetQuestion();
+            questions.Add("Appropriate foods");
+
+            return questions;
+        }
     }
 }

@@ -9,5 +9,12 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesArachnids
 {
     class Spider : Arachnids
     {
+        public override List<string> GetQuestion()
+        {
+            List<string> questions = base.GetQuestion();
+            questions.Add("How deadly");
+
+            return questions;
+        }
     }
 }

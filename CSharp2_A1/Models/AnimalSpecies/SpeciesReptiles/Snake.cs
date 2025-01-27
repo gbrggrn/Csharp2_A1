@@ -9,5 +9,12 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesReptiles
 {
     class Snake : Reptiles
     {
+        public override List<string> GetQuestion()
+        {
+            List<string> questions = base.GetQuestion();
+            questions.Add("Straight or bent");
+
+            return questions;
+        }
     }
 }

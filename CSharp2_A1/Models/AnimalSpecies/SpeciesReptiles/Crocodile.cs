@@ -9,5 +9,12 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesReptiles
 {
     class Crocodile : Reptiles
     {
+        public override List<string> GetQuestion()
+        {
+            List<string> questions = base.GetQuestion();
+            questions.Add("Size of jaws");
+
+            return questions;
+        }
     }
 }

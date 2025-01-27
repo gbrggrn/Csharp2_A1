@@ -9,5 +9,12 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesArachnids
 {
     class Scorpion : Arachnids
     {
+        public override List<string> GetQuestion()
+        {
+            List<string> questions = base.GetQuestion();
+            questions.Add("Usual mood");
+
+            return questions;
+        }
     }
 }

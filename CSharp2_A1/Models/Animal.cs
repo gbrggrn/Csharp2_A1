@@ -8,7 +8,7 @@ using System.Windows;
 
 namespace Csharp2_A1.Models
 {
-    class Animal
+    abstract class Animal
     {
         private string id;
         private string name;
@@ -22,6 +22,8 @@ namespace Csharp2_A1.Models
             gender = Enums.Enums.Gender.Unknown;
             isDomesticated = false;
         }
+
+        public abstract List<string> GetQuestion();
 
         public string Name
         {
@@ -39,20 +41,20 @@ namespace Csharp2_A1.Models
 
         public string Id
         {
-            get { return id; }
-            set { id = value; }
+            get => id;
+            set => id = value;
         }
 
         public Enums.Enums.Gender Gender
         {
-            get { return gender; }
-            set { gender = value; }
+            get => gender;
+            set => gender = value;
         }
 
         public bool IsDomesticated
         {
-            get { return isDomesticated; }
-            set { isDomesticated = value; }
+            get => isDomesticated;
+            set => isDomesticated = value;
         }
 
     }

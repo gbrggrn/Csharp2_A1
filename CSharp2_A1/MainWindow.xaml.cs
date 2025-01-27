@@ -1,4 +1,7 @@
-﻿using Microsoft.VisualBasic;
+﻿using Csharp2_A1.Control;
+using Csharp2_A1.Models;
+using Csharp2_A1.Models.AnimalCategories;
+using Microsoft.VisualBasic;
 using System.Reflection;
 using System.Text;
 using System.Windows;
@@ -18,6 +21,7 @@ namespace CSharp2_A1
     /// </summary>
     public partial class MainWindow : Window
     {
+
         public MainWindow()
         {
             InitializeComponent();
@@ -73,13 +77,24 @@ namespace CSharp2_A1
 
         internal void EnableCategories(Object sender, EventArgs e)
         {
+            speciesListBox.Items.Clear();
             categoryListBox.IsEnabled = true;
         }
 
         internal void UpdateInputControls(Object sender, EventArgs e)
         {
+            if (speciesListBox.SelectedIndex != -1)
+            {
+                string selectedCategory = categoryListBox.SelectedItem.ToString()!.Trim();
+                string selectedSpecies = speciesListBox.SelectedItem.ToString()!.Trim();
 
+                Animal currentAnimal = AnimalFactory.CreateAnimal(selectedCategory, selectedSpecies);
 
+                List<string> questions = currentAnimal.GetQuestion();
+
+                categoryQuestionLabel.Content = questions[0];
+                speciesQuestionLabel.Content = questions[1];
+            }
         }
 
         internal List<string> GetCategories()

@@ -9,5 +9,12 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesBirds
 {
     class Dove : Birds
     {
+        public override List<string> GetQuestion()
+        {
+            List<string> questions = base.GetQuestion();
+            questions.Add("Type (forest or city)");
+
+            return questions;
+        }
     }
 }
