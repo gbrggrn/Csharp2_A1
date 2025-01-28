@@ -34,10 +34,11 @@ namespace Csharp2_A1.Models.AnimalCategories
             {
                 if (!InputVal.ValidateWingspan(value, out string errorMessage))
                 {
-                    throw new ArgumentException(errorMessage);
-                }
 
-                wingspanCm = value;
+                }else
+                {
+                    wingspanCm = value;
+                }
             }
         }
     }

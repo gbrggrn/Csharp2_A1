@@ -38,10 +38,12 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesArachnids
             {
                 if (!InputVal.ValidateName(value, out string errormessage))
                 {
-                    throw new ArgumentException(errormessage);
-                }
 
-                howDeadly = value;
+                } 
+                else
+                {
+                    howDeadly = value;
+                }
             }
         }
     }

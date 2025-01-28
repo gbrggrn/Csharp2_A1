@@ -41,10 +41,12 @@ namespace Csharp2_A1.Models
             {
                 if (!Control.InputVal.ValidateName(value, out string errorMessage))
                 {
-                    throw new ArgumentException(errorMessage);
+                    //Validation failed. Errormessage saved to InputVal.
                 }
-
-                name = value;
+                else
+                {
+                    name = value;
+                }
             }
         }
 

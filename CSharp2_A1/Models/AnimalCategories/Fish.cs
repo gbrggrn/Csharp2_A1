@@ -35,10 +35,12 @@ namespace Csharp2_A1.Models.AnimalCategories
             {
                 if (!InputVal.ValidateLength(value, out string errorMessage))
                 {
-                    throw new ArgumentException(errorMessage);
-                }
 
-                lengthCm = value;
+                }
+                else
+                {
+                    lengthCm = value;
+                }
             }
         }
     }

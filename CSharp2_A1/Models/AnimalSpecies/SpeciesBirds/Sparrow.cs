@@ -38,10 +38,12 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesBirds
             {
                 if (!InputVal.ValidateName(value, out string errorMessage))
                 {
-                    throw new ArgumentException(errorMessage);
-                }
 
-                favoriteSeeds = value;
+                }
+                else
+                {
+                    favoriteSeeds = value;
+                }
             }
         }
     }

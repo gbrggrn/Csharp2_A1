@@ -36,7 +36,7 @@ namespace Csharp2_A1.Models.AnimalCategories
             {
                 if (!InputVal.ValidateHabitat(value, out string errorMessage))
                 {
-                    throw new ArgumentException(errorMessage);
+
                 }
                 else
                 {

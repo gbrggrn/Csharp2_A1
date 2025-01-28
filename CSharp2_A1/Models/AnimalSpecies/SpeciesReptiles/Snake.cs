@@ -38,10 +38,12 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesReptiles
             {
                 if (!InputVal.ValidateName(value, out string errorMessage))
                 {
-                    throw new ArgumentException(errorMessage);
-                }
 
-                straightOrBent = value;
+                }
+                else
+                {
+                    straightOrBent = value;
+                }
             }
         }
     }

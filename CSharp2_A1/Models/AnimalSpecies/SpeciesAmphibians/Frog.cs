@@ -39,10 +39,12 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesAmphibians
             {
                 if (!InputVal.ValidateHabitat(value, out string errorMessage))
                 {
-                    throw new ArgumentException(errorMessage);
-                }
 
-                frogColor = value;
+                }
+                else
+                {
+                    frogColor = value;
+                }
             }
         }
     }

@@ -8,17 +8,33 @@ namespace Csharp2_A1.Control
 {
     class InputVal
     {
+        private static List<string>? errorMessages = new List<string>();
+
+        public static List<string> GetErrorMessages()
+        {
+            List<string> errorMessagesToReturn = new List<string>(errorMessages!);
+            ClearErrorMessages();
+            return errorMessagesToReturn;
+        }
+
+        internal static void ClearErrorMessages()
+        {
+            errorMessages!.Clear();
+        }
+
         public static bool ValidateName(string name, out string errorMessage)
         {
             if (string.IsNullOrEmpty(name))
             {
                 errorMessage = "Name can not be empty";
+                errorMessages!.Add(errorMessage);
                 return false;
             }
 
             if (name.Length > 20)
             {
                 errorMessage = "Name must be max 20 characters";
+                errorMessages!.Add(errorMessage);
                 return false;
             }
 
@@ -31,12 +47,14 @@ namespace Csharp2_A1.Control
             if (string.IsNullOrEmpty (habitat))
             {
                 errorMessage = "Habitat can not be empty";
+                errorMessages!.Add(errorMessage);
                 return false;
             }
 
             if (habitat.Length > 20)
             {
                 errorMessage = "Habitat must be max 20 characters";
+                errorMessages!.Add(errorMessage);
                 return false;
             }
 
@@ -49,6 +67,7 @@ namespace Csharp2_A1.Control
             if (!int.TryParse(numberOfLegs, out int legs))
             {
                 errorMessage = "Number of legs has to be a number";
+                errorMessages!.Add(errorMessage);
                 return false;
             }
             else
@@ -56,6 +75,7 @@ namespace Csharp2_A1.Control
                 if (legs < 0 || legs > 8)
                 {
                     errorMessage = "Number of legs must be between 0-8";
+                    errorMessages!.Add(errorMessage);
                     return false;
                 }
             }
@@ -69,6 +89,7 @@ namespace Csharp2_A1.Control
             if (!double.TryParse(wingspan, out double span))
             {
                 errorMessage = "Wingspan has to be given in cm";
+                errorMessages!.Add(errorMessage);
                 return false;
             }
             else
@@ -76,6 +97,7 @@ namespace Csharp2_A1.Control
                 if (span < 0 || span > 300)
                 {
                     errorMessage = "Wingspan must be between 0-300cm";
+                    errorMessages!.Add(errorMessage);
                     return false;
                 }
             }
@@ -89,6 +111,7 @@ namespace Csharp2_A1.Control
             if (!double.TryParse(length, out double intLength))
             {
                 errorMessage = "Length has to be a number";
+                errorMessages!.Add(errorMessage);
                 return false;
             }
             else
@@ -96,6 +119,7 @@ namespace Csharp2_A1.Control
                 if (intLength < 0 || intLength > 600)
                 {
                     errorMessage = "Length has to be between 0-600cm";
+                    errorMessages!.Add(errorMessage);
                     return false;
                 }
             }
@@ -109,6 +133,7 @@ namespace Csharp2_A1.Control
             if (!string.IsNullOrEmpty(birdType))
             {
                 errorMessage = "Bird type can not be empty";
+                errorMessages!.Add(errorMessage);
                 return false;
             }
             else
@@ -116,6 +141,7 @@ namespace Csharp2_A1.Control
                 if (!types.Contains(birdType))
                 {
                     errorMessage = $"Dove type has to be '{types[0]}' or '{types[1]}'";
+                    errorMessages!.Add(errorMessage);
                     return false;
                 }
             }
@@ -129,6 +155,7 @@ namespace Csharp2_A1.Control
             if (!string.IsNullOrEmpty(avgAirSpeed))
             {
                 errorMessage = "Avg airspeed can not be empty";
+                errorMessages!.Add(errorMessage);
                 return false;
             }
             else
@@ -136,12 +163,14 @@ namespace Csharp2_A1.Control
                 if (!double.TryParse(avgAirSpeed, out double intAverageAirSpeed))
                 {
                     errorMessage = "Avg airspeed has to be a number";
+                    errorMessages!.Add(errorMessage);
                     return false;
                 }
 
                 if (intAverageAirSpeed < 0 || intAverageAirSpeed > 500)
                 {
                     errorMessage = "Airspeed can not exceed 500km/h";
+                    errorMessages!.Add(errorMessage);
                     return false;
                 }
             }

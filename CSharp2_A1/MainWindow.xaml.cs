@@ -23,13 +23,22 @@ namespace CSharp2_A1
     public partial class MainWindow : Window
     {
         private readonly Dictionary<string, List<String>> categoriesAndSpecies;
+        private AnimalRegistry animalRegistry;
+        private IdGenerator idGenerator;
 
         public MainWindow()
         {
             InitializeComponent();
+            animalRegistry = new();
+            idGenerator = new();
             categoriesAndSpecies = GetCategoriesAndSpecies();
             LoadCategories();
             LoadGenderComboBox();
+            SetSubscriptions();
+        }
+
+        internal void SetSubscriptions()
+        {
             categoryListBox.SelectionChanged += LoadSpecies;
             speciesListBox.SelectionChanged += UpdateInputControls;
             listAllCheckBox.Checked += LoadAllSpecies;
@@ -38,7 +47,7 @@ namespace CSharp2_A1
 
         internal void LoadGenderComboBox()
         {
-            genderComboBox.ItemsSource = Enum.GetNames(typeof(Enums.Gender));
+            genderComboBox.ItemsSource = Enum.GetValues(typeof(Enums.Gender)).Cast<Enums.Gender>();
             genderComboBox.SelectedIndex = 2;
         }
 
@@ -219,9 +228,29 @@ namespace CSharp2_A1
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            Animal currentAnimal = GetCurrentAnimal();
+            if (speciesListBox.SelectedIndex != -1)
+            {
+                Animal currentAnimal = GetCurrentAnimal();
 
-            
+                currentAnimal.SaveInput(idGenerator.GenerateId(),
+                nameTextBox.Text,
+                (Enums.Gender)genderComboBox.SelectedItem,
+                domesticatedCheckBox.IsChecked!.Value,
+                firstQTextBox.Text,
+                secondQTextBox.Text);
+                
+                List<string> errors = InputVal.GetErrorMessages();
+
+                if (errors.Count > 0)
+                {
+                    DisplayErrorBox($"Faulty input!\nErrorMessages:\n{string.Join("\n", errors)}");
+                    return;
+                }
+                else
+                {
+                    animalRegistry.AddAnimal(currentAnimal);
+                }
+            }
         }
     }
 }

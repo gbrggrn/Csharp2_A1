@@ -38,10 +38,12 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesReptiles
             {
                 if (!InputVal.ValidateLength(value, out string errorMessage))
                 {
-                    throw new ArgumentException(errorMessage);
-                }
 
-                tailLength = value;
+                }
+                else
+                {
+                    tailLength = value;
+                }
             }
         }
     }

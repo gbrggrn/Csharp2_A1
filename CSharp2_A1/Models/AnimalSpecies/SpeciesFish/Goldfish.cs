@@ -38,10 +38,12 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesFish
             {
                 if (!InputVal.ValidateName(value, out string errorMessage))
                 {
-                    throw new ArgumentException(errorMessage);
-                }
 
-                tankOrBowl = value;
+                }
+                else
+                {
+                    tankOrBowl = value;
+                }
             }
         }
     }

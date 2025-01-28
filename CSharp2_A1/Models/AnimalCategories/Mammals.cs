@@ -34,10 +34,12 @@ namespace Csharp2_A1.Models.AnimalCategories
             {
                 if (!InputVal.ValidateName(value, out string errorMessage))
                 {
-                    throw new ArgumentException(errorMessage);
-                }
 
-                isBipedal = value;
+                }
+                else
+                {
+                    isBipedal = value;
+                }
             }
         }
     }

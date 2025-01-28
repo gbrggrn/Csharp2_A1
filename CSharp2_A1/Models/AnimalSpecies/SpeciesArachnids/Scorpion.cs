@@ -38,10 +38,12 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesArachnids
             {
                 if (!InputVal.ValidateName(value, out string errorMessage))
                 {
-                    throw new ArgumentException(errorMessage);
-                }
 
-                usualMood = value;
+                } 
+                else
+                {
+                    usualMood = value;
+                }
             }
         }
     }

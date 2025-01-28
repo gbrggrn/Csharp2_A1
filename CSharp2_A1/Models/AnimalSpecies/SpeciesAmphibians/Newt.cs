@@ -38,10 +38,12 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesAmphibians
             {
                 if (!InputVal.ValidateName(value, out string errorMessage))
                 {
-                    throw new ArgumentException(errorMessage);
-                }
 
-                appropriateFoods = value;
+                } 
+                else
+                {
+                    appropriateFoods = value;
+                }
             }
         }
     }

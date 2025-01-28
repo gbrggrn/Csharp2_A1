@@ -38,10 +38,12 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesFish
             {
                 if (!InputVal.ValidateName(value, out string errorMessage))
                 {
-                    throw new ArgumentException(errorMessage);
-                }
 
-                salmonColor = value;
+                }
+                else
+                {
+                    salmonColor = value;
+                }
             }
         }
     }

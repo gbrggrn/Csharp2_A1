@@ -38,10 +38,12 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesMammals
             {
                 if (!InputVal.ValidateAvgAirSpeed(value, out string errorMessage))
                 {
-                    throw new ArgumentException(errorMessage);
-                }
 
-                weight = value;
+                }
+                else
+                {
+                    weight = value;
+                }
             }
         }
     }

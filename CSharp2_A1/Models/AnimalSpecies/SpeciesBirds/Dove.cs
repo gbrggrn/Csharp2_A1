@@ -39,10 +39,12 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesBirds
             {
                 if (!InputVal.ValidateBirdType(value, allowedTypes, out string errormessage))
                 {
-                    throw new ArgumentException(errormessage);
-                }
 
-                doveType = value;
+                }
+                else
+                {
+                    doveType = value;
+                }
             }
         }
     }

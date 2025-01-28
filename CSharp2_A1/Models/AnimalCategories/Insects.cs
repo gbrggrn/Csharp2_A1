@@ -34,10 +34,12 @@ namespace Csharp2_A1.Models.AnimalCategories
             {
                 if (!InputVal.ValidateNumberOfLegs(value, out string errorMessage))
                 {
-                    throw new ArgumentException(errorMessage);
-                }
 
-                value = numOfLegs;
+                }
+                else
+                {
+                    numOfLegs = value;
+                }
             }
         }
     }
