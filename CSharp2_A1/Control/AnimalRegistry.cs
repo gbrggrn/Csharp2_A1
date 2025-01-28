@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Csharp2_A1.Models;
+using CSharp2_A1;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,11 +13,14 @@ namespace Csharp2_A1.Control
 {
     internal class AnimalRegistry
     {
-        List<Models.Animal> animals;
+        ObservableCollection<Animal> animals;
+        MainWindow mainWindow;
 
-        internal AnimalRegistry()
+        internal AnimalRegistry(MainWindow mainWindowIn)
         {
-            animals = new List<Models.Animal>();
+            animals = new ObservableCollection<Animal>();
+            mainWindow = mainWindowIn;
+            animals.CollectionChanged += mainWindow.ObserveRegistry!;
         }
 
         internal void AddAnimal(Models.Animal animalIn)
@@ -27,7 +33,7 @@ namespace Csharp2_A1.Control
             return animals[indexToGet];
         }
 
-        internal List<Models.Animal> GetAllAnimals()
+        internal ObservableCollection<Animal> GetAllAnimals()
         {
             return animals;
         }

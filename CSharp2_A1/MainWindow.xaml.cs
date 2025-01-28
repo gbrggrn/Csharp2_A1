@@ -3,6 +3,7 @@ using Csharp2_A1.Models;
 using Csharp2_A1.Models.AnimalCategories;
 using Csharp2_A1.Models.Enums;
 using Microsoft.VisualBasic;
+using System.Collections.ObjectModel;
 using System.Reflection;
 using System.Text;
 using System.Windows;
@@ -29,7 +30,7 @@ namespace CSharp2_A1
         public MainWindow()
         {
             InitializeComponent();
-            animalRegistry = new();
+            animalRegistry = new(this);
             idGenerator = new();
             categoriesAndSpecies = GetCategoriesAndSpecies();
             LoadCategories();
@@ -43,6 +44,7 @@ namespace CSharp2_A1
             speciesListBox.SelectionChanged += UpdateInputControls;
             listAllCheckBox.Checked += LoadAllSpecies;
             listAllCheckBox.Unchecked += EnableCategories;
+            displayAllListBox.SelectionChanged += DisplayAnimal;
         }
 
         internal void LoadGenderComboBox()
@@ -233,11 +235,12 @@ namespace CSharp2_A1
                 Animal currentAnimal = GetCurrentAnimal();
 
                 currentAnimal.SaveInput(idGenerator.GenerateId(),
-                nameTextBox.Text,
-                (Enums.Gender)genderComboBox.SelectedItem,
-                domesticatedCheckBox.IsChecked!.Value,
-                firstQTextBox.Text,
-                secondQTextBox.Text);
+                    ageTextBox.Text,
+                    nameTextBox.Text,
+                    (Enums.Gender)genderComboBox.SelectedItem,
+                    domesticatedCheckBox.IsChecked!.Value,
+                    firstQTextBox.Text,
+                    secondQTextBox.Text);
                 
                 List<string> errors = InputVal.GetErrorMessages();
 
@@ -249,8 +252,54 @@ namespace CSharp2_A1
                 else
                 {
                     animalRegistry.AddAnimal(currentAnimal);
+                    ResetAllInputFields();
                 }
             }
+        }
+
+        internal void ObserveRegistry(Object sender, EventArgs e)
+        {
+            DisplayAnimals(animalRegistry.GetAllAnimals());
+        }
+
+        private void DisplayAnimals(ObservableCollection<Animal> animals)
+        {
+            displayAllListBox.Items.Clear();
+
+            foreach (Animal animal in animals)
+            {
+                displayAllListBox.Items.Add($"{animal.Name,-15}{animal.GetType().Name,-15}{animal.Age, -5}");
+            }
+        }
+
+        private void DisplayAnimal(Object sender, EventArgs e)
+        {
+            if (displayAllListBox.SelectedIndex != -1)
+            {
+                int indexToDisplay = displayAllListBox.SelectedIndex;
+                Animal animalToDisplay = animalRegistry.GetAnimal(indexToDisplay);
+                List<string> questions = animalToDisplay.GetQuestions();
+                string categoryQ = questions[0];
+                string speciesQ = questions[1];
+
+                displayAnimalListBox.Items.Clear();
+                displayAnimalListBox.Items.Add(
+                    $"ID:{animalToDisplay.Id,-15}\n" +
+                    $"Age: {animalToDisplay.Age,-15}\n" +
+                    $"Name: {animalToDisplay.Name,-15}\n" +
+                    $"Gender: {animalToDisplay.Gender,-15}\n" +
+                    $"Domesticated: {animalToDisplay.IsDomesticated,-10}\n");
+            }
+        }
+
+        internal void ResetAllInputFields()
+        {
+            nameTextBox.Text = string.Empty;
+            ageTextBox.Text = string.Empty;
+            genderComboBox.SelectedIndex = 2;
+            domesticatedCheckBox.IsChecked = false;
+            firstQTextBox.Text = string.Empty;
+            secondQTextBox.Text = string.Empty;
         }
     }
 }

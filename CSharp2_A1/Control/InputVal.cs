@@ -9,6 +9,7 @@ namespace Csharp2_A1.Control
     class InputVal
     {
         private static List<string>? errorMessages = new List<string>();
+        private static readonly string success = "Success";
 
         public static List<string> GetErrorMessages()
         {
@@ -20,6 +21,25 @@ namespace Csharp2_A1.Control
         internal static void ClearErrorMessages()
         {
             errorMessages!.Clear();
+        }
+
+        public static bool ValidateAge(string age, out string errorMessage)
+        {
+            if (!int.TryParse(age, out int intAge))
+            {
+                errorMessage = "Age must be a number";
+                errorMessages!.Add(errorMessage);
+                return false;
+            }
+
+            if (intAge < 0 || intAge > 120)
+            {
+                errorMessage = "Age must be between 0-120";
+                errorMessages!.Add(errorMessage);
+            }
+
+            errorMessage = success;
+            return true;
         }
 
         public static bool ValidateName(string name, out string errorMessage)
@@ -38,7 +58,7 @@ namespace Csharp2_A1.Control
                 return false;
             }
 
-            errorMessage = "Success";
+            errorMessage = success;
             return true;
         }
 
@@ -58,7 +78,7 @@ namespace Csharp2_A1.Control
                 return false;
             }
 
-            errorMessage = "Success";
+            errorMessage = success;
             return true;
         }
 
@@ -80,7 +100,7 @@ namespace Csharp2_A1.Control
                 }
             }
 
-            errorMessage = "Success";
+            errorMessage = success;
             return true;
         }
 
@@ -102,7 +122,7 @@ namespace Csharp2_A1.Control
                 }
             }
 
-            errorMessage = "Success";
+            errorMessage = success;
             return true;
         }
 
@@ -124,7 +144,7 @@ namespace Csharp2_A1.Control
                 }
             }
 
-            errorMessage = "Success";
+            errorMessage = success;
             return true;
         }
 
@@ -146,7 +166,7 @@ namespace Csharp2_A1.Control
                 }
             }
 
-            errorMessage = "Success";
+            errorMessage = success;
             return true;
         }
 
@@ -175,7 +195,7 @@ namespace Csharp2_A1.Control
                 }
             }
 
-            errorMessage = "Success";
+            errorMessage = success;
             return true;
         }
     }

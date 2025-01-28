@@ -23,9 +23,9 @@ namespace Csharp2_A1.Models.AnimalCategories
             return new List<string> { "Primary habitat" };
         }
 
-        public override void SaveInput(string idIn, string nameIn, Enums.Enums.Gender genderIn, bool isDomesticatedIn, string categorySpecificInput, string speciesSpecificInput)
+        public override void SaveInput(string idIn, string ageIn, string nameIn, Enums.Enums.Gender genderIn, bool isDomesticatedIn, string categorySpecificInput, string speciesSpecificInput)
         {
-            base.SaveInput(idIn, nameIn, genderIn, isDomesticatedIn, categorySpecificInput, speciesSpecificInput);
+            base.SaveInput(idIn, ageIn, nameIn, genderIn, isDomesticatedIn, categorySpecificInput, speciesSpecificInput);
             PrimaryHabitat = categorySpecificInput;
         }
 
@@ -36,7 +36,7 @@ namespace Csharp2_A1.Models.AnimalCategories
             {
                 if (!InputVal.ValidateHabitat(value, out string errorMessage))
                 {
-
+                    //Validation failed. Errormessage saved to InputVal.
                 }
                 else
                 {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Csharp2_A1.Control;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -12,6 +13,7 @@ namespace Csharp2_A1.Models
     abstract class Animal
     {
         private string id;
+        private string age;
         private string name;
         private Enums.Enums.Gender gender;
         private bool isDomesticated;
@@ -19,6 +21,7 @@ namespace Csharp2_A1.Models
         public Animal()
         {
             id = string.Empty;
+            age = string.Empty;
             name = string.Empty;
             gender = Enums.Enums.Gender.Unknown;
             isDomesticated = false;
@@ -26,12 +29,29 @@ namespace Csharp2_A1.Models
 
         public abstract List<string> GetQuestions();
 
-        public virtual void SaveInput(string idIn, string nameIn, Enums.Enums.Gender genderIn, bool isDomesticatedIn, string categorySpecificInput, string speciesSpecificInput)
+        public virtual void SaveInput(string idIn, string age, string nameIn, Enums.Enums.Gender genderIn, bool isDomesticatedIn, string categorySpecificInput, string speciesSpecificInput)
         {
             Id = idIn;
+            Age = age;
             Name = nameIn;
             Gender = genderIn;
             IsDomesticated = isDomesticatedIn;
+        }
+
+        public string Age
+        {
+            get => age;
+            set
+            {
+                if (!InputVal.ValidateAge(value, out string errorMessage))
+                {
+                    //Validation failed. Errormessage saved to InputVal.
+                }
+                else
+                {
+                    age = value;
+                }
+            }
         }
 
         public string Name
