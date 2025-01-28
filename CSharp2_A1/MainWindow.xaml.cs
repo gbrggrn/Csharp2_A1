@@ -163,6 +163,19 @@ namespace CSharp2_A1
         }
 
         /// <summary>
+        /// Executes if exit-button is clicked. Prompts user to quit or stay.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ExitButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (DisplayQuestion("Do you want to quit?\nUnsaved changes will be lost", "Quit?"))
+            {
+                this.Close();
+            }
+        }
+
+        /// <summary>
         /// Displays a messagebox with an error-message.
         /// </summary>
         /// <param name="message">The message to be displayed</param>
@@ -172,6 +185,23 @@ namespace CSharp2_A1
                 "Error",
                 MessageBoxButton.OK,
                 MessageBoxImage.Error);
+        }
+
+        internal bool DisplayQuestion(string question, string title)
+        {
+            MessageBoxResult answer = MessageBox.Show(question,
+                title,
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+
+            if (answer == MessageBoxResult.Yes)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

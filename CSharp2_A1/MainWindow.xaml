@@ -50,7 +50,7 @@
                 </Style>
             </StackPanel.Resources>
             <Border CornerRadius="10" Background="#A0522D" Width="75" Height="30">
-                <Button x:Name="exitButton" Content="Exit" FontSize="14" BorderThickness="0" Background="Transparent"/>
+                <Button x:Name="exitButton" Content="Exit" FontSize="14" BorderThickness="0" Background="Transparent" Click="ExitButton_Click"/>
             </Border>
             <Border CornerRadius="10" Background="#A0522D" Width="75" Height="30">
                 <Button x:Name="aboutButton" Content="About" FontSize="14" BorderThickness="0" Background="Transparent"/>
