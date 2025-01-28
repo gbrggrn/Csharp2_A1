@@ -26,7 +26,13 @@ namespace Csharp2_A1.Models
 
         public abstract List<string> GetQuestions();
 
-        public abstract void SaveInput(string firstInput, string secondInput);
+        public virtual void SaveInput(string idIn, string nameIn, Enums.Enums.Gender genderIn, bool isDomesticatedIn, string categorySpecificInput, string speciesSpecificInput)
+        {
+            Id = idIn;
+            Name = nameIn;
+            Gender = genderIn;
+            IsDomesticated = isDomesticatedIn;
+        }
 
         public string Name
         {

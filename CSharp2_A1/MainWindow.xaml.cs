@@ -63,6 +63,7 @@ namespace CSharp2_A1
         internal void LoadAllSpecies(Object sender, EventArgs e)
         {
             categoryListBox.IsEnabled = false;
+            speciesListBox.ItemsSource = null;
 
             List<string> categories = categoriesAndSpecies.Keys.ToList();
 
@@ -85,26 +86,18 @@ namespace CSharp2_A1
         {
             if (speciesListBox.SelectedIndex != -1)
             {
-                string selectedSpecies = speciesListBox.SelectedItem.ToString()!.Trim();
-                string selectedCategory = GetCorrespondingCategory(selectedSpecies);
-                Animal currentAnimal;
+                Animal currentAnimal = GetCurrentAnimal();
 
-                try
+                if (currentAnimal != null)
                 {
-                    currentAnimal = AnimalFactory.CreateAnimal(selectedCategory, selectedSpecies);
-                } catch (ArgumentException ax)
-                {
-                    DisplayErrorBox(ax.ToString());
-                    return;
+                    List<string> questions = currentAnimal.GetQuestions();
+
+                    categoryQuestionLabel.Content = questions[0];
+                    speciesQuestionLabel.Content = questions[1];
+
+                    firstQTextBox.Visibility = Visibility.Visible;
+                    secondQTextBox.Visibility = Visibility.Visible;
                 }
-                
-                List<string> questions = currentAnimal.GetQuestions();
-
-                categoryQuestionLabel.Content = questions[0];
-                speciesQuestionLabel.Content = questions[1];
-
-                firstQTextBox.Visibility = Visibility.Visible;
-                secondQTextBox.Visibility = Visibility.Visible;
             }
             else
             {
@@ -202,6 +195,33 @@ namespace CSharp2_A1
             {
                 return false;
             }
+        }
+
+        private Animal GetCurrentAnimal()
+        {
+            string selectedSpecies = speciesListBox.SelectedItem.ToString()!.Trim();
+            string selectedCategory = GetCorrespondingCategory(selectedSpecies);
+            Animal currentAnimal;
+
+            try
+            {
+                currentAnimal = AnimalFactory.CreateAnimal(selectedCategory, selectedSpecies);
+            }
+            catch (ArgumentException ax)
+            {
+                DisplayErrorBox(ax.ToString());
+                currentAnimal = null!;
+                return currentAnimal!;
+            }
+
+            return currentAnimal;
+        }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            Animal currentAnimal = GetCurrentAnimal();
+
+            
         }
     }
 }

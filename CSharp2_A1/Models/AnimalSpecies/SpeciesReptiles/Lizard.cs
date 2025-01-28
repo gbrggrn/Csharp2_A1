@@ -25,10 +25,10 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesReptiles
             return questions;
         }
 
-        public override void SaveInput(string firstInput, string secondInput)
+        public override void SaveInput(string idIn, string nameIn, Enums.Enums.Gender genderIn, bool isDomesticatedIn, string categorySpecificInput, string speciesSpecificInput)
         {
-            base.SaveInput(firstInput, secondInput);
-            TailLength = secondInput;
+            base.SaveInput(idIn, nameIn, genderIn, isDomesticatedIn, categorySpecificInput, speciesSpecificInput);
+            TailLength = speciesSpecificInput;
         }
 
         public string TailLength

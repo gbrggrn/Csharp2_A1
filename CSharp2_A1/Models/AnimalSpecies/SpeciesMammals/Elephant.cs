@@ -25,10 +25,10 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesMammals
             return questions;
         }
 
-        public override void SaveInput(string firstInput, string secondInput)
+        public override void SaveInput(string idIn, string nameIn, Enums.Enums.Gender genderIn, bool isDomesticatedIn, string categorySpecificInput, string speciesSpecificInput)
         {
-            base.SaveInput(firstInput, secondInput);
-
+            base.SaveInput(idIn, nameIn, genderIn, isDomesticatedIn, categorySpecificInput, speciesSpecificInput);
+            Weight = speciesSpecificInput;
         }
 
         public string Weight

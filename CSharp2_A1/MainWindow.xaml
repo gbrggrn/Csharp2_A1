@@ -150,7 +150,7 @@
                 
                 <!-- Button/display controls -->
                 <Border CornerRadius="10" Background="#A0522D" Width="150" Height="30" Grid.Row="2">
-                    <Button x:Name="addButton" Content="+ Add" FontSize="14" BorderBrush="Transparent" Background="Transparent" />
+                    <Button x:Name="addButton" Content="+ Add" FontSize="14" BorderBrush="Transparent" Background="Transparent" Click="AddButton_Click" />
                 </Border>
                 
             </Grid>

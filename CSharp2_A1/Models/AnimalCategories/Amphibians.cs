@@ -23,9 +23,10 @@ namespace Csharp2_A1.Models.AnimalCategories
             return new List<string> { "Primary habitat" };
         }
 
-        public override void SaveInput(string firstInput, string secondInput)
+        public override void SaveInput(string idIn, string nameIn, Enums.Enums.Gender genderIn, bool isDomesticatedIn, string categorySpecificInput, string speciesSpecificInput)
         {
-            PrimaryHabitat = firstInput;
+            base.SaveInput(idIn, nameIn, genderIn, isDomesticatedIn, categorySpecificInput, speciesSpecificInput);
+            PrimaryHabitat = categorySpecificInput;
         }
 
         public string PrimaryHabitat

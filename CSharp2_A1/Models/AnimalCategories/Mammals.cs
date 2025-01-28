@@ -21,9 +21,10 @@ namespace Csharp2_A1.Models.AnimalCategories
             return new List<string> { "Bipedal" };
         }
 
-        public override void SaveInput(string firstInput, string secondInput)
+        public override void SaveInput(string idIn, string nameIn, Enums.Enums.Gender genderIn, bool isDomesticatedIn, string categorySpecificInput, string speciesSpecificInput)
         {
-            IsBipedal = firstInput;
+            base.SaveInput(idIn, nameIn, genderIn, isDomesticatedIn, categorySpecificInput, speciesSpecificInput);
+            IsBipedal = categorySpecificInput;
         }
 
         public string IsBipedal

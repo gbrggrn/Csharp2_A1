@@ -21,9 +21,10 @@ namespace Csharp2_A1.Models.AnimalCategories
             return new List<string> { "Wingspan (cm)" };
         }
 
-        public override void SaveInput(string firstInput, string secondInput)
+        public override void SaveInput(string idIn, string nameIn, Enums.Enums.Gender genderIn, bool isDomesticatedIn, string categorySpecificInput, string speciesSpecificInput)
         {
-            WingspanCm = firstInput;
+            base.SaveInput(idIn, nameIn, genderIn, isDomesticatedIn, categorySpecificInput, speciesSpecificInput);
+            WingspanCm = categorySpecificInput;
         }
 
         public string WingspanCm
