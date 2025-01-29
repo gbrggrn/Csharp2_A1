@@ -1,4 +1,12 @@
-﻿using System;
+﻿using Csharp2_A1.Control.Interfaces;
+using Csharp2_A1.Models.AnimalSpecies.SpeciesAmphibians;
+using Csharp2_A1.Models.AnimalSpecies.SpeciesArachnids;
+using Csharp2_A1.Models.AnimalSpecies.SpeciesBirds;
+using Csharp2_A1.Models.AnimalSpecies.SpeciesFish;
+using Csharp2_A1.Models.AnimalSpecies.SpeciesInsects;
+using Csharp2_A1.Models.AnimalSpecies.SpeciesMammals;
+using Csharp2_A1.Models.AnimalSpecies.SpeciesReptiles;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,106 +16,58 @@ namespace Csharp2_A1.Control
 {
     internal class AnimalFactory
     {
-        public static Models.Animal CreateAnimal(string category, string species)
+        /// <summary>
+        /// Declares an array of triples (tuples, but with 3 columns) and maps categories
+        /// and species to the instantiation of that specific class. Compares the first
+        /// two columns of each row to the parameters to decide which instantiation to call.
+        /// This method returns the specified animal as IAnimal type. This is because
+        /// all animals implement the IAnimal/ICategory/ISpecies hierarchy, thus we 
+        /// return the highest abstraction level type: IAnimal.
+        /// Basically:
+        /// "Hey, this IS a cat, but you can interact with its' properties using the
+        /// IAnimal interface hierarchy!"
+        /// </summary>
+        /// <param name="category">Category of the species</param>
+        /// <param name="species">Species of the animal</param>
+        /// <returns>The specific species as type:IAnimal</returns>
+        /// <exception cref="ArgumentException">Throws if category/species match not found</exception>
+        public static IAnimal CreateAnimal(string category, string species)
         {
-            switch (category)
+            (string, string, Func<IAnimal>)[] animalMap =
             {
-                case "Amphibians":
-                    switch (species)
-                    {
-                        case "Frog":
-                            return new Models.AnimalSpecies.SpeciesAmphibians.Frog();
-                        case "Newt":
-                            return new Models.AnimalSpecies.SpeciesAmphibians.Newt();
-                        case "Salamander":
-                            return new Models.AnimalSpecies.SpeciesAmphibians.Salamander();
-                        default:
-                            throw new ArgumentException("Not valid species for amphibians");
-                    }
+                ("Amphibians", "Frog", () => new Frog()),
+                ("Amphibians", "Newt", () => new Newt()),
+                ("Amphibians", "Salamander", () => new Salamander()),
+                ("Arachnids", "Scorpion", () => new Scorpion()),
+                ("Arachnids", "Spider", () => new Spider()),
+                ("Arachnids", "Tick", () => new Tick()),
+                ("Birds", "Dove", () => new Dove()),
+                ("Birds", "Eagle", () => new Eagle()),
+                ("Birds", "Falcon", () => new Falcon()),
+                ("Birds", "Sparrow", () => new Sparrow()),
+                ("Fish", "Cod", () => new Cod()),
+                ("Fish", "Goldfish", () => new Goldfish()),
+                ("Fish", "Salmon", () => new Salmon()),
+                ("Insects", "Ant", () => new Ant()),
+                ("Insects", "Bee", () => new Bee()),
+                ("Insects", "Butterfly", () => new Butterfly()),
+                ("Mammals", "Cat", () => new Cat()),
+                ("Mammals", "Dog", () => new Dog()),
+                ("Mammals", "Elephant", () => new Elephant()),
+                ("Reptiles", "Crocodile", () => new Crocodile()),
+                ("Reptiles", "Lizard", () => new Lizard()),
+                ("Reptiles", "Snake", () => new Snake())
+            };
 
-                case "Arachnids":
-                    switch (species)
-                    {
-                        case "Scorpion":
-                            return new Models.AnimalSpecies.SpeciesArachnids.Scorpion();
-                        case "Spider":
-                            return new Models.AnimalSpecies.SpeciesArachnids.Spider();
-                        case "Tick":
-                            return new Models.AnimalSpecies.SpeciesArachnids.Tick();
-                        default:
-                            throw new ArgumentException("Not valid species for arachnids");
-                    }
-
-                case "Birds":
-                    switch (species)
-                    {
-                        case "Dove":
-                            return new Models.AnimalSpecies.SpeciesBirds.Dove();
-                        case "Eagle":
-                            return new Models.AnimalSpecies.SpeciesBirds.Eagle();
-                        case "Falcon":
-                            return new Models.AnimalSpecies.SpeciesBirds.Falcon();
-                        case "Sparrow":
-                            return new Models.AnimalSpecies.SpeciesBirds.Sparrow();
-                        default:
-                            throw new ArgumentException("Not valid species for birds");
-                    }
-
-                case "Fish":
-                    switch (species)
-                    {
-                        case "Cod":
-                            return new Models.AnimalSpecies.SpeciesFish.Cod();
-                        case "Goldfish":
-                            return new Models.AnimalSpecies.SpeciesFish.Goldfish();
-                        case "Salmon":
-                            return new Models.AnimalSpecies.SpeciesFish.Salmon();
-                        default:
-                            throw new ArgumentException("Not valid species for fish");
-                    }
-
-                case "Insects":
-                    switch (species)
-                    {
-                        case "Ant":
-                            return new Models.AnimalSpecies.SpeciesInsects.Ant();
-                        case "Bee":
-                            return new Models.AnimalSpecies.SpeciesInsects.Bee();
-                        case "Butterfly":
-                            return new Models.AnimalSpecies.SpeciesInsects.Butterfly();
-                        default:
-                            throw new ArgumentException("Not valid species for insects");
-                    }
-
-                case "Mammals":
-                    switch (species)
-                    {
-                        case "Cat":
-                            return new Models.AnimalSpecies.SpeciesMammals.Cat();
-                        case "Dog":
-                            return new Models.AnimalSpecies.SpeciesMammals.Dog();
-                        case "Elephant":
-                            return new Models.AnimalSpecies.SpeciesMammals.Elephant();
-                        default:
-                            throw new ArgumentException("Not valid species for mammals");
-                    }
-
-                case "Reptiles":
-                    switch (species)
-                    {
-                        case "Crocodile":
-                            return new Models.AnimalSpecies.SpeciesReptiles.Crocodile();
-                        case "Lizard":
-                            return new Models.AnimalSpecies.SpeciesReptiles.Lizard();
-                        case "Snake":
-                            return new Models.AnimalSpecies.SpeciesReptiles.Snake();
-                        default:
-                            throw new ArgumentException("Not valid species for reptiles");
-                    }
-
-                default:
-                    throw new ArgumentException("Nothing works and everything falls apart");
+            foreach (var (cat, spec, init) in animalMap)
+            {
+                if (cat == category && spec == species)
+                {
+                    return init();
+                }
             }
+
+            throw new ArgumentException($"Could not create [{category} - {species}]");
         }
     }
 }

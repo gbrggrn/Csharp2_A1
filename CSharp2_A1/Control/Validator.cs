@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Csharp2_A1.Control
 {
-    class InputVal
+    class Validator
     {
         private static List<string>? errorMessages = new List<string>();
         private static readonly string success = "Success";

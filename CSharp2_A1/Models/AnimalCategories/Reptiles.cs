@@ -1,4 +1,5 @@
 ﻿using Csharp2_A1.Control;
+using Csharp2_A1.Control.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Csharp2_A1.Models.AnimalCategories
 {
-    class Reptiles : Animal
+    class Reptiles : Animal, ICategory
     {
         private string hasScales;
 
@@ -27,12 +28,17 @@ namespace Csharp2_A1.Models.AnimalCategories
             HasScales = categorySpecificInput;
         }
 
+        public bool ValidateCategoryTrait(string categoryTraitIn, out string errorMessage)
+        {
+            throw new NotImplementedException();
+        }
+
         public string HasScales
         {
             get => hasScales;
             set 
             {
-                if (!InputVal.ValidateName(value, out string errorMessage))
+                if (!Validator.ValidateName(value, out string errorMessage))
                 {
                     //Validation failed. Errormessage saved to InputVal.
                 }
@@ -42,5 +48,8 @@ namespace Csharp2_A1.Models.AnimalCategories
                 }
             }
         }
+
+        public string CategoryTrait { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string CategoryQuestion { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     }
 }

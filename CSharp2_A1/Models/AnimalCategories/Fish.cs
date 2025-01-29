@@ -1,4 +1,5 @@
 ﻿using Csharp2_A1.Control;
+using Csharp2_A1.Control.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Csharp2_A1.Models.AnimalCategories
 {
-    class Fish : Animal
+    class Fish : Animal, ICategory
     {
         private string lengthCm;
 
@@ -28,12 +29,17 @@ namespace Csharp2_A1.Models.AnimalCategories
             LengthCm = categorySpecificInput;
         }
 
+        public bool ValidateCategoryTrait(string categoryTraitIn, out string errorMessage)
+        {
+            throw new NotImplementedException();
+        }
+
         public string LengthCm
         {
             get => lengthCm;
             set
             {
-                if (!InputVal.ValidateLength(value, out string errorMessage))
+                if (!Control.Validator.ValidateLength(value, out string errorMessage))
                 {
                     //Validation failed. Errormessage saved to InputVal.
                 }
@@ -43,5 +49,8 @@ namespace Csharp2_A1.Models.AnimalCategories
                 }
             }
         }
+
+        public string CategoryTrait { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string CategoryQuestion { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     }
 }

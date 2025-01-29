@@ -1,4 +1,5 @@
 ﻿using Csharp2_A1.Control;
+using Csharp2_A1.Control.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Csharp2_A1.Models.AnimalCategories
 {
-    class Insects : Animal
+    class Insects : Animal, ICategory
     {
         private string numOfLegs;
 
@@ -16,10 +17,7 @@ namespace Csharp2_A1.Models.AnimalCategories
             numOfLegs = string.Empty;
         }
 
-        public override List<string> GetQuestions()
-        {
-            return new List<string> { "Number of legs" };
-        }
+        
 
         public override void SaveInput(string idIn, string ageIn, string nameIn, Enums.Enums.Gender genderIn, bool isDomesticatedIn, string categorySpecificInput, string speciesSpecificInput)
         {
@@ -27,12 +25,17 @@ namespace Csharp2_A1.Models.AnimalCategories
             NumOfLegs = categorySpecificInput;
         }
 
+        public bool ValidateCategoryTrait(string categoryTraitIn, out string errorMessage)
+        {
+            throw new NotImplementedException();
+        }
+
         public string NumOfLegs
         {
             get => numOfLegs;
             set
             {
-                if (!InputVal.ValidateNumberOfLegs(value, out string errorMessage))
+                if (!Validator.ValidateNumberOfLegs(value, out string errorMessage))
                 {
                     //Validation failed. Errormessage saved to InputVal.
                 }
@@ -42,5 +45,8 @@ namespace Csharp2_A1.Models.AnimalCategories
                 }
             }
         }
+
+        public string CategoryTrait { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string CategoryQuestion { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     }
 }

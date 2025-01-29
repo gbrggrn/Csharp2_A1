@@ -1,4 +1,5 @@
 ﻿using Csharp2_A1.Control;
+using Csharp2_A1.Control.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ using System.Windows.Controls;
 
 namespace Csharp2_A1.Models
 {
-    abstract class Animal
+    internal class Animal : IAnimal
     {
         private string id;
         private string age;
@@ -27,9 +28,12 @@ namespace Csharp2_A1.Models
             isDomesticated = false;
         }
 
-        public abstract List<string> GetQuestions();
+        internal List<string> GetQuestions()
+        {
+            throw new NotImplementedException();
+        }
 
-        public virtual void SaveInput(string idIn, string age, string nameIn, Enums.Enums.Gender genderIn, bool isDomesticatedIn, string categorySpecificInput, string speciesSpecificInput)
+        public void SaveInput(string idIn, string age, string nameIn, Enums.Enums.Gender genderIn, bool isDomesticatedIn, string categorySpecificInput, string speciesSpecificInput)
         {
             Id = idIn;
             Age = age;
@@ -38,12 +42,22 @@ namespace Csharp2_A1.Models
             IsDomesticated = isDomesticatedIn;
         }
 
+        public bool ValidateAnimalTraits(string idIn, string ageIn, string nameIn, out string errorMessage)
+        {
+            throw new NotImplementedException();
+        }
+
+        List<string> IAnimal.GetQuestions()
+        {
+            throw new NotImplementedException();
+        }
+
         public string Age
         {
             get => age;
             set
             {
-                if (!InputVal.ValidateAge(value, out string errorMessage))
+                if (!Validator.ValidateAge(value, out string errorMessage))
                 {
                     //Validation failed. Errormessage saved to InputVal.
                 }
@@ -59,7 +73,7 @@ namespace Csharp2_A1.Models
             get { return name; }
             set
             {
-                if (!Control.InputVal.ValidateName(value, out string errorMessage))
+                if (!Control.Validator.ValidateName(value, out string errorMessage))
                 {
                     //Validation failed. Errormessage saved to InputVal.
                 }

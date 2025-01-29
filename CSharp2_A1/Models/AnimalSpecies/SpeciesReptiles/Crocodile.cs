@@ -1,4 +1,5 @@
 ﻿using Csharp2_A1.Control;
+using Csharp2_A1.Control.Interfaces;
 using Csharp2_A1.Models.AnimalCategories;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Csharp2_A1.Models.AnimalSpecies.SpeciesReptiles
 {
-    class Crocodile : Reptiles
+    class Crocodile : Reptiles, ISpecies
     {
         private string jawSize;
 
@@ -31,12 +32,17 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesReptiles
             JawSize = speciesSpecificInput;
         }
 
+        public bool ValidateSpeciesTrait(string speciesTraitIn, out string errorMessage)
+        {
+            throw new NotImplementedException();
+        }
+
         public string JawSize
         {
             get => jawSize;
             set
             {
-                if (!InputVal.ValidateLength(value, out string errorMessage))
+                if (!Validator.ValidateLength(value, out string errorMessage))
                 {
                     //Validation failed. Errormessage saved to InputVal.
                 }
@@ -46,5 +52,8 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesReptiles
                 }
             }
         }
+
+        public string SpeciesTrait { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string SpeciesQuestion { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Csharp2_A1.Control;
+using Csharp2_A1.Control.Interfaces;
 using Csharp2_A1.Models.AnimalCategories;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Csharp2_A1.Models.AnimalSpecies.SpeciesAmphibians
 {
-    class Salamander : Amphibians
+    class Salamander : Amphibians, ISpecies
     {
         private string favoriteFoods;
 
@@ -31,12 +32,17 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesAmphibians
             FavoriteFoods = speciesSpecificInput;
         }
 
+        public bool ValidateSpeciesTrait(string speciesTraitIn, out string errorMessage)
+        {
+            throw new NotImplementedException();
+        }
+
         public string FavoriteFoods
         {
             get => favoriteFoods;
             set
             {
-                if (!InputVal.ValidateName(value, out string errorMessage))
+                if (!Validator.ValidateName(value, out string errorMessage))
                 {
                     //Validation failed. Errormessage saved to InputVal.
                 }
@@ -46,5 +52,8 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesAmphibians
                 }
             }
         }
+
+        public string SpeciesTrait { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string SpeciesQuestion { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     }
 }

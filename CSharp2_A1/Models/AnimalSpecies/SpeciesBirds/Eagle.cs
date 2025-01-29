@@ -1,4 +1,5 @@
 ﻿using Csharp2_A1.Control;
+using Csharp2_A1.Control.Interfaces;
 using Csharp2_A1.Models.AnimalCategories;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Csharp2_A1.Models.AnimalSpecies.SpeciesBirds
 {
-    class Eagle : Birds
+    class Eagle : Birds, ISpecies
     {
         private string eagleType;
         private List<string> allowedTypes = ["bald", "normal"];
@@ -32,12 +33,17 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesBirds
             EagleType = speciesSpecificInput;
         }
 
+        public bool ValidateSpeciesTrait(string speciesTraitIn, out string errorMessage)
+        {
+            throw new NotImplementedException();
+        }
+
         public string EagleType
         {
             get => eagleType;
             set
             {
-                if (!InputVal.ValidateBirdType(value, allowedTypes, out string errorMessage))
+                if (!Validator.ValidateBirdType(value, allowedTypes, out string errorMessage))
                 {
                     //Validation failed. Errormessage saved to InputVal.
                 }
@@ -47,5 +53,8 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesBirds
                 }
             }
         }
+
+        public string SpeciesTrait { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string SpeciesQuestion { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     }
 }

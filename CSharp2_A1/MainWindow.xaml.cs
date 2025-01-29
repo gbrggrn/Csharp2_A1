@@ -242,7 +242,7 @@ namespace CSharp2_A1
                     firstQTextBox.Text,
                     secondQTextBox.Text);
                 
-                List<string> errors = InputVal.GetErrorMessages();
+                List<string> errors = Validator.GetErrorMessages();
 
                 if (errors.Count > 0)
                 {

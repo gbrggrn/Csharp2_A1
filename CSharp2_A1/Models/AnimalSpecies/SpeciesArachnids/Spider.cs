@@ -1,4 +1,5 @@
 ﻿using Csharp2_A1.Control;
+using Csharp2_A1.Control.Interfaces;
 using Csharp2_A1.Models.AnimalCategories;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Csharp2_A1.Models.AnimalSpecies.SpeciesArachnids
 {
-    class Spider : Arachnids
+    class Spider : Arachnids, ISpecies
     {
         private string howDeadly;
 
@@ -31,12 +32,17 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesArachnids
             HowDeadly = speciesSpecificInput;
         }
 
+        public bool ValidateSpeciesTrait(string speciesTraitIn, out string errorMessage)
+        {
+            throw new NotImplementedException();
+        }
+
         public string HowDeadly
         {
             get => howDeadly;
             set
             {
-                if (!InputVal.ValidateName(value, out string errormessage))
+                if (!Validator.ValidateName(value, out string errormessage))
                 {
                     //Validation failed. Errormessage saved to InputVal.
                 }
@@ -46,5 +52,8 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesArachnids
                 }
             }
         }
+
+        public string SpeciesTrait { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string SpeciesQuestion { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     }
 }

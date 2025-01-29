@@ -1,5 +1,6 @@
 ﻿using Csharp2_A1.Control;
 using Csharp2_A1.Models.AnimalCategories;
+using Csharp2_A1.Control.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Windows.Controls;
 
 namespace Csharp2_A1.Models.AnimalSpecies.SpeciesAmphibians
 {
-    class Frog : Amphibians
+    class Frog : Amphibians, ISpecies
     {
         private string frogColor;
 
@@ -32,12 +33,17 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesAmphibians
             FrogColor = speciesSpecificInput;
         }
 
+        public bool ValidateSpeciesTrait(string speciesTraitIn, out string errorMessage)
+        {
+            throw new NotImplementedException();
+        }
+
         public string FrogColor
         {
             get => frogColor;
             set
             {
-                if (!InputVal.ValidateHabitat(value, out string errorMessage))
+                if (!Validator.ValidateHabitat(value, out string errorMessage))
                 {
                     //Validation failed. Errormessage saved to InputVal.
                 }
@@ -47,5 +53,8 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesAmphibians
                 }
             }
         }
+
+        public string SpeciesTrait { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string SpeciesQuestion { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Csharp2_A1.Control;
+using Csharp2_A1.Control.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Csharp2_A1.Models.AnimalCategories
 {
-    class Arachnids : Animal
+    class Arachnids : Animal, ICategory
     {
         private string numberOfLegs;
 
@@ -27,12 +28,17 @@ namespace Csharp2_A1.Models.AnimalCategories
             NumberOfLegs = categorySpecificInput;
         }
 
+        public bool ValidateCategoryTrait(string categoryTraitIn, out string errorMessage)
+        {
+            throw new NotImplementedException();
+        }
+
         public string NumberOfLegs
         {
             get => numberOfLegs;
             set
             {
-                if (!InputVal.ValidateNumberOfLegs(value, out string errorMessage))
+                if (!Validator.ValidateNumberOfLegs(value, out string errorMessage))
                 {
                     //Validation failed. Errormessage saved to InputVal.
                 }
@@ -42,5 +48,8 @@ namespace Csharp2_A1.Models.AnimalCategories
                 }
             }
         }
+
+        public string CategoryTrait { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string CategoryQuestion { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     }
 }
