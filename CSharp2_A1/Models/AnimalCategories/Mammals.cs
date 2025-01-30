@@ -10,46 +10,33 @@ namespace Csharp2_A1.Models.AnimalCategories
 {
     class Mammals : Animal, ICategory
     {
-        private string isBipedal;
+        private string categoryTrait;
+        private const int maxChar = 20;
 
         public Mammals()
         {
-            isBipedal = string.Empty;
-        }
-
-        public override List<string> GetQuestions()
-        {
-            return new List<string> { "Bipedal" };
-        }
-
-        public override void SaveInput(string idIn, string ageIn, string nameIn, Enums.Enums.Gender genderIn, bool isDomesticatedIn, string categorySpecificInput, string speciesSpecificInput)
-        {
-            base.SaveInput(idIn, ageIn, nameIn, genderIn, isDomesticatedIn, categorySpecificInput, speciesSpecificInput);
-            IsBipedal = categorySpecificInput;
+            categoryTrait = string.Empty;
         }
 
         public bool ValidateCategoryTrait(string categoryTraitIn, out string errorMessage)
         {
-            throw new NotImplementedException();
-        }
-
-        public string IsBipedal
-        {
-            get => isBipedal;
-            set
+            if (!Validator.EmptyOrNot(categoryTraitIn))
             {
-                if (!Validator.ValidateName(value, out string errorMessage))
-                {
-                    //Validation failed. Errormessage saved to InputVal.
-                }
-                else
-                {
-                    isBipedal = value;
-                }
+                errorMessage = $"{CategoryQuestion} can not be empty";
+                return false;
             }
+
+            if (categoryTraitIn.Length > 20)
+            {
+                errorMessage = $"{CategoryQuestion} can not be longer than {maxChar} characters";
+                return false;
+            }
+
+            errorMessage = "Success";
+            return true;
         }
 
-        public string CategoryTrait { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public string CategoryQuestion { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string CategoryTrait { get; set; }
+        public string CategoryQuestion { get { return "Callsign"} }
     }
 }

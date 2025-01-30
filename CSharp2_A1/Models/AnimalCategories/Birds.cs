@@ -10,46 +10,36 @@ namespace Csharp2_A1.Models.AnimalCategories
 {
     class Birds : Animal, ICategory
     {
-        private string wingspanCm;
+        private string categoryTrait;
+        private const int maxWingSpan = 600;
+        private const int minWingSpan = 0;
 
         public Birds()
         {
-            wingspanCm = string.Empty;
-        }
-
-        public override List<string> GetQuestions()
-        {
-            return new List<string> { "Wingspan (cm)" };
-        }
-
-        public override void SaveInput(string idIn, string ageIn, string nameIn, Enums.Enums.Gender genderIn, bool isDomesticatedIn, string categorySpecificInput, string speciesSpecificInput)
-        {
-            base.SaveInput(idIn, ageIn, nameIn, genderIn, isDomesticatedIn, categorySpecificInput, speciesSpecificInput);
-            WingspanCm = categorySpecificInput;
+            categoryTrait = string.Empty;
         }
 
         public bool ValidateCategoryTrait(string categoryTraitIn, out string errorMessage)
         {
-            throw new NotImplementedException();
-        }
-
-        public string WingspanCm
-        {
-            get => wingspanCm;
-            set
+            if (!Validator.DoubleOrNot(categoryTraitIn))
             {
-                if (!Validator.ValidateWingspan(value, out string errorMessage))
-                {
-                    //Validation failed. Errormessage saved to InputVal.
-                }
-                else
-                {
-                    wingspanCm = value;
-                }
+                errorMessage = $"{CategoryQuestion} has to be a number";
+                return false;
             }
+
+            double result = double.Parse(categoryTraitIn);
+
+            if (result < 0 || result > 600)
+            {
+                errorMessage = $"{CategoryQuestion} has to be between {minWingSpan} and {maxWingSpan}";
+                return false;
+            }
+
+            errorMessage = "Success";
+            return true;
         }
 
-        public string CategoryTrait { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public string CategoryQuestion { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string CategoryTrait { get; set; }
+        public string CategoryQuestion { get { return "Wingspan (cm)"; } }
     }
 }

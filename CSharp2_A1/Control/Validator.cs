@@ -23,6 +23,36 @@ namespace Csharp2_A1.Control
             errorMessages!.Clear();
         }
 
+        public static bool EmptyOrNot(string input)
+        {
+            if (string.IsNullOrEmpty(input)) 
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public static bool DoubleOrNot(string input)
+        {
+            if (double.TryParse(input, out double result))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public static bool IntOrNot(string input)
+        {
+            if (int.TryParse(input, out int result))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public static bool ValidateAge(string age, out string errorMessage)
         {
             if (!int.TryParse(age, out int intAge))
@@ -56,48 +86,6 @@ namespace Csharp2_A1.Control
                 errorMessage = "Name must be max 20 characters";
                 errorMessages!.Add(errorMessage);
                 return false;
-            }
-
-            errorMessage = success;
-            return true;
-        }
-
-        public static bool ValidateHabitat(string habitat, out string errorMessage)
-        {
-            if (string.IsNullOrEmpty (habitat))
-            {
-                errorMessage = "Habitat can not be empty";
-                errorMessages!.Add(errorMessage);
-                return false;
-            }
-
-            if (habitat.Length > 20)
-            {
-                errorMessage = "Habitat must be max 20 characters";
-                errorMessages!.Add(errorMessage);
-                return false;
-            }
-
-            errorMessage = success;
-            return true;
-        }
-
-        public static bool ValidateNumberOfLegs(string numberOfLegs, out string errorMessage)
-        {
-            if (!int.TryParse(numberOfLegs, out int legs))
-            {
-                errorMessage = "Number of legs has to be a number";
-                errorMessages!.Add(errorMessage);
-                return false;
-            }
-            else
-            {
-                if (legs < 0 || legs > 8)
-                {
-                    errorMessage = "Number of legs must be between 0-8";
-                    errorMessages!.Add(errorMessage);
-                    return false;
-                }
             }
 
             errorMessage = success;

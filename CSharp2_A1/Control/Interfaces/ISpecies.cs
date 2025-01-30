@@ -9,7 +9,7 @@ namespace Csharp2_A1.Control.Interfaces
     internal interface ISpecies : ICategory
     {
         string SpeciesTrait { get; set; }
-        string SpeciesQuestion { get; set; }
+        string SpeciesQuestion { get; }
         bool ValidateSpeciesTrait(string speciesTraitIn, out string errorMessage);
     }
 }
