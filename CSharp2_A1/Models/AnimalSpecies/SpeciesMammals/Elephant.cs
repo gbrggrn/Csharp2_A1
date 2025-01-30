@@ -11,49 +11,42 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesMammals
 {
     class Elephant : Mammals, ISpecies
     {
-        private string weight;
+        private string speciesTrait;
+        private const int maxWeight = 10000;
+        private const int minWeight = 1;
 
         public Elephant()
         {
-            weight = string.Empty;
-        }
-
-        public override List<string> GetQuestions()
-        {
-            List<string> questions = base.GetQuestions();
-            questions.Add("Weighs");
-
-            return questions;
-        }
-
-        public override void SaveInput(string idIn, string ageIn, string nameIn, Enums.Enums.Gender genderIn, bool isDomesticatedIn, string categorySpecificInput, string speciesSpecificInput)
-        {
-            base.SaveInput(idIn, ageIn, nameIn, genderIn, isDomesticatedIn, categorySpecificInput, speciesSpecificInput);
-            Weight = speciesSpecificInput;
+            speciesTrait = string.Empty;
         }
 
         public bool ValidateSpeciesTrait(string speciesTraitIn, out string errorMessage)
         {
-            throw new NotImplementedException();
-        }
-
-        public string Weight
-        {
-            get => weight;
-            set
+            if (!Validator.EmptyOrNot(speciesTraitIn))
             {
-                if (!Validator.ValidateAvgAirSpeed(value, out string errorMessage))
-                {
-                    //Validation failed. Errormessage saved to InputVal.
-                }
-                else
-                {
-                    weight = value;
-                }
+                errorMessage = $"{SpeciesQuestion} can not be empty";
+                return false;
             }
+
+            if (!Validator.DoubleOrNot(speciesTraitIn))
+            {
+                errorMessage = $"{SpeciesQuestion} has to be a number";
+                return false;
+            }
+
+            double result = double.Parse(speciesTraitIn);
+
+            if (result < minWeight || result > maxWeight)
+            {
+                errorMessage = $"{SpeciesQuestion} can not be less than {minWeight} or greater than {maxWeight}";
+                return false;
+            }
+
+            errorMessage = "Success";
+            return true;
         }
 
-        public string SpeciesTrait { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public string SpeciesQuestion { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string SpeciesTrait { get; set; }
+        public string SpeciesQuestion { get { return "Weight (kg)"; } }
     }
 }

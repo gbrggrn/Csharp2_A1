@@ -11,49 +11,33 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesFish
 {
     class Cod : Fish, ISpecies
     {
-        private string whichSea;
+        private string speciesTrait;
+        private const int maxLength = 20;
 
         public Cod()
         {
-            whichSea = string.Empty;
-        }
-
-        public override List<string> GetQuestions()
-        {
-            List<string> questions = base.GetQuestions();
-            questions.Add("From which sea");
-
-            return questions;
-        }
-
-        public override void SaveInput(string idIn, string ageIn, string nameIn, Enums.Enums.Gender genderIn, bool isDomesticatedIn, string categorySpecificInput, string speciesSpecificInput)
-        {
-            base.SaveInput(idIn, ageIn, nameIn, genderIn, isDomesticatedIn, categorySpecificInput, speciesSpecificInput);
-            WhichSea = speciesSpecificInput;
+            speciesTrait = string.Empty;
         }
 
         public bool ValidateSpeciesTrait(string speciesTraitIn, out string errorMessage)
         {
-            throw new NotImplementedException();
-        }
-
-        public string WhichSea
-        {
-            get => whichSea;
-            set
+            if (!Validator.EmptyOrNot(speciesTraitIn))
             {
-                if (!Validator.ValidateName(value, out string errorMessage))
-                {
-                    //Validation failed. Errormessage saved to InputVal.
-                }
-                else
-                {
-                    whichSea = value;
-                }
+                errorMessage = $"{SpeciesQuestion} can not be empty";
+                return false;
             }
+
+            if (speciesTraitIn.Length > maxLength)
+            {
+                errorMessage = $"{SpeciesQuestion} has to be max {maxLength} characters";
+                return false;
+            }
+
+            errorMessage = "Success";
+            return false;
         }
 
-        public string SpeciesTrait { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public string SpeciesQuestion { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string SpeciesTrait { get; set; }
+        public string SpeciesQuestion { get { return "Which sea"; } }
     }
 }

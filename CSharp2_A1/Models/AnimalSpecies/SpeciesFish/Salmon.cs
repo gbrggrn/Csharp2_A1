@@ -2,6 +2,7 @@
 using Csharp2_A1.Control.Interfaces;
 using Csharp2_A1.Models.AnimalCategories;
 using System;
+using System.Drawing;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,49 +12,35 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesFish
 {
     class Salmon : Fish, ISpecies
     {
-        private string salmonColor;
+        private string speciesTrait;
 
         public Salmon()
         {
-            salmonColor = string.Empty;
-        }
-
-        public override List<string> GetQuestions()
-        {
-            List<string> questions = base.GetQuestions();
-            questions.Add("Color");
-
-            return questions;
-        }
-
-        public override void SaveInput(string idIn, string ageIn, string nameIn, Enums.Enums.Gender genderIn, bool isDomesticatedIn, string categorySpecificInput, string speciesSpecificInput)
-        {
-            base.SaveInput(idIn, ageIn, nameIn, genderIn, isDomesticatedIn, categorySpecificInput, speciesSpecificInput);
-            SalmonColor = speciesSpecificInput;
+            speciesTrait = string.Empty;
         }
 
         public bool ValidateSpeciesTrait(string speciesTraitIn, out string errorMessage)
         {
-            throw new NotImplementedException();
-        }
-
-        public string SalmonColor
-        {
-            get => salmonColor;
-            set
+            if (!Validator.EmptyOrNot(speciesTraitIn))
             {
-                if (!Validator.ValidateName(value, out string errorMessage))
+                errorMessage = $"{SpeciesQuestion} can not be empty";
+                return false;
+            }
+
+            foreach (KnownColor knownColor in Enum.GetValues(typeof(KnownColor)))
+            {
+                if (speciesTraitIn == knownColor.ToString())
                 {
-                    //Validation failed. Errormessage saved to InputVal.
-                }
-                else
-                {
-                    salmonColor = value;
+                    errorMessage = "Success";
+                    return true;
                 }
             }
+
+            errorMessage = $"{SpeciesQuestion} has to be a known color";
+            return false;
         }
 
-        public string SpeciesTrait { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public string SpeciesQuestion { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string SpeciesTrait { get; set; }
+        public string SpeciesQuestion { get { return "Color"; } }
     }
 }

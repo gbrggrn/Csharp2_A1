@@ -11,49 +11,33 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesArachnids
 {
     class Spider : Arachnids, ISpecies
     {
-        private string howDeadly;
+        private string speciesTrait;
+        private const int maxLength = 20;
 
         public Spider()
         {
-            howDeadly = string.Empty;
-        }
-
-        public override List<string> GetQuestions()
-        {
-            List<string> questions = base.GetQuestions();
-            questions.Add("How deadly");
-
-            return questions;
-        }
-
-        public override void SaveInput(string idIn, string ageIn, string nameIn, Enums.Enums.Gender genderIn, bool isDomesticatedIn, string categorySpecificInput, string speciesSpecificInput)
-        {
-            base.SaveInput(idIn, ageIn, nameIn, genderIn, isDomesticatedIn, categorySpecificInput, speciesSpecificInput);
-            HowDeadly = speciesSpecificInput;
+            speciesTrait = string.Empty;
         }
 
         public bool ValidateSpeciesTrait(string speciesTraitIn, out string errorMessage)
         {
-            throw new NotImplementedException();
-        }
-
-        public string HowDeadly
-        {
-            get => howDeadly;
-            set
+            if (!Validator.EmptyOrNot(speciesTraitIn))
             {
-                if (!Validator.ValidateName(value, out string errormessage))
-                {
-                    //Validation failed. Errormessage saved to InputVal.
-                }
-                else
-                {
-                    howDeadly = value;
-                }
+                errorMessage = $"{SpeciesQuestion} can not be empty";
+                return false;
             }
+
+            if (speciesTraitIn.Length > maxLength)
+            {
+                errorMessage = $"{SpeciesQuestion} has to be max {maxLength} characters";
+                return false;
+            }
+
+            errorMessage = "Success";
+            return true;
         }
 
-        public string SpeciesTrait { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public string SpeciesQuestion { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string SpeciesTrait { get; set; }
+        public string SpeciesQuestion { get { return "How deadly"; } }
     }
 }

@@ -11,49 +11,35 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesBirds
 {
     class Falcon : Birds, ISpecies
     {
-        private string avgAirSpeed;
+        private string speciesTrait;
+        private const double maxAvgAirspeed = 600;
 
         public Falcon()
         {
-            avgAirSpeed = string.Empty;
-        }
-
-        public override List<string> GetQuestions()
-        {
-            List<string> questions = base.GetQuestions();
-            questions.Add("Avg airspeed (km/h)");
-
-            return questions;
-        }
-
-        public override void SaveInput(string idIn, string ageIn, string nameIn, Enums.Enums.Gender genderIn, bool isDomesticatedIn, string categorySpecificInput, string speciesSpecificInput)
-        {
-            base.SaveInput(idIn, ageIn, nameIn, genderIn, isDomesticatedIn, categorySpecificInput, speciesSpecificInput);
-            AvgAirSpeed = speciesSpecificInput;
+            speciesTrait = string.Empty;
         }
 
         public bool ValidateSpeciesTrait(string speciesTraitIn, out string errorMessage)
         {
-            throw new NotImplementedException();
-        }
-
-        public string AvgAirSpeed
-        {
-            get => avgAirSpeed;
-            set
+            if (!Validator.DoubleOrNot(speciesTraitIn))
             {
-                if (!Validator.ValidateAvgAirSpeed(value, out string errorMessage))
-                {
-                    //Validation failed. Errormessage saved to InputVal.
-                }
-                else
-                {
-                    avgAirSpeed = value;
-                }
+                errorMessage = $"{SpeciesQuestion} has to be a number";
+                return false;
             }
+
+            double result = double.Parse(speciesTraitIn);
+
+            if (result > maxAvgAirspeed)
+            {
+                errorMessage = $"{SpeciesQuestion} can not be greater than {maxAvgAirspeed}";
+                return false;
+            }
+
+            errorMessage = "Success";
+            return true;
         }
 
-        public string SpeciesTrait { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public string SpeciesQuestion { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string SpeciesTrait { get; set; }
+        public string SpeciesQuestion { get { return "Avg airspeed (km/h)"; } }
     }
 }
