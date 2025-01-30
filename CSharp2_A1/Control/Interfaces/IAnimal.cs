@@ -14,7 +14,6 @@ namespace Csharp2_A1.Control.Interfaces
         string Name { get; set; }
         Enums.Gender Gender { get; set; }
         bool IsDomesticated { get; set; }
-        bool ValidateAnimalTraits(string idIn, string ageIn, string nameIn, out string errorMessage);
-        List<string> GetQuestions();
+        bool ValidateAnimalTraits(string ageIn, string nameIn, out string errorMessages);
     }
 }

@@ -19,6 +19,10 @@ namespace Csharp2_A1.Models
         private Enums.Enums.Gender gender;
         private bool isDomesticated;
 
+        private const int minAge = 1;
+        private const int maxAge = 100;
+        private const int maxChar = 20;
+
         public Animal()
         {
             id = string.Empty;
@@ -28,79 +32,44 @@ namespace Csharp2_A1.Models
             isDomesticated = false;
         }
 
-        internal List<string> GetQuestions()
+        public bool ValidateAnimalTraits(string ageIn, string nameIn, out string errorMessages)
         {
-            throw new NotImplementedException();
-        }
+            string errors = string.Empty;
 
-        public void SaveInput(string idIn, string age, string nameIn, Enums.Enums.Gender genderIn, bool isDomesticatedIn, string categorySpecificInput, string speciesSpecificInput)
-        {
-            Id = idIn;
-            Age = age;
-            Name = nameIn;
-            Gender = genderIn;
-            IsDomesticated = isDomesticatedIn;
-        }
-
-        public bool ValidateAnimalTraits(string idIn, string ageIn, string nameIn, out string errorMessage)
-        {
-            throw new NotImplementedException();
-        }
-
-        List<string> IAnimal.GetQuestions()
-        {
-            throw new NotImplementedException();
-        }
-
-        public string Age
-        {
-            get => age;
-            set
+            if (!Validator.IntOrNot(ageIn))
             {
-                if (!Validator.ValidateAge(value, out string errorMessage))
+                errors += "Age must be a number";
+            }
+            else
+            {
+                int result = int.Parse(ageIn);
+
+                if (result < minAge || result > maxAge)
                 {
-                    //Validation failed. Errormessage saved to InputVal.
-                }
-                else
-                {
-                    age = value;
+                    errors += $"\nAge must be between {minAge} and {maxAge}";
                 }
             }
-        }
 
-        public string Name
-        {
-            get { return name; }
-            set
+            if (!Validator.EmptyOrNot(nameIn))
             {
-                if (!Control.Validator.ValidateName(value, out string errorMessage))
+                errors += $"\nName can not be empty";
+            }
+            else
+            {
+                if (nameIn.Length > maxChar)
                 {
-                    //Validation failed. Errormessage saved to InputVal.
-                }
-                else
-                {
-                    name = value;
+                    errors += $"\nName has to be max {maxChar} characters";
                 }
             }
+
+            errorMessages = "Success";
+            return true;
         }
 
-        public string Id
-        {
-            get => id;
-            set => id = value;
-        }
-
-        public Enums.Enums.Gender Gender
-        {
-            get => gender;
-            set => gender = value;
-        }
-
-        public bool IsDomesticated
-        {
-            get => isDomesticated;
-            set => isDomesticated = value;
-        }
-
+        public string Id { get; set; }
+        public Enums.Enums.Gender Gender { get; set; }
+        public bool IsDomesticated { get; set; }
+        public string Age { get; set; }
+        public string Name { get; set; }
     }
 }

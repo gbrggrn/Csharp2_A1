@@ -27,11 +27,13 @@ namespace CSharp2_A1
         private AnimalRegistry animalRegistry;
         private IdGenerator idGenerator;
 
+        private const int registrySize = 100;
+
         public MainWindow()
         {
             InitializeComponent();
-            animalRegistry = new(this);
-            idGenerator = new();
+            idGenerator = new(registrySize);
+            animalRegistry = new(this, registrySize, idGenerator);
             categoriesAndSpecies = GetCategoriesAndSpecies();
             LoadCategories();
             LoadGenderComboBox();
