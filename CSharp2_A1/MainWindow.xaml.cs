@@ -1,4 +1,5 @@
 ﻿using Csharp2_A1.Control;
+using Csharp2_A1.Control.Interfaces;
 using Csharp2_A1.Models;
 using Csharp2_A1.Models.AnimalCategories;
 using Csharp2_A1.Models.Enums;
@@ -99,14 +100,12 @@ namespace CSharp2_A1
         {
             if (speciesListBox.SelectedIndex != -1)
             {
-                Animal currentAnimal = GetCurrentAnimal();
+                InterfaceService currentInterfaces = GetCurrentInterfaces();
 
-                if (currentAnimal != null)
+                if (currentInterfaces != null)
                 {
-                    List<string> questions = currentAnimal.GetQuestions();
-
-                    categoryQuestionLabel.Content = questions[0];
-                    speciesQuestionLabel.Content = questions[1];
+                    categoryQuestionLabel.Content = currentInterfaces.Category!.CategoryQuestion;
+                    speciesQuestionLabel.Content = currentInterfaces.Species!.SpeciesQuestion;
 
                     firstQTextBox.Visibility = Visibility.Visible;
                     secondQTextBox.Visibility = Visibility.Visible;
@@ -210,41 +209,47 @@ namespace CSharp2_A1
             }
         }
 
-        private Animal GetCurrentAnimal()
+        private InterfaceService GetCurrentInterfaces()
         {
             string selectedSpecies = speciesListBox.SelectedItem.ToString()!.Trim();
             string selectedCategory = GetCorrespondingCategory(selectedSpecies);
-            Animal currentAnimal;
+            InterfaceService currentInterfaces;
 
             try
             {
-                currentAnimal = AnimalFactory.CreateAnimal(selectedCategory, selectedSpecies);
+                currentInterfaces = AnimalFactory.CreateAnimal(selectedCategory, selectedSpecies);
             }
             catch (ArgumentException ax)
             {
                 DisplayErrorBox(ax.ToString());
-                currentAnimal = null!;
-                return currentAnimal!;
+                currentInterfaces = null!;
+                return currentInterfaces!;
             }
 
-            return currentAnimal;
+            return currentInterfaces;
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             if (speciesListBox.SelectedIndex != -1)
             {
-                Animal currentAnimal = GetCurrentAnimal();
+                InterfaceService currentInterfaces = GetCurrentInterfaces();
+                List<string> errors = new List<string>();
 
-                currentAnimal.SaveInput(idGenerator.GenerateId(),
-                    ageTextBox.Text,
-                    nameTextBox.Text,
-                    (Enums.Gender)genderComboBox.SelectedItem,
-                    domesticatedCheckBox.IsChecked!.Value,
-                    firstQTextBox.Text,
-                    secondQTextBox.Text);
-                
-                List<string> errors = Validator.GetErrorMessages();
+                if (!currentInterfaces.Animal.ValidateAnimalTraits(ageTextBox.Text, nameTextBox.Text, out string errorMessages))
+                {
+                    errors.Add(errorMessages);
+                }
+
+                if (!currentInterfaces.Category!.ValidateCategoryTrait(firstQTextBox.Text, out string errorMessageC))
+                {
+                    errors.Add(errorMessageC);
+                }
+
+                if (!currentInterfaces.Species!.ValidateSpeciesTrait(secondQTextBox.Text, out string errorMessageS))
+                {
+                    errors.Add(errorMessageS);
+                }
 
                 if (errors.Count > 0)
                 {
@@ -253,7 +258,31 @@ namespace CSharp2_A1
                 }
                 else
                 {
-                    animalRegistry.AddAnimal(currentAnimal);
+                    Action<string>[] setters = [
+                    value => currentInterfaces.Animal.Age = value,
+                    value => currentInterfaces.Animal.Name = value,
+                    value => currentInterfaces.Category!.CategoryTrait = value,
+                    value => currentInterfaces.Species!.SpeciesTrait = value
+                    ];
+
+                    string[] input = [
+                        ageTextBox.Text,
+                        nameTextBox.Text,
+                        firstQTextBox.Text,
+                        secondQTextBox.Text,
+                        ];
+
+                    for (int i = 0; i < setters.Length; i++)
+                    {
+                        setters[i](input[i]);
+                    }
+
+                    currentInterfaces.Animal.IsDomesticated = domesticatedCheckBox.IsChecked!.Value;
+                    currentInterfaces.Animal.Gender = (Enums.Gender)genderComboBox.SelectedItem;
+                    currentInterfaces.Animal.Id = idGenerator.GenerateId();
+
+                    animalRegistry.AddAnimal(currentInterfaces.Animal);
+
                     ResetAllInputFields();
                 }
             }
@@ -261,16 +290,20 @@ namespace CSharp2_A1
 
         internal void ObserveRegistry(Object sender, EventArgs e)
         {
-            DisplayAnimals(animalRegistry.GetAllAnimals());
+            DisplayAnimals(animalRegistry.Animals);
         }
 
-        private void DisplayAnimals(ObservableCollection<Animal> animals)
+        private void DisplayAnimals(ObservableCollection<IAnimal> animals)
         {
             displayAllListBox.Items.Clear();
 
             foreach (Animal animal in animals)
             {
-                displayAllListBox.Items.Add($"{animal.Name,-15}{animal.GetType().Name,-15}{animal.Age, -5}");
+                InterfaceService interfaces = new(animal);
+                displayAllListBox.Items.Add(
+                    $"{interfaces.Animal.Name,-15}" +
+                    $"{interfaces.Species!.GetType().Name,-15}" +
+                    $"{interfaces.Animal.Age, -5}");
             }
         }
 
@@ -279,18 +312,19 @@ namespace CSharp2_A1
             if (displayAllListBox.SelectedIndex != -1)
             {
                 int indexToDisplay = displayAllListBox.SelectedIndex;
-                Animal animalToDisplay = animalRegistry.GetAnimal(indexToDisplay);
-                List<string> questions = animalToDisplay.GetQuestions();
-                string categoryQ = questions[0];
-                string speciesQ = questions[1];
+                IAnimal animal = animalRegistry.Animals[indexToDisplay];
+                InterfaceService currentInterfaces = new(animal);
 
                 displayAnimalListBox.Items.Clear();
                 displayAnimalListBox.Items.Add(
-                    $"ID:{animalToDisplay.Id,-15}\n" +
-                    $"Age: {animalToDisplay.Age,-15}\n" +
-                    $"Name: {animalToDisplay.Name,-15}\n" +
-                    $"Gender: {animalToDisplay.Gender,-15}\n" +
-                    $"Domesticated: {animalToDisplay.IsDomesticated,-10}\n");
+                    $"ID:{currentInterfaces.Animal.Id,-15}\n" +
+                    $"Age: {currentInterfaces.Animal.Age,-15}\n" +
+                    $"Name: {currentInterfaces.Animal.Name,-15}\n" +
+                    $"Gender: {currentInterfaces.Animal.Gender,-15}\n" +
+                    $"Domesticated: {currentInterfaces.Animal.IsDomesticated,-10}\n" +
+                    $"{currentInterfaces.Category!.CategoryQuestion}: {currentInterfaces.Category.CategoryTrait}\n" +
+                    $"{currentInterfaces.Species!.SpeciesQuestion}: {currentInterfaces.Species.SpeciesTrait}\n"
+                    );
             }
         }
 

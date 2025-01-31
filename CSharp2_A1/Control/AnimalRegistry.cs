@@ -1,4 +1,5 @@
 ﻿using Csharp2_A1.Models;
+using Csharp2_A1.Control.Interfaces;
 using CSharp2_A1;
 using System;
 using System.Collections.Generic;
@@ -13,21 +14,23 @@ namespace Csharp2_A1.Control
 {
     internal class AnimalRegistry
     {
-        ObservableCollection<Animal> animals;
+        ObservableCollection<IAnimal> animals;
         MainWindow mainWindow;
         IdGenerator idGenerator;
         private int registrySize;
 
         internal AnimalRegistry(MainWindow mainWindowIn, int registrySizeIn, IdGenerator idGeneratorIn)
         {
-            animals = new ObservableCollection<Animal>();
+            animals = new ObservableCollection<IAnimal>();
             mainWindow = mainWindowIn;
             animals.CollectionChanged += mainWindow.ObserveRegistry!;
             this.registrySize = registrySizeIn;
             this.idGenerator = idGeneratorIn;
         }
 
-        internal void AddAnimal(Models.Animal animalIn)
+        public ObservableCollection<IAnimal> Animals => animals;
+
+        internal void AddAnimal(IAnimal animalIn)
         {
             if (animals.Count < registrySize)
             {
@@ -37,16 +40,6 @@ namespace Csharp2_A1.Control
             {
                 throw new ArgumentException("Can not register animal: registry is full");
             }
-        }
-
-        internal Models.Animal GetAnimal(int indexToGet)
-        {
-            return animals[indexToGet];
-        }
-
-        internal ObservableCollection<Animal> GetAllAnimals()
-        {
-            return animals;
         }
 
         internal void RemoveAnimal(Models.Animal animalIn)

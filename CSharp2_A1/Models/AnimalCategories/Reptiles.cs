@@ -36,6 +36,6 @@ namespace Csharp2_A1.Models.AnimalCategories
         }
 
         public string CategoryTrait { get; set; }
-        public string CategoryQuestion { get { return "Favorite live food" } }
+        public string CategoryQuestion { get { return "Favorite live food"; } }
     }
 }

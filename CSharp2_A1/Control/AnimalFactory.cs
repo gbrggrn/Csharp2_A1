@@ -31,7 +31,7 @@ namespace Csharp2_A1.Control
         /// <param name="species">Species of the animal</param>
         /// <returns>The specific species as type:IAnimal</returns>
         /// <exception cref="ArgumentException">Throws if category/species match not found</exception>
-        public static IAnimal CreateAnimal(string category, string species)
+        public static InterfaceService CreateAnimal(string category, string species)
         {
             (string, string, Func<IAnimal>)[] animalMap =
             {
@@ -63,7 +63,8 @@ namespace Csharp2_A1.Control
             {
                 if (cat == category && spec == species)
                 {
-                    return init();
+                    IAnimal currentAnimal = init();
+                    return new InterfaceService(currentAnimal);
                 }
             }
 

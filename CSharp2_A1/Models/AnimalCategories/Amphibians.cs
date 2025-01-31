@@ -38,7 +38,7 @@ namespace Csharp2_A1.Models.AnimalCategories
             return true;
         }
 
-        public string CategoryTrait { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string CategoryTrait { get; set; }
         public string CategoryQuestion { get { return "Primary habitat"; } }
     }
 }

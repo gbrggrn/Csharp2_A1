@@ -37,6 +37,6 @@ namespace Csharp2_A1.Models.AnimalCategories
         }
 
         public string CategoryTrait { get; set; }
-        public string CategoryQuestion { get { return "Callsign"} }
+        public string CategoryQuestion { get { return "Callsign"; } }
     }
 }
