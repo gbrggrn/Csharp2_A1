@@ -251,7 +251,7 @@ namespace CSharp2_A1
                     errors.Add(errorMessageS);
                 }
 
-                if (errors.Count > 0)
+                if (errors.Count > 1)
                 {
                     DisplayErrorBox($"Faulty input!\nErrorMessages:\n{string.Join("\n", errors)}");
                     return;
