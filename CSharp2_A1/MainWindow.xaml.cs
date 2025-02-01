@@ -56,11 +56,19 @@ namespace CSharp2_A1
             genderComboBox.SelectedIndex = 2;
         }
 
+        /// <summary>
+        /// Sets the itemsource of the categoryListBox to Keys of the categoriesAndSpecies Dictionary.
+        /// </summary>
         internal void LoadCategories()
         {
             categoryListBox.ItemsSource = categoriesAndSpecies.Keys;
         }
 
+        /// <summary>
+        /// Loads the species associated with a specific category to speciesListBox upon selection of category.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         internal void LoadSpecies(Object sender, EventArgs e)
         {
             if (categoryListBox.SelectedIndex != -1)
@@ -74,6 +82,11 @@ namespace CSharp2_A1
             }
         }
 
+        /// <summary>
+        /// Lists all species in speciesListBox upon checking of listAllCheckBox
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         internal void LoadAllSpecies(Object sender, EventArgs e)
         {
             categoryListBox.IsEnabled = false;
@@ -90,12 +103,26 @@ namespace CSharp2_A1
             }
         }
 
+        /// <summary>
+        /// Called upon unchecking of listAllCheckBox.
+        /// Clears the speciesListBox of all species, and re-enables the categoryListBox.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         internal void EnableCategories(Object sender, EventArgs e)
         {
             speciesListBox.Items.Clear();
             categoryListBox.IsEnabled = true;
         }
 
+        /// <summary>
+        /// Called upon a change of index in speciesListBox to manipulate the input fields.
+        /// Retrieves interfaces for the currently chosen animal and accesses the relevant properties
+        /// to display the category-, and species specific question.
+        /// If nothing is selected: hides the fields again.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         internal void UpdateInputControls(Object sender, EventArgs e)
         {
             if (speciesListBox.SelectedIndex != -1)
@@ -140,7 +167,7 @@ namespace CSharp2_A1
 
         /// <summary>
         /// Retrieves all types in the assembly, then iterates over them to filter out classnames of categories and species.
-        /// Adds the categories as keys and the species in a list as values to the dictionary.
+        /// Adds the categories as keys and the corresponding species as a list as values to the dictionary.
         /// </summary>
         /// <returns>The complete dictionary of categories and corresponding species</returns>
         internal Dictionary<string, List<string>> GetCategoriesAndSpecies()
@@ -192,6 +219,12 @@ namespace CSharp2_A1
                 MessageBoxImage.Error);
         }
 
+        /// <summary>
+        /// Displays a messagebox with a prompt:question that the user can answer yes or no to.
+        /// </summary>
+        /// <param name="question">The question posed to the user</param>
+        /// <param name="title">The title of the messagebox</param>
+        /// <returns>True if yes, false if no</returns>
         internal bool DisplayQuestion(string question, string title)
         {
             MessageBoxResult answer = MessageBox.Show(question,
@@ -288,11 +321,24 @@ namespace CSharp2_A1
             }
         }
 
+        /// <summary>
+        /// Provides access to the ObservableCollection. This method is called upon the event that the collection is
+        /// modified in AnimalRegistry.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         internal void ObserveRegistry(Object sender, EventArgs e)
         {
             DisplayAnimals(animalRegistry.Animals);
         }
 
+        /// <summary>
+        /// Displays a shortlist of all animals that have been registered so far.
+        /// Retrieves the interfaces for the specific animal in the collection.
+        /// Through the interfaces, retrieves the name, name of the class (type->string)
+        /// and age.
+        /// </summary>
+        /// <param name="animals">the observablecollection animals from animalRegistry</param>
         private void DisplayAnimals(ObservableCollection<IAnimal> animals)
         {
             displayAllListBox.Items.Clear();
@@ -307,6 +353,13 @@ namespace CSharp2_A1
             }
         }
 
+        /// <summary>
+        /// Displays a specific animal, chosen in the displayAllListBox, to displayAnimalListBox.
+        /// Retrieves the specific animal from the observablecollection in animalRegistry.
+        /// Retrieves the interfaces for that animal, and accesses the properties through those.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DisplayAnimal(Object sender, EventArgs e)
         {
             if (displayAllListBox.SelectedIndex != -1)
@@ -328,6 +381,9 @@ namespace CSharp2_A1
             }
         }
 
+        /// <summary>
+        /// Resets all input fiels.
+        /// </summary>
         internal void ResetAllInputFields()
         {
             nameTextBox.Text = string.Empty;
