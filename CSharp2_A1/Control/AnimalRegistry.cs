@@ -42,7 +42,7 @@ namespace Csharp2_A1.Control
             }
         }
 
-        internal void RemoveAnimal(Models.Animal animalIn)
+        internal void RemoveAnimal(IAnimal animalIn)
         {
             int id = int.Parse(animalIn.Id);
             idGenerator.DeleteId(id);

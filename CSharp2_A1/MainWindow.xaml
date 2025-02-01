@@ -12,6 +12,10 @@
         </Style>
         <Style TargetType="Button">
             <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontSize" Value="14"/>
         </Style>
         <Style TargetType="ListBox">
             <Setter Property="FontFamily" Value="Courier new"/>
@@ -51,14 +55,14 @@
                     <Setter Property="Margin" Value="0,0,10,0"/>
                 </Style>
             </StackPanel.Resources>
-            <Border CornerRadius="10" Background="#A0522D" Width="75" Height="30">
-                <Button x:Name="exitButton" Content="Exit" FontSize="14" BorderThickness="0" Background="Transparent" Click="ExitButton_Click"/>
+            <Border CornerRadius="10" Width="75" Background="#A0522D" Height="30">
+                <Button x:Name="exitButton" Content="Exit" Click="ExitButton_Click"/>
             </Border>
-            <Border CornerRadius="10" Background="#A0522D" Width="75" Height="30">
-                <Button x:Name="aboutButton" Content="About" FontSize="14" BorderThickness="0" Background="Transparent"/>
+            <Border CornerRadius="10" Width="75" Background="#A0522D" Height="30">
+                <Button x:Name="aboutButton" Content="About"/>
             </Border>
-            <Border CornerRadius="10" Background="#A0522D" Width="75" Height="30">
-                <Button x:Name="saveButton" Content="Save" FontSize="14" BorderThickness="0" Background="Transparent"/>
+            <Border CornerRadius="10" Width="75" Background="#A0522D" Height="30">
+                <Button x:Name="saveButton" Content="Save"/>
             </Border>
         </StackPanel>
 
@@ -157,10 +161,21 @@
                 <ListBox x:Name="displayAllListBox" Grid.Row="1" ScrollViewer.CanContentScroll="True"/>
 
                 <!-- Button/display controls -->
-                <Border CornerRadius="10" Background="#A0522D" Width="150" Height="30" Grid.Row="2">
-                    <Button x:Name="addButton" Content="+ Add" FontSize="14" BorderBrush="Transparent" Background="Transparent" Click="AddButton_Click" />
-                </Border>
-                
+                <Grid Grid.Row="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Border CornerRadius="10" Background="#A0522D" Width="150" Height="30" Grid.Row="3" Grid.Column="0">
+                        <Button x:Name="addButton" Content="+ Add" Click="AddButton_Click" />
+                    </Border>
+
+                    <Border CornerRadius="10" Background="#A0522D" Width="150" Height="30" Grid.Row="3" Grid.Column="1">
+                        <Button x:Name="deleteButton" Content="- Delete" Click="AddButton_Click" />
+                    </Border>
+                </Grid>
+
             </Grid>
         </Grid>
 
@@ -173,7 +188,7 @@
             </Grid.RowDefinitions>
             
             <!-- Output Controls -->
-            <Border CornerRadius="10" Background="#A0522D" Width="150" Height="30">
+            <Border CornerRadius="10" Width="150" Height="30">
                 <Button x:Name="addImgButton" Content="+ Add Image" FontSize="14" BorderBrush="Transparent" Background="Transparent"/>
             </Border>
             
