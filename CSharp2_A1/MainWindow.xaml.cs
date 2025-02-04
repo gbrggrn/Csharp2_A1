@@ -30,6 +30,9 @@ namespace CSharp2_A1
 
         private const int registrySize = 100;
 
+        /// <summary>
+        /// Constructor instantiates classes and initiates basic configuration of the GUI.
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
@@ -41,6 +44,9 @@ namespace CSharp2_A1
             SetSubscriptions();
         }
 
+        /// <summary>
+        /// Helper method to reduce calls in the constructor. Sets subscriptions for crucial events.
+        /// </summary>
         internal void SetSubscriptions()
         {
             categoryListBox.SelectionChanged += LoadSpecies;
@@ -50,6 +56,9 @@ namespace CSharp2_A1
             displayAllListBox.SelectionChanged += DisplayAnimal;
         }
 
+        /// <summary>
+        /// Sets the ItemsSource for genderComboBox to the Enum "Gender".
+        /// </summary>
         internal void LoadGenderComboBox()
         {
             genderComboBox.ItemsSource = Enum.GetValues(typeof(Enums.Gender)).Cast<Enums.Gender>();
@@ -242,6 +251,10 @@ namespace CSharp2_A1
             }
         }
 
+        /// <summary>
+        /// Dependant on the selected species: retrieves the interfaces through InterfaceService.
+        /// </summary>
+        /// <returns>An instance of the InterfaceService class with access to the interface-properties</returns>
         private InterfaceService GetCurrentInterfaces()
         {
             string selectedSpecies = speciesListBox.SelectedItem.ToString()!.Trim();
