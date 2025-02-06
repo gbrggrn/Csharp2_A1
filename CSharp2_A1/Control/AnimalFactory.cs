@@ -20,12 +20,11 @@ namespace Csharp2_A1.Control
         /// Declares an array of triples (tuples, but with 3 columns) and maps categories
         /// and species to the instantiation of that specific class. Compares the first
         /// two columns of each row to the parameters to decide which instantiation to call.
-        /// This method returns the specified animal as IAnimal type. This is because
-        /// all animals implement the IAnimal/ICategory/ISpecies hierarchy, thus we 
-        /// return the highest abstraction level type: IAnimal.
+        /// This method returns an instance of InterfaceServices which has property access
+        /// to the interface-hierarchy.
         /// Basically:
         /// "Hey, this IS a cat, but you can interact with its' properties using the
-        /// IAnimal interface hierarchy!"
+        /// interface hierarchy!"
         /// </summary>
         /// <param name="category">Category of the species</param>
         /// <param name="species">Species of the animal</param>

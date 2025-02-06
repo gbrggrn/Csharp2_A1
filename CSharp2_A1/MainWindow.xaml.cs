@@ -297,36 +297,35 @@ namespace CSharp2_A1
                     errors.Add(errorMessageS);
                 }
 
-                if (errors.Count > 1)
+                if (errors.Count > 0)
                 {
                     DisplayErrorBox($"Faulty input!\nErrorMessages:\n{string.Join("\n", errors)}");
                     return;
                 }
                 else
                 {
-                    Action<string>[] setters = [
-                    value => currentInterfaces.Animal.Age = value,
-                    value => currentInterfaces.Animal.Name = value,
-                    value => currentInterfaces.Category!.CategoryTrait = value,
-                    value => currentInterfaces.Species!.SpeciesTrait = value
-                    ];
-
-                    string[] input = [
-                        ageTextBox.Text,
-                        nameTextBox.Text,
-                        firstQTextBox.Text,
-                        secondQTextBox.Text,
-                        ];
-
-                    for (int i = 0; i < setters.Length; i++)
+                    //Creates a Dictionary where the key represents an action (in this case a setter)
+                    //and the value represents a string from a textbox in the UI.
+                    Dictionary<Action<string>, string> settersAndValues = new Dictionary<Action<string>, string>
                     {
-                        setters[i](input[i]);
+                        [value => currentInterfaces.Animal.Age = value] = ageTextBox.Text,
+                        [value => currentInterfaces.Animal.Name = value] = nameTextBox.Text,
+                        [value => currentInterfaces.Category!.CategoryTrait = value] = firstQTextBox.Text,
+                        [value => currentInterfaces.Species!.SpeciesTrait = value] = secondQTextBox.Text
+                    };
+
+                    //Execute each action (key) with the value (value) as an argument
+                    foreach (var pair in settersAndValues)
+                    {
+                        pair.Key(pair.Value);
                     }
 
+                    //Sets the rest of the animal-attributes that are not strings.
                     currentInterfaces.Animal.IsDomesticated = domesticatedCheckBox.IsChecked!.Value;
                     currentInterfaces.Animal.Gender = (Enums.Gender)genderComboBox.SelectedItem;
                     currentInterfaces.Animal.Id = idGenerator.GenerateId();
 
+                    //Adds the current animal to the AnimalRegistry
                     animalRegistry.AddAnimal(currentInterfaces.Animal);
 
                     ResetAllInputFields();

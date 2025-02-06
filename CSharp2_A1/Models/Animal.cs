@@ -62,7 +62,7 @@ namespace Csharp2_A1.Models
                 }
             }
 
-            errorMessages = "Success";
+            errorMessages = errors;
             return true;
         }
 
