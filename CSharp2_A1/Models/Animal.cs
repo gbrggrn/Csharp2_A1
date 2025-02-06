@@ -63,7 +63,7 @@ namespace Csharp2_A1.Models
             }
 
             errorMessages = errors;
-            return true;
+            return string.IsNullOrEmpty(errors);
         }
 
         public string Id { get; set; }
