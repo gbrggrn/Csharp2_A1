@@ -275,6 +275,13 @@ namespace CSharp2_A1
             return currentInterfaces;
         }
 
+        /// <summary>
+        /// Upon a click of the add-button, this method calls validation on the inputs, and
+        /// either saves them to the correct properties and adds the animal to the animal registry,
+        /// or displays a summary of the validation-errors.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             if (speciesListBox.SelectedIndex != -1)
