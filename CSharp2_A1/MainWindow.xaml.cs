@@ -136,7 +136,7 @@ namespace CSharp2_A1
         {
             if (speciesListBox.SelectedIndex != -1)
             {
-                InterfaceService currentInterfaces = GetCurrentInterfaces();
+                InterfaceService currentInterfaces = TryCreateAnimal();
 
                 if (currentInterfaces != null)
                 {
@@ -176,7 +176,7 @@ namespace CSharp2_A1
 
         /// <summary>
         /// Retrieves all types in the assembly, then iterates over them to filter out classnames of categories and species.
-        /// Adds the categories as keys and the corresponding species as a list as values to the dictionary.
+        /// Adds the categories as keys and the corresponding species as a list as values to a dictionary.
         /// </summary>
         /// <returns>The complete dictionary of categories and corresponding species</returns>
         internal Dictionary<string, List<string>> GetCategoriesAndSpecies()
@@ -255,7 +255,7 @@ namespace CSharp2_A1
         /// Dependant on the selected species: retrieves the interfaces through InterfaceService.
         /// </summary>
         /// <returns>An instance of the InterfaceService class with access to the interface-property</returns>
-        private InterfaceService GetCurrentInterfaces()
+        private InterfaceService TryCreateAnimal()
         {
             string selectedSpecies = speciesListBox.SelectedItem.ToString()!.Trim();
             string selectedCategory = GetCorrespondingCategory(selectedSpecies);
@@ -286,64 +286,73 @@ namespace CSharp2_A1
         {
             if (speciesListBox.SelectedIndex != -1)
             {
-                InterfaceService animalInterface = GetCurrentInterfaces();
-                List<string> errors = new List<string>();
+                InterfaceService animalInterface = TryCreateAnimal();
 
-                if (!animalInterface.Animal.ValidateAnimalTraits(ageTextBox.Text, nameTextBox.Text, out string errorMessages))
+                if (animalInterface != null)
                 {
-                    errors.Add(errorMessages);
-                }
+                    List<string> errors = new List<string>();
 
-                if (!animalInterface.Animal.ValidateCategoryTrait(firstQTextBox.Text, out string errorMessageC))
-                {
-                    errors.Add(errorMessageC);
-                }
+                    if (!animalInterface.Animal.ValidateAnimalTraits(ageTextBox.Text, nameTextBox.Text, out string errorMessages))
+                    {
+                        errors.Add(errorMessages);
+                    }
 
-                if (!animalInterface.Animal.ValidateSpeciesTrait(secondQTextBox.Text, out string errorMessageS))
-                {
-                    errors.Add(errorMessageS);
-                }
+                    if (!animalInterface.Animal.ValidateCategoryTrait(firstQTextBox.Text, out string errorMessageC))
+                    {
+                        errors.Add(errorMessageC);
+                    }
 
-                if (errors.Count > 0)
-                {
-                    DisplayErrorBox($"Faulty input!\nErrorMessages:\n{string.Join("\n", errors)}");
-                    return;
+                    if (!animalInterface.Animal.ValidateSpeciesTrait(secondQTextBox.Text, out string errorMessageS))
+                    {
+                        errors.Add(errorMessageS);
+                    }
+
+                    if (errors.Count > 0)
+                    {
+                        DisplayErrorBox($"Faulty input!\nErrorMessages:\n{string.Join("\n", errors)}");
+                        return;
+                    }
+                    else
+                    {
+                        //Creates a Dictionary where the key represents an action (in this case a setter)
+                        //and the value represents a string from a textbox in the UI.
+                        Dictionary<Action<string>, string> settersAndValues = new Dictionary<Action<string>, string>
+                        {
+                            [value => animalInterface.Animal.Age = value] = ageTextBox.Text,
+                            [value => animalInterface.Animal.Name = value] = nameTextBox.Text,
+                            [value => animalInterface.Animal.CategoryTrait = value] = firstQTextBox.Text,
+                            [value => animalInterface.Animal.SpeciesTrait = value] = secondQTextBox.Text
+                        };
+
+                        //Execute each action (key) with the value (value) as an argument
+                        foreach (var pair in settersAndValues)
+                        {
+                            pair.Key(pair.Value);
+                        }
+
+                        //Sets the rest of the animal-attributes that are not strings.
+                        animalInterface.Animal.IsDomesticated = domesticatedCheckBox.IsChecked!.Value;
+                        animalInterface.Animal.Gender = (Enums.Gender)genderComboBox.SelectedItem;
+                        animalInterface.Animal.Id = idGenerator.GenerateId();
+
+                        //Adds the current animal to the AnimalRegistry so long as the registry is not full
+                        try
+                        {
+                            animalRegistry.AddAnimal(animalInterface.Animal.ThisAnimal);
+                        }
+                        catch (Exception ex)
+                        {
+                            DisplayErrorBox($"Something went wrong:\n{ex.Message}");
+                            return;
+                        }
+
+                        ResetAllInputFields();
+                    }
                 }
                 else
                 {
-                    //Creates a Dictionary where the key represents an action (in this case a setter)
-                    //and the value represents a string from a textbox in the UI.
-                    Dictionary<Action<string>, string> settersAndValues = new Dictionary<Action<string>, string>
-                    {
-                        [value => animalInterface.Animal.Age = value] = ageTextBox.Text,
-                        [value => animalInterface.Animal.Name = value] = nameTextBox.Text,
-                        [value => animalInterface.Animal.CategoryTrait = value] = firstQTextBox.Text,
-                        [value => animalInterface.Animal.SpeciesTrait = value] = secondQTextBox.Text
-                    };
-
-                    //Execute each action (key) with the value (value) as an argument
-                    foreach (var pair in settersAndValues)
-                    {
-                        pair.Key(pair.Value);
-                    }
-
-                    //Sets the rest of the animal-attributes that are not strings.
-                    animalInterface.Animal.IsDomesticated = domesticatedCheckBox.IsChecked!.Value;
-                    animalInterface.Animal.Gender = (Enums.Gender)genderComboBox.SelectedItem;
-                    animalInterface.Animal.Id = idGenerator.GenerateId();
-
-                    //Adds the current animal to the AnimalRegistry so long as the registry is not full
-                    try
-                    {
-                        animalRegistry.AddAnimal(animalInterface.Animal.ThisAnimal);
-                    }
-                    catch (Exception ex)
-                    {
-                        DisplayErrorBox($"Something went wrong:\n{ex.Message}");
-                        return;
-                    }
-
-                    ResetAllInputFields();
+                    DisplayErrorBox("Could not create an animal");
+                    return;
                 }
             }
         }
@@ -361,11 +370,11 @@ namespace CSharp2_A1
 
         /// <summary>
         /// Displays a shortlist of all animals that have been registered so far.
-        /// Retrieves the interfaces for the specific animal in the collection.
-        /// Through the interfaces, retrieves the name, name of the class (type->string)
+        /// Retrieves the interface for the specific animal in the collection.
+        /// Through the interface, retrieves the name, name of the class (type->string)
         /// and age.
         /// </summary>
-        /// <param name="animals">the observablecollection animals from animalRegistry</param>
+        /// <param name="animals">The observablecollection animals from animalRegistry</param>
         private void DisplayAnimals(ObservableCollection<Animal> animals)
         {
             displayAllListBox.Items.Clear();
