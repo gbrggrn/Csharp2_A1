@@ -332,8 +332,16 @@ namespace CSharp2_A1
                     currentInterfaces.Animal.Gender = (Enums.Gender)genderComboBox.SelectedItem;
                     currentInterfaces.Animal.Id = idGenerator.GenerateId();
 
-                    //Adds the current animal to the AnimalRegistry
-                    animalRegistry.AddAnimal(currentInterfaces.Animal);
+                    //Adds the current animal to the AnimalRegistry so long as the registry is not full
+                    try
+                    {
+                        animalRegistry.AddAnimal(currentInterfaces.Animal);
+                    }
+                    catch (Exception ex)
+                    {
+                        DisplayErrorBox($"Something went wrong:\n{ex.Message}");
+                        return;
+                    }
 
                     ResetAllInputFields();
                 }

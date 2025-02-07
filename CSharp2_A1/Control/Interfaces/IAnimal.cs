@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace Csharp2_A1.Control.Interfaces
 {
+    /// <summary>
+    /// Defines the interface IAnimal for the Animal-class.
+    /// </summary>
     internal interface IAnimal
     {
         string Id { get; set; }

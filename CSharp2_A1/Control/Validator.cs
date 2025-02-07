@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Csharp2_A1.Control
 {
+    /// <summary>
+    /// Contains common validation-methods.
+    /// </summary>
     class Validator
     {
         private static List<string>? errorMessages = new List<string>();

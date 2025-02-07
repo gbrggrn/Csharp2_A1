@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace Csharp2_A1.Control.Interfaces
 {
+    /// <summary>
+    /// Defines the interface ICategory for the Category-classes.
+    /// Inherits IAnimal.
+    /// </summary>
     internal interface ICategory : IAnimal
     {
         string CategoryTrait { get; set; }

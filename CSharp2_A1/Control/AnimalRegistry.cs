@@ -12,6 +12,9 @@ using System.Windows.Media.Imaging;
 
 namespace Csharp2_A1.Control
 {
+    /// <summary>
+    /// Class responsible for maintaining and manipulating the animal registry.
+    /// </summary>
     internal class AnimalRegistry
     {
         ObservableCollection<IAnimal> animals;
@@ -19,6 +22,13 @@ namespace Csharp2_A1.Control
         IdGenerator idGenerator;
         private int registrySize;
 
+        /// <summary>
+        /// Constructor initializes the instance variables and sets the subscription for
+        /// CollectionChanged of the ObservableCollection.
+        /// </summary>
+        /// <param name="mainWindowIn">A reference to the current instance of the MainWindow-class</param>
+        /// <param name="registrySizeIn">The size of the registry</param>
+        /// <param name="idGeneratorIn">A reference to the current instance of the idGenerator-class</param>
         internal AnimalRegistry(MainWindow mainWindowIn, int registrySizeIn, IdGenerator idGeneratorIn)
         {
             animals = new ObservableCollection<IAnimal>();
@@ -28,8 +38,16 @@ namespace Csharp2_A1.Control
             this.idGenerator = idGeneratorIn;
         }
 
+        /// <summary>
+        /// Get-property for the ObservableCollection.
+        /// </summary>
         public ObservableCollection<IAnimal> Animals => animals;
 
+        /// <summary>
+        /// If the registry is not full - adds the animal received.
+        /// </summary>
+        /// <param name="animalIn">The current instance of IAnimal</param>
+        /// <exception cref="ArgumentException">Thrown if registry is full</exception>
         internal void AddAnimal(IAnimal animalIn)
         {
             if (animals.Count < registrySize)
@@ -42,6 +60,10 @@ namespace Csharp2_A1.Control
             }
         }
 
+        /// <summary>
+        /// Removes an animal from the list, and its associated ID from the list of generated IDs.
+        /// </summary>
+        /// <param name="animalIn"></param>
         internal void RemoveAnimal(IAnimal animalIn)
         {
             int id = int.Parse(animalIn.Id);
