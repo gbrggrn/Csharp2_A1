@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Csharp2_A1.Models.AnimalSpecies.SpeciesFish
 {
-    class Goldfish : Fish, ISpecies
+    class Goldfish : Fish
     {
         private string speciesTrait;
         private const int maxLength = 20;
@@ -19,7 +19,7 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesFish
             speciesTrait = string.Empty;
         }
 
-        public bool ValidateSpeciesTrait(string speciesTraitIn, out string errorMessage)
+        public override bool ValidateSpeciesTrait(string speciesTraitIn, out string errorMessage)
         {
             if (!Validator.EmptyOrNot(speciesTraitIn))
             {
@@ -37,7 +37,7 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesFish
             return false;
         }
 
-        public string SpeciesTrait { get; set; }
-        public string SpeciesQuestion { get { return "Primary habitat"; } }
+        public override string SpeciesTrait { get; set; }
+        public override string SpeciesQuestion { get { return "Primary habitat"; } }
     }
 }

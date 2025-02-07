@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Csharp2_A1.Models.AnimalCategories
 {
-    class Mammals : Animal, ICategory
+    abstract class Mammals : Animal
     {
         private string categoryTrait;
         private const int maxChar = 20;
@@ -18,7 +18,7 @@ namespace Csharp2_A1.Models.AnimalCategories
             categoryTrait = string.Empty;
         }
 
-        public bool ValidateCategoryTrait(string categoryTraitIn, out string errorMessage)
+        public override bool ValidateCategoryTrait(string categoryTraitIn, out string errorMessage)
         {
             if (!Validator.EmptyOrNot(categoryTraitIn))
             {
@@ -36,7 +36,7 @@ namespace Csharp2_A1.Models.AnimalCategories
             return true;
         }
 
-        public string CategoryTrait { get; set; }
-        public string CategoryQuestion { get { return "Callsign"; } }
+        public override string CategoryTrait { get; set; }
+        public override string CategoryQuestion { get { return "Callsign"; } }
     }
 }

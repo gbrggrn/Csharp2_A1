@@ -1,4 +1,5 @@
 ﻿using Csharp2_A1.Control.Interfaces;
+using Csharp2_A1.Models;
 using Csharp2_A1.Models.AnimalSpecies.SpeciesAmphibians;
 using Csharp2_A1.Models.AnimalSpecies.SpeciesArachnids;
 using Csharp2_A1.Models.AnimalSpecies.SpeciesBirds;
@@ -32,7 +33,7 @@ namespace Csharp2_A1.Control
         /// <exception cref="ArgumentException">Throws if category/species match not found</exception>
         public static InterfaceService CreateAnimal(string category, string species)
         {
-            (string, string, Func<IAnimal>)[] animalMap =
+            (string, string, Func<Animal>)[] animalMap =
             {
                 ("Amphibians", "Frog", () => new Frog()),
                 ("Amphibians", "Newt", () => new Newt()),
@@ -62,7 +63,7 @@ namespace Csharp2_A1.Control
             {
                 if (cat == category && spec == species)
                 {
-                    IAnimal currentAnimal = init();
+                    Animal currentAnimal = init();
                     return new InterfaceService(currentAnimal);
                 }
             }

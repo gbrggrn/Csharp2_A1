@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Csharp2_A1.Models.AnimalSpecies.SpeciesReptiles
 {
-    class Lizard : Reptiles, ISpecies
+    class Lizard : Reptiles
     {
         private string speciesTrait;
         private const int maxLength = 200;
@@ -20,7 +20,7 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesReptiles
             speciesTrait = string.Empty;
         }
 
-        public bool ValidateSpeciesTrait(string speciesTraitIn, out string errorMessage)
+        public override bool ValidateSpeciesTrait(string speciesTraitIn, out string errorMessage)
         {
             if (!Validator.EmptyOrNot(speciesTraitIn))
             {
@@ -46,7 +46,7 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesReptiles
             return true;
         }
 
-        public string SpeciesTrait { get; set; }
-        public string SpeciesQuestion { get { return "Length of tail (cm)"; } }
+        public override string SpeciesTrait { get; set; }
+        public override string SpeciesQuestion { get { return "Length of tail (cm)"; } }
     }
 }

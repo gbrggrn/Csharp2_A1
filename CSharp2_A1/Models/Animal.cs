@@ -11,8 +11,9 @@ using System.Windows.Controls;
 
 namespace Csharp2_A1.Models
 {
-    internal class Animal : IAnimal
+    abstract class Animal : IAnimal
     {
+        private Animal thisAnimal;
         private string id;
         private string age;
         private string name;
@@ -25,6 +26,7 @@ namespace Csharp2_A1.Models
 
         public Animal()
         {
+            thisAnimal = this;
             id = string.Empty;
             age = string.Empty;
             name = string.Empty;
@@ -66,10 +68,19 @@ namespace Csharp2_A1.Models
             return string.IsNullOrEmpty(errors);
         }
 
+        public Animal ThisAnimal { get => thisAnimal; }
         public string Id { get; set; }
         public Enums.Enums.Gender Gender { get; set; }
         public bool IsDomesticated { get; set; }
         public string Age { get; set; }
         public string Name { get; set; }
+
+        public virtual string CategoryTrait { get; set; }
+        public virtual string CategoryQuestion { get; }
+        public virtual string SpeciesTrait {  get; set; }
+        public virtual string SpeciesQuestion { get; }
+        public abstract bool ValidateCategoryTrait(string categoryTraitIn, out string errorMessage);
+        public abstract bool ValidateSpeciesTrait(string speciesTraitIn, out string errorMessage);
+
     }
 }

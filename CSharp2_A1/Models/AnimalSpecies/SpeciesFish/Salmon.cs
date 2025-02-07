@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Csharp2_A1.Models.AnimalSpecies.SpeciesFish
 {
-    class Salmon : Fish, ISpecies
+    class Salmon : Fish
     {
         private string speciesTrait;
 
@@ -19,7 +19,7 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesFish
             speciesTrait = string.Empty;
         }
 
-        public bool ValidateSpeciesTrait(string speciesTraitIn, out string errorMessage)
+        public override bool ValidateSpeciesTrait(string speciesTraitIn, out string errorMessage)
         {
             if (!Validator.EmptyOrNot(speciesTraitIn))
             {
@@ -40,7 +40,7 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesFish
             return false;
         }
 
-        public string SpeciesTrait { get; set; }
-        public string SpeciesQuestion { get { return "Color"; } }
+        public override string SpeciesTrait { get; set; }
+        public override string SpeciesQuestion { get { return "Color"; } }
     }
 }

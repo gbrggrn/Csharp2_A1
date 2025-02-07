@@ -10,7 +10,7 @@ using System.Xml.XPath;
 
 namespace Csharp2_A1.Models.AnimalSpecies.SpeciesReptiles
 {
-    class Crocodile : Reptiles, ISpecies
+    class Crocodile : Reptiles
     {
         private string speciesTrait;
         private const int maxJaw = 150;
@@ -21,7 +21,7 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesReptiles
             speciesTrait = string.Empty;
         }
 
-        public bool ValidateSpeciesTrait(string speciesTraitIn, out string errorMessage)
+        public override bool ValidateSpeciesTrait(string speciesTraitIn, out string errorMessage)
         {
             if (!Validator.EmptyOrNot(speciesTraitIn))
             {
@@ -47,7 +47,7 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesReptiles
             return true;
         }
 
-        public string SpeciesTrait { get; set; }
-        public string SpeciesQuestion { get { return "Size of bit (cm)"; } }
+        public override string SpeciesTrait { get; set; }
+        public override string SpeciesQuestion { get { return "Size of bit (cm)"; } }
     }
 }

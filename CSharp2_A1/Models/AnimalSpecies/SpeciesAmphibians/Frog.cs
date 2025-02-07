@@ -11,7 +11,7 @@ using System.Windows.Controls;
 
 namespace Csharp2_A1.Models.AnimalSpecies.SpeciesAmphibians
 {
-    class Frog : Amphibians, ISpecies
+    class Frog : Amphibians
     {
         private string speciesTrait;
 
@@ -20,7 +20,7 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesAmphibians
             speciesTrait = String.Empty;
         }
 
-        public bool ValidateSpeciesTrait(string speciesTraitIn, out string errorMessage)
+        public override bool ValidateSpeciesTrait(string speciesTraitIn, out string errorMessage)
         {
             if (!Validator.EmptyOrNot(speciesTraitIn))
             {
@@ -41,7 +41,7 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesAmphibians
             return false;
         }
 
-        public string SpeciesTrait { get; set; }
-        public string SpeciesQuestion { get { return "Color"; } }
+        public override string SpeciesTrait { get; set; }
+        public override string SpeciesQuestion { get { return "Color"; } }
     }
 }

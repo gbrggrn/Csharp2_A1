@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Csharp2_A1.Models.AnimalSpecies.SpeciesMammals
 {
-    class Elephant : Mammals, ISpecies
+    class Elephant : Mammals
     {
         private string speciesTrait;
         private const int maxWeight = 10000;
@@ -20,7 +20,7 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesMammals
             speciesTrait = string.Empty;
         }
 
-        public bool ValidateSpeciesTrait(string speciesTraitIn, out string errorMessage)
+        public override bool ValidateSpeciesTrait(string speciesTraitIn, out string errorMessage)
         {
             if (!Validator.EmptyOrNot(speciesTraitIn))
             {
@@ -46,7 +46,7 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesMammals
             return true;
         }
 
-        public string SpeciesTrait { get; set; }
-        public string SpeciesQuestion { get { return "Weight (kg)"; } }
+        public override string SpeciesTrait { get; set; }
+        public override string SpeciesQuestion { get { return "Weight (kg)"; } }
     }
 }

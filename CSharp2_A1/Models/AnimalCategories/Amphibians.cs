@@ -11,7 +11,7 @@ using System.Windows.Navigation;
 
 namespace Csharp2_A1.Models.AnimalCategories
 {
-    class Amphibians : Animal, ICategory
+    abstract class Amphibians : Animal
     {
         private string categoryTrait;
 
@@ -20,7 +20,7 @@ namespace Csharp2_A1.Models.AnimalCategories
             categoryTrait = string.Empty;
         }
 
-        public bool ValidateCategoryTrait(string categoryTraitIn, out string errorMessage)
+        public override bool ValidateCategoryTrait(string categoryTraitIn, out string errorMessage)
         {
             if (!Validator.EmptyOrNot(categoryTraitIn))
             {
@@ -38,7 +38,7 @@ namespace Csharp2_A1.Models.AnimalCategories
             return true;
         }
 
-        public string CategoryTrait { get; set; }
-        public string CategoryQuestion { get { return "Primary habitat"; } }
+        public override string CategoryTrait { get; set; }
+        public override string CategoryQuestion { get { return "Primary habitat"; } }
     }
 }

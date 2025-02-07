@@ -140,8 +140,8 @@ namespace CSharp2_A1
 
                 if (currentInterfaces != null)
                 {
-                    categoryQuestionLabel.Content = currentInterfaces.Category!.CategoryQuestion;
-                    speciesQuestionLabel.Content = currentInterfaces.Species!.SpeciesQuestion;
+                    categoryQuestionLabel.Content = currentInterfaces.Animal.CategoryQuestion;
+                    speciesQuestionLabel.Content = currentInterfaces.Animal.SpeciesQuestion;
 
                     firstQTextBox.Visibility = Visibility.Visible;
                     secondQTextBox.Visibility = Visibility.Visible;
@@ -254,25 +254,25 @@ namespace CSharp2_A1
         /// <summary>
         /// Dependant on the selected species: retrieves the interfaces through InterfaceService.
         /// </summary>
-        /// <returns>An instance of the InterfaceService class with access to the interface-properties</returns>
+        /// <returns>An instance of the InterfaceService class with access to the interface-property</returns>
         private InterfaceService GetCurrentInterfaces()
         {
             string selectedSpecies = speciesListBox.SelectedItem.ToString()!.Trim();
             string selectedCategory = GetCorrespondingCategory(selectedSpecies);
-            InterfaceService currentInterfaces;
+            InterfaceService animalInterface;
 
             try
             {
-                currentInterfaces = AnimalFactory.CreateAnimal(selectedCategory, selectedSpecies);
+                animalInterface = AnimalFactory.CreateAnimal(selectedCategory, selectedSpecies);
             }
             catch (ArgumentException ax)
             {
                 DisplayErrorBox(ax.ToString());
-                currentInterfaces = null!;
-                return currentInterfaces!;
+                animalInterface = null!;
+                return animalInterface!;
             }
 
-            return currentInterfaces;
+            return animalInterface;
         }
 
         /// <summary>
@@ -286,20 +286,20 @@ namespace CSharp2_A1
         {
             if (speciesListBox.SelectedIndex != -1)
             {
-                InterfaceService currentInterfaces = GetCurrentInterfaces();
+                InterfaceService animalInterface = GetCurrentInterfaces();
                 List<string> errors = new List<string>();
 
-                if (!currentInterfaces.Animal.ValidateAnimalTraits(ageTextBox.Text, nameTextBox.Text, out string errorMessages))
+                if (!animalInterface.Animal.ValidateAnimalTraits(ageTextBox.Text, nameTextBox.Text, out string errorMessages))
                 {
                     errors.Add(errorMessages);
                 }
 
-                if (!currentInterfaces.Category!.ValidateCategoryTrait(firstQTextBox.Text, out string errorMessageC))
+                if (!animalInterface.Animal.ValidateCategoryTrait(firstQTextBox.Text, out string errorMessageC))
                 {
                     errors.Add(errorMessageC);
                 }
 
-                if (!currentInterfaces.Species!.ValidateSpeciesTrait(secondQTextBox.Text, out string errorMessageS))
+                if (!animalInterface.Animal.ValidateSpeciesTrait(secondQTextBox.Text, out string errorMessageS))
                 {
                     errors.Add(errorMessageS);
                 }
@@ -315,10 +315,10 @@ namespace CSharp2_A1
                     //and the value represents a string from a textbox in the UI.
                     Dictionary<Action<string>, string> settersAndValues = new Dictionary<Action<string>, string>
                     {
-                        [value => currentInterfaces.Animal.Age = value] = ageTextBox.Text,
-                        [value => currentInterfaces.Animal.Name = value] = nameTextBox.Text,
-                        [value => currentInterfaces.Category!.CategoryTrait = value] = firstQTextBox.Text,
-                        [value => currentInterfaces.Species!.SpeciesTrait = value] = secondQTextBox.Text
+                        [value => animalInterface.Animal.Age = value] = ageTextBox.Text,
+                        [value => animalInterface.Animal.Name = value] = nameTextBox.Text,
+                        [value => animalInterface.Animal.CategoryTrait = value] = firstQTextBox.Text,
+                        [value => animalInterface.Animal.SpeciesTrait = value] = secondQTextBox.Text
                     };
 
                     //Execute each action (key) with the value (value) as an argument
@@ -328,14 +328,14 @@ namespace CSharp2_A1
                     }
 
                     //Sets the rest of the animal-attributes that are not strings.
-                    currentInterfaces.Animal.IsDomesticated = domesticatedCheckBox.IsChecked!.Value;
-                    currentInterfaces.Animal.Gender = (Enums.Gender)genderComboBox.SelectedItem;
-                    currentInterfaces.Animal.Id = idGenerator.GenerateId();
+                    animalInterface.Animal.IsDomesticated = domesticatedCheckBox.IsChecked!.Value;
+                    animalInterface.Animal.Gender = (Enums.Gender)genderComboBox.SelectedItem;
+                    animalInterface.Animal.Id = idGenerator.GenerateId();
 
                     //Adds the current animal to the AnimalRegistry so long as the registry is not full
                     try
                     {
-                        animalRegistry.AddAnimal(currentInterfaces.Animal);
+                        animalRegistry.AddAnimal(animalInterface.Animal.ThisAnimal);
                     }
                     catch (Exception ex)
                     {
@@ -366,7 +366,7 @@ namespace CSharp2_A1
         /// and age.
         /// </summary>
         /// <param name="animals">the observablecollection animals from animalRegistry</param>
-        private void DisplayAnimals(ObservableCollection<IAnimal> animals)
+        private void DisplayAnimals(ObservableCollection<Animal> animals)
         {
             displayAllListBox.Items.Clear();
 
@@ -375,7 +375,7 @@ namespace CSharp2_A1
                 InterfaceService interfaces = new(animal);
                 displayAllListBox.Items.Add(
                     $"{interfaces.Animal.Name,-15}" +
-                    $"{interfaces.Species!.GetType().Name,-15}" +
+                    $"{interfaces.Animal.GetType().Name,-15}" +
                     $"{interfaces.Animal.Age, -5}");
             }
         }
@@ -392,7 +392,7 @@ namespace CSharp2_A1
             if (displayAllListBox.SelectedIndex != -1)
             {
                 int indexToDisplay = displayAllListBox.SelectedIndex;
-                IAnimal animal = animalRegistry.Animals[indexToDisplay];
+                Animal animal = animalRegistry.Animals[indexToDisplay];
                 InterfaceService currentInterfaces = new(animal);
 
                 displayAnimalListBox.Items.Clear();
@@ -402,8 +402,8 @@ namespace CSharp2_A1
                     $"Name: {currentInterfaces.Animal.Name,-15}\n" +
                     $"Gender: {currentInterfaces.Animal.Gender,-15}\n" +
                     $"Domesticated: {currentInterfaces.Animal.IsDomesticated,-10}\n" +
-                    $"{currentInterfaces.Category!.CategoryQuestion}: {currentInterfaces.Category.CategoryTrait}\n" +
-                    $"{currentInterfaces.Species!.SpeciesQuestion}: {currentInterfaces.Species.SpeciesTrait}\n"
+                    $"{currentInterfaces.Animal.CategoryQuestion}: {currentInterfaces.Animal.CategoryTrait}\n" +
+                    $"{currentInterfaces.Animal.SpeciesQuestion}: {currentInterfaces.Animal.SpeciesTrait}\n"
                     );
             }
         }

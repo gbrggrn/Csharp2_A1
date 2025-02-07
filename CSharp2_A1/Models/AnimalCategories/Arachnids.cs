@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Csharp2_A1.Models.AnimalCategories
 {
-    class Arachnids : Animal, ICategory
+    abstract class Arachnids : Animal
     {
         private string categoryTrait;
         private const int minLegs = 0;
@@ -20,7 +20,7 @@ namespace Csharp2_A1.Models.AnimalCategories
             categoryTrait = string.Empty;
         }
 
-        public bool ValidateCategoryTrait(string categoryTraitIn, out string errorMessage)
+        public override bool ValidateCategoryTrait(string categoryTraitIn, out string errorMessage)
         {
             if (!Validator.IntOrNot(categoryTraitIn))
             {
@@ -40,7 +40,7 @@ namespace Csharp2_A1.Models.AnimalCategories
             return true;
         }
 
-        public string CategoryTrait { get; set; }
-        public string CategoryQuestion { get { return "Number of legs"; } }
+        public override string CategoryTrait { get; set; }
+        public override string CategoryQuestion { get { return "Number of legs"; } }
     }
 }

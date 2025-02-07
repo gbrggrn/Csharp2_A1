@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Csharp2_A1.Models;
 
 namespace Csharp2_A1.Control.Interfaces
 {
@@ -13,18 +14,14 @@ namespace Csharp2_A1.Control.Interfaces
     internal class InterfaceService
     {
         public IAnimal Animal { get; set; }
-        public ICategory? Category { get; set; }
-        public ISpecies? Species { get; set; }
 
         /// <summary>
         /// Constructor sets the type of animal for the interfaces.
         /// </summary>
         /// <param name="animalIn"></param>
-        public InterfaceService(IAnimal animalIn)
+        public InterfaceService(Animal animalIn)
         {
             Animal = animalIn;
-            Category = animalIn as ICategory;
-            Species = animalIn as ISpecies;
         }
     }
 }

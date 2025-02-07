@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Csharp2_A1.Models.AnimalCategories
 {
-    class Fish : Animal, ICategory
+    abstract class Fish : Animal
     {
         private string categoryTrait;
         private const double minLength = 1;
@@ -19,7 +19,7 @@ namespace Csharp2_A1.Models.AnimalCategories
             categoryTrait = string.Empty;
         }
 
-        public bool ValidateCategoryTrait(string categoryTraitIn, out string errorMessage)
+        public override bool ValidateCategoryTrait(string categoryTraitIn, out string errorMessage)
         {
             if (!Validator.DoubleOrNot(categoryTraitIn))
             {
@@ -39,7 +39,7 @@ namespace Csharp2_A1.Models.AnimalCategories
             return true;
         }
 
-        public string CategoryTrait { get; set; }
-        public string CategoryQuestion { get { return "Length (cm)"; } }
+        public override string CategoryTrait { get; set; }
+        public override string CategoryQuestion { get { return "Length (cm)"; } }
     }
 }

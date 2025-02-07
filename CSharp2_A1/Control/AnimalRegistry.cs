@@ -17,7 +17,7 @@ namespace Csharp2_A1.Control
     /// </summary>
     internal class AnimalRegistry
     {
-        ObservableCollection<IAnimal> animals;
+        ObservableCollection<Animal> animals;
         MainWindow mainWindow;
         IdGenerator idGenerator;
         private int registrySize;
@@ -31,7 +31,7 @@ namespace Csharp2_A1.Control
         /// <param name="idGeneratorIn">A reference to the current instance of the idGenerator-class</param>
         internal AnimalRegistry(MainWindow mainWindowIn, int registrySizeIn, IdGenerator idGeneratorIn)
         {
-            animals = new ObservableCollection<IAnimal>();
+            animals = new ObservableCollection<Animal>();
             mainWindow = mainWindowIn;
             animals.CollectionChanged += mainWindow.ObserveRegistry!;
             this.registrySize = registrySizeIn;
@@ -41,14 +41,14 @@ namespace Csharp2_A1.Control
         /// <summary>
         /// Get-property for the ObservableCollection.
         /// </summary>
-        public ObservableCollection<IAnimal> Animals => animals;
+        public ObservableCollection<Animal> Animals => animals;
 
         /// <summary>
         /// If the registry is not full - adds the animal received.
         /// </summary>
         /// <param name="animalIn">The current instance of IAnimal</param>
         /// <exception cref="ArgumentException">Thrown if registry is full</exception>
-        internal void AddAnimal(IAnimal animalIn)
+        internal void AddAnimal(Animal animalIn)
         {
             if (animals.Count < registrySize)
             {
@@ -64,7 +64,7 @@ namespace Csharp2_A1.Control
         /// Removes an animal from the list, and its associated ID from the list of generated IDs.
         /// </summary>
         /// <param name="animalIn"></param>
-        internal void RemoveAnimal(IAnimal animalIn)
+        internal void RemoveAnimal(Animal animalIn)
         {
             int id = int.Parse(animalIn.Id);
             idGenerator.DeleteId(id);

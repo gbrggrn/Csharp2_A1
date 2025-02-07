@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Csharp2_A1.Models.AnimalSpecies.SpeciesBirds
 {
-    class Falcon : Birds, ISpecies
+    class Falcon : Birds
     {
         private string speciesTrait;
         private const double maxAvgAirspeed = 600;
@@ -19,7 +19,7 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesBirds
             speciesTrait = string.Empty;
         }
 
-        public bool ValidateSpeciesTrait(string speciesTraitIn, out string errorMessage)
+        public override bool ValidateSpeciesTrait(string speciesTraitIn, out string errorMessage)
         {
             if (!Validator.DoubleOrNot(speciesTraitIn))
             {
@@ -39,7 +39,7 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesBirds
             return true;
         }
 
-        public string SpeciesTrait { get; set; }
-        public string SpeciesQuestion { get { return "Avg airspeed (km/h)"; } }
+        public override string SpeciesTrait { get; set; }
+        public override string SpeciesQuestion { get { return "Avg airspeed (km/h)"; } }
     }
 }
