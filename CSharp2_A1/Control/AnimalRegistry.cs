@@ -46,7 +46,7 @@ namespace Csharp2_A1.Control
         /// <summary>
         /// If the registry is not full - adds the animal received.
         /// </summary>
-        /// <param name="animalIn">The current instance of IAnimal</param>
+        /// <param name="animalIn">The current instance of Animal</param>
         /// <exception cref="ArgumentException">Thrown if registry is full</exception>
         internal void AddAnimal(Animal animalIn)
         {
@@ -64,11 +64,19 @@ namespace Csharp2_A1.Control
         /// Removes an animal from the list, and its associated ID from the list of generated IDs.
         /// </summary>
         /// <param name="animalIn"></param>
-        internal void RemoveAnimal(Animal animalIn)
+        internal bool RemoveAnimal(Animal animalIn)
         {
-            int id = int.Parse(animalIn.Id);
-            idGenerator.DeleteId(id);
-            animals.Remove(animalIn);
+            if (Animals.Contains(animalIn))
+            {
+                int id = int.Parse(animalIn.Id);
+                idGenerator.DeleteId(id);
+                animals.Remove(animalIn);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

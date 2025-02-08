@@ -429,5 +429,55 @@ namespace CSharp2_A1
             firstQTextBox.Text = string.Empty;
             secondQTextBox.Text = string.Empty;
         }
+
+        /// <summary>
+        /// Displays a messageBox containing information.
+        /// </summary>
+        /// <param name="message">The message to be displayed</param>
+        /// <param name="title">The title of the messagebox</param>
+        internal void DisplayInfoBox(string message, string title)
+        {
+            MessageBox.Show($"{message}",
+                $"{title}",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information);
+        }
+
+        /// <summary>
+        /// If a selection is made, prompts the user for deletion.
+        /// Upon "yes" - deletes the selected animal from the registry,
+        /// else: does nothing.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (displayAllListBox.SelectedIndex != -1)
+            {
+                int indexToDelete = displayAllListBox.SelectedIndex;
+                Animal animal = animalRegistry.Animals[indexToDelete];
+                string animalType = animal.GetType().Name;
+                string name = animal.Name;
+
+                if (DisplayQuestion($"Do you wish to remove the {animalType} {name} from the registry?",
+                    $"Remove {animalType}?"))
+                {
+                    if (animalRegistry.RemoveAnimal(animalRegistry.Animals[indexToDelete]))
+                    {
+                        displayAnimalListBox.Items.Clear();
+                        DisplayInfoBox($"The {animalType} {name} was removed from the registry",
+                            $"Successful removal of {animalType}");
+                    }
+                    else
+                    {
+                        DisplayErrorBox("Animal could not be found!");
+                    }
+                }
+            }
+            else
+            {
+                DisplayErrorBox("No animal selected!");
+            }
+        }
     }
 }
