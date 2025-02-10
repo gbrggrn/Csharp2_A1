@@ -4,6 +4,7 @@ using Csharp2_A1.Models;
 using Csharp2_A1.Models.AnimalCategories;
 using Csharp2_A1.Models.Enums;
 using Microsoft.VisualBasic;
+using Microsoft.Win32;
 using System.Collections.ObjectModel;
 using System.Reflection;
 using System.Text;
@@ -217,41 +218,6 @@ namespace CSharp2_A1
         }
 
         /// <summary>
-        /// Displays a messagebox with an error-message.
-        /// </summary>
-        /// <param name="message">The message to be displayed</param>
-        internal void DisplayErrorBox(string message)
-        {
-            MessageBox.Show(message,
-                "Error",
-                MessageBoxButton.OK,
-                MessageBoxImage.Error);
-        }
-
-        /// <summary>
-        /// Displays a messagebox with a prompt:question that the user can answer yes or no to.
-        /// </summary>
-        /// <param name="question">The question posed to the user</param>
-        /// <param name="title">The title of the messagebox</param>
-        /// <returns>True if yes, false if no</returns>
-        internal bool DisplayQuestion(string question, string title)
-        {
-            MessageBoxResult answer = MessageBox.Show(question,
-                title,
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Question);
-
-            if (answer == MessageBoxResult.Yes)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
         /// Dependant on the selected species: retrieves the interfaces through InterfaceService.
         /// </summary>
         /// <returns>An instance of the InterfaceService class with access to the interface-property</returns>
@@ -346,7 +312,7 @@ namespace CSharp2_A1
                             return;
                         }
 
-                        ResetAllInputFields();
+                        ResetInputFields();
                     }
                 }
                 else
@@ -420,7 +386,7 @@ namespace CSharp2_A1
         /// <summary>
         /// Resets all input fiels.
         /// </summary>
-        internal void ResetAllInputFields()
+        internal void ResetInputFields()
         {
             nameTextBox.Text = string.Empty;
             ageTextBox.Text = string.Empty;
@@ -428,19 +394,7 @@ namespace CSharp2_A1
             domesticatedCheckBox.IsChecked = false;
             firstQTextBox.Text = string.Empty;
             secondQTextBox.Text = string.Empty;
-        }
-
-        /// <summary>
-        /// Displays a messageBox containing information.
-        /// </summary>
-        /// <param name="message">The message to be displayed</param>
-        /// <param name="title">The title of the messagebox</param>
-        internal void DisplayInfoBox(string message, string title)
-        {
-            MessageBox.Show($"{message}",
-                $"{title}",
-                MessageBoxButton.OK,
-                MessageBoxImage.Information);
+            imgControl.Source = null;
         }
 
         /// <summary>
@@ -477,6 +431,88 @@ namespace CSharp2_A1
             else
             {
                 DisplayErrorBox("No animal selected!");
+            }
+        }
+
+        /// <summary>
+        /// Displays an openfiledialog and lets the user select an img-file to display for
+        /// the chosen animal.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AddImgButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (displayAllListBox.SelectedIndex != -1)
+            {
+                OpenFileDialog openFile = new();
+                openFile.Filter = "Image Files (*.png;*.jpg)|*.png;*.jpg";
+                openFile.Multiselect = false;
+
+                if (openFile.ShowDialog() == true)
+                {
+                    try
+                    {
+                        BitmapImage img = new BitmapImage();
+                        img.BeginInit();
+                        img.UriSource = new Uri(openFile.FileName);
+                        img.EndInit();
+
+                        imgControl.Source = img;
+                    }
+                    catch (Exception ex)
+                    {
+                        DisplayErrorBox($"Something went wrong:\n{ex.Message}");
+                        return;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Displays a messageBox containing information.
+        /// </summary>
+        /// <param name="message">The message to be displayed</param>
+        /// <param name="title">The title of the messagebox</param>
+        internal void DisplayInfoBox(string message, string title)
+        {
+            MessageBox.Show($"{message}",
+                $"{title}",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information);
+        }
+
+        /// <summary>
+        /// Displays a messagebox with an error-message.
+        /// </summary>
+        /// <param name="message">The message to be displayed</param>
+        internal void DisplayErrorBox(string message)
+        {
+            MessageBox.Show(message,
+                "Error",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
+        }
+
+        /// <summary>
+        /// Displays a messagebox with a prompt:question that the user can answer yes or no to.
+        /// </summary>
+        /// <param name="question">The question posed to the user</param>
+        /// <param name="title">The title of the messagebox</param>
+        /// <returns>True if yes, false if no</returns>
+        internal bool DisplayQuestion(string question, string title)
+        {
+            MessageBoxResult answer = MessageBox.Show(question,
+                title,
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+
+            if (answer == MessageBoxResult.Yes)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
     }
