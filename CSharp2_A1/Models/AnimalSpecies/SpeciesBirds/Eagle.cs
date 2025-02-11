@@ -21,7 +21,7 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesBirds
 
         public override bool ValidateSpeciesTrait(string speciesTraitIn, out string errorMessage)
         {
-            if (!Validator.EmptyOrNot(speciesTraitIn))
+            if (string.IsNullOrWhiteSpace(speciesTraitIn))
             {
                 errorMessage = $"{SpeciesQuestion} can not be empty";
                 return false;

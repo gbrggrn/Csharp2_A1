@@ -14,6 +14,7 @@ namespace Csharp2_A1.Control.Interfaces
     /// </summary>
     internal interface IAnimal
     {
+        //Properties
         Animal ThisAnimal { get; }
         string Id { get; set; }
         string Age { get; set; }
@@ -25,7 +26,7 @@ namespace Csharp2_A1.Control.Interfaces
         string SpeciesTrait { get; set; }
         string SpeciesQuestion { get; }
 
-
+        //Methods
         bool ValidateAnimalTraits(string ageIn, string nameIn, out string errorMessages);
         bool ValidateCategoryTrait(string categoryTraitIn, out string errorMessage);
         bool ValidateSpeciesTrait(string categoryTraitIn, out string errorMessage);

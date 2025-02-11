@@ -63,7 +63,8 @@ namespace Csharp2_A1.Control
         /// <summary>
         /// Removes an animal from the list, and its associated ID from the list of generated IDs.
         /// </summary>
-        /// <param name="animalIn"></param>
+        /// <param name="animalIn">The instance of Animal to be removed</param>
+        /// <returns>true if registry contains the instance of Animal : false if not</returns>
         internal bool RemoveAnimal(Animal animalIn)
         {
             if (Animals.Contains(animalIn))

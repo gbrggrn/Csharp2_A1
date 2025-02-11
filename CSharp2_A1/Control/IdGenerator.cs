@@ -11,7 +11,7 @@ namespace Csharp2_A1.Control
     /// </summary>
     internal class IdGenerator
     {
-        private int[] generatedIds;
+        private List<int> generatedIds;
         private int registrySize;
         private Random random;
 
@@ -22,7 +22,7 @@ namespace Csharp2_A1.Control
         internal IdGenerator(int registrySizeIn)
         {
             registrySize = registrySizeIn;
-            generatedIds = new int[registrySize];
+            generatedIds = new();
             random = new Random();
         }
 
@@ -43,7 +43,7 @@ namespace Csharp2_A1.Control
                 }
                 else
                 {
-                    generatedIds.Append(tryRandId);
+                    generatedIds.Add(tryRandId);
                     break;
                 }
             }
@@ -57,7 +57,7 @@ namespace Csharp2_A1.Control
         /// <param name="idIn"></param>
         internal void DeleteId(int idIn)
         {
-            generatedIds[idIn] = 0;
+            generatedIds.Remove(idIn);
         }
 
         /// <summary>

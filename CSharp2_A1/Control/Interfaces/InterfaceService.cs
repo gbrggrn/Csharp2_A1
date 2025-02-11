@@ -14,7 +14,7 @@ namespace Csharp2_A1.Control.Interfaces
     /// </summary>
     internal class InterfaceService
     {
-        public IAnimal Animal { get; set; }
+        public IAnimal Animal { get; }
 
         /// <summary>
         /// Constructor sets the type of animal for the IAnimal interface.

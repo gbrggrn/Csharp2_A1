@@ -38,21 +38,19 @@ namespace Csharp2_A1.Models
         {
             string errors = string.Empty;
 
-            if (!Validator.IntOrNot(ageIn))
+            if (!int.TryParse(ageIn, out int result))
             {
-                errors += "Age must be a number";
+                errors += "Age must be a number without decimals";
             }
             else
             {
-                int result = int.Parse(ageIn);
-
                 if (result < minAge || result > maxAge)
                 {
                     errors += $"\nAge must be between {minAge} and {maxAge}";
                 }
             }
 
-            if (!Validator.EmptyOrNot(nameIn))
+            if (string.IsNullOrWhiteSpace(nameIn))
             {
                 errors += $"\nName can not be empty";
             }

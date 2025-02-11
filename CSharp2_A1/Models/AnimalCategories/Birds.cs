@@ -21,13 +21,11 @@ namespace Csharp2_A1.Models.AnimalCategories
 
         public override bool ValidateCategoryTrait(string categoryTraitIn, out string errorMessage)
         {
-            if (!Validator.DoubleOrNot(categoryTraitIn))
+            if (!double.TryParse(categoryTraitIn, out double result))
             {
                 errorMessage = $"{CategoryQuestion} has to be a number";
                 return false;
             }
-
-            double result = double.Parse(categoryTraitIn);
 
             if (result < 0 || result > 600)
             {

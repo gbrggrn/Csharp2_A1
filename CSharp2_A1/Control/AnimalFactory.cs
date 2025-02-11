@@ -33,6 +33,12 @@ namespace Csharp2_A1.Control
         /// <exception cref="ArgumentException">Throws if category/species match not found</exception>
         public static InterfaceService CreateAnimal(string category, string species)
         {
+            //Init new tuple array with three elements
+            //Elements: (string, string, function reference)
+            //Function reference explanation:
+            //-- () = no parameters/arguments for this function
+            //-- => = anonymous function, has no "callsign"
+            //-- new Frog() = when called - return instance of "Frog"
             (string, string, Func<Animal>)[] animalMap =
             {
                 ("Amphibians", "Frog", () => new Frog()),

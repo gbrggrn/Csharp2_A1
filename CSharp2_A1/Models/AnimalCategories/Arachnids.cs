@@ -22,18 +22,18 @@ namespace Csharp2_A1.Models.AnimalCategories
 
         public override bool ValidateCategoryTrait(string categoryTraitIn, out string errorMessage)
         {
-            if (!Validator.IntOrNot(categoryTraitIn))
+            if (!int.TryParse(categoryTraitIn, out int result))
             {
-                errorMessage = $"{CategoryQuestion} has to be a number";
+                errorMessage = $"{CategoryQuestion} has to be a number without decimals";
                 return false;
             }
-
-            int result = int.Parse(categoryTraitIn);
-            
-            if (result < minLegs || result > maxLegs)
+            else
             {
-                errorMessage = $"{CategoryQuestion} has to be between {minLegs} and {maxLegs}";
-                return false;
+                if (result < minLegs || result > maxLegs)
+                {
+                    errorMessage = $"{CategoryQuestion} has to be between {minLegs} and {maxLegs}";
+                    return false;
+                }
             }
 
             errorMessage = "Success";

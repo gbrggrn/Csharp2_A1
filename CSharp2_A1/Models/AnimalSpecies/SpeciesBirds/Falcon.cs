@@ -21,13 +21,11 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesBirds
 
         public override bool ValidateSpeciesTrait(string speciesTraitIn, out string errorMessage)
         {
-            if (!Validator.DoubleOrNot(speciesTraitIn))
+            if (!double.TryParse(speciesTraitIn, out double result))
             {
                 errorMessage = $"{SpeciesQuestion} has to be a number";
                 return false;
             }
-
-            double result = double.Parse(speciesTraitIn);
 
             if (result > maxAvgAirspeed)
             {

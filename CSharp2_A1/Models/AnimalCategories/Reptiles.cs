@@ -20,7 +20,7 @@ namespace Csharp2_A1.Models.AnimalCategories
 
         public override bool ValidateCategoryTrait(string categoryTraitIn, out string errorMessage)
         {
-            if (!Validator.EmptyOrNot(categoryTraitIn))
+            if (string.IsNullOrWhiteSpace(categoryTraitIn))
             {
                 errorMessage = $"{CategoryQuestion} can not be empty";
                 return false;

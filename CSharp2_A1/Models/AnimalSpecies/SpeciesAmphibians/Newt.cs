@@ -21,7 +21,7 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesAmphibians
 
         public override bool ValidateSpeciesTrait(string speciesTraitIn, out string errorMessage)
         {
-            if (!Validator.EmptyOrNot(speciesTraitIn))
+            if (string.IsNullOrWhiteSpace(speciesTraitIn))
             {
                 errorMessage = $"{CategoryQuestion} can not be empty";
                 return false;
