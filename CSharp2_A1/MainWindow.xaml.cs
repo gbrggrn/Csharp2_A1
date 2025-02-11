@@ -1,4 +1,5 @@
-﻿using Csharp2_A1.Control;
+﻿using Csharp2_A1;
+using Csharp2_A1.Control;
 using Csharp2_A1.Control.Interfaces;
 using Csharp2_A1.Models;
 using Csharp2_A1.Models.AnimalCategories;
@@ -245,6 +246,7 @@ namespace CSharp2_A1
         /// Upon a click of the add-button, this method calls validation on the inputs, and
         /// either saves them to the correct properties and adds the animal to the animal registry,
         /// or displays a summary of the validation-errors.
+        /// Note to self: This method is clunky and too big, should be refactored/split.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -320,6 +322,10 @@ namespace CSharp2_A1
                     DisplayErrorBox("Could not create an animal");
                     return;
                 }
+            }
+            else
+            {
+                DisplayErrorBox("No animaltype selected!");
             }
         }
 
@@ -466,6 +472,16 @@ namespace CSharp2_A1
                     }
                 }
             }
+            else
+            {
+                if (displayAllListBox.Items.Count < 1)
+                {
+                    DisplayErrorBox("No animals added yet!");
+                    return;
+                }
+
+                DisplayErrorBox("No animal selected!");
+            }
         }
 
         /// <summary>
@@ -514,6 +530,18 @@ namespace CSharp2_A1
             {
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Launches the about-window upon click of the about-button in MainWindow.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AboutButton_Click(object sender, RoutedEventArgs e)
+        {
+            AboutWindow aboutWindow = new AboutWindow();
+
+            aboutWindow.ShowDialog();
         }
     }
 }
