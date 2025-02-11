@@ -41,7 +41,7 @@ namespace Csharp2_A1.Control
         /// <summary>
         /// Get-property for the ObservableCollection.
         /// </summary>
-        public ObservableCollection<Animal> Animals => animals;
+        internal ObservableCollection<Animal> Animals => animals;
 
         /// <summary>
         /// If the registry is not full - adds the animal received.

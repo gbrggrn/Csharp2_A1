@@ -27,8 +27,8 @@ namespace CSharp2_A1
     public partial class MainWindow : Window
     {
         private readonly Dictionary<string, List<String>> categoriesAndSpecies;
-        private AnimalRegistry animalRegistry;
-        private IdGenerator idGenerator;
+        private readonly AnimalRegistry animalRegistry;
+        private readonly IdGenerator idGenerator;
 
         private const int registrySize = 100;
 
@@ -49,7 +49,7 @@ namespace CSharp2_A1
         /// <summary>
         /// Helper method to reduce calls in the constructor. Sets subscriptions for crucial events.
         /// </summary>
-        internal void SetSubscriptions()
+        private void SetSubscriptions()
         {
             categoryListBox.SelectionChanged += LoadSpecies;
             speciesListBox.SelectionChanged += UpdateInputControls;
@@ -61,7 +61,7 @@ namespace CSharp2_A1
         /// <summary>
         /// Sets the ItemsSource for genderComboBox to the Enum "Gender".
         /// </summary>
-        internal void LoadGenderComboBox()
+        private void LoadGenderComboBox()
         {
             genderComboBox.ItemsSource = Enum.GetValues(typeof(Enums.Gender)).Cast<Enums.Gender>();
             genderComboBox.SelectedIndex = 2;
@@ -70,7 +70,7 @@ namespace CSharp2_A1
         /// <summary>
         /// Sets the itemsource of the categoryListBox to Keys of the categoriesAndSpecies Dictionary.
         /// </summary>
-        internal void LoadCategories()
+        private void LoadCategories()
         {
             categoryListBox.ItemsSource = categoriesAndSpecies.Keys;
         }
@@ -80,7 +80,7 @@ namespace CSharp2_A1
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        internal void LoadSpecies(Object sender, EventArgs e)
+        private void LoadSpecies(Object sender, EventArgs e)
         {
             if (categoryListBox.SelectedIndex != -1)
             {
@@ -98,7 +98,7 @@ namespace CSharp2_A1
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        internal void LoadAllSpecies(Object sender, EventArgs e)
+        private void LoadAllSpecies(Object sender, EventArgs e)
         {
             categoryListBox.IsEnabled = false;
             speciesListBox.ItemsSource = null;
@@ -120,7 +120,7 @@ namespace CSharp2_A1
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        internal void EnableCategories(Object sender, EventArgs e)
+        private void EnableCategories(Object sender, EventArgs e)
         {
             speciesListBox.Items.Clear();
             categoryListBox.IsEnabled = true;
@@ -134,7 +134,7 @@ namespace CSharp2_A1
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        internal void UpdateInputControls(Object sender, EventArgs e)
+        private void UpdateInputControls(Object sender, EventArgs e)
         {
             if (speciesListBox.SelectedIndex != -1)
             {
@@ -164,7 +164,7 @@ namespace CSharp2_A1
         /// </summary>
         /// <param name="species">The chosen species</param>
         /// <returns>The corresponding category</returns>
-        internal string GetCorrespondingCategory(string species)
+        private string GetCorrespondingCategory(string species)
         {
             foreach (var category in categoriesAndSpecies)
             {
@@ -181,7 +181,7 @@ namespace CSharp2_A1
         /// Adds the categories as keys and the corresponding species as a list as values to a dictionary.
         /// </summary>
         /// <returns>The complete dictionary of categories and corresponding species</returns>
-        internal Dictionary<string, List<string>> GetCategoriesAndSpecies()
+        private Dictionary<string, List<string>> GetCategoriesAndSpecies()
         {
             Dictionary<string, List<string>> categoriesAndSpecies = new();
             Type[] allTypes = Assembly.GetExecutingAssembly().GetTypes();
@@ -392,7 +392,7 @@ namespace CSharp2_A1
         /// <summary>
         /// Resets all input fiels.
         /// </summary>
-        internal void ResetInputFields()
+        private void ResetInputFields()
         {
             nameTextBox.Text = string.Empty;
             ageTextBox.Text = string.Empty;
@@ -489,7 +489,7 @@ namespace CSharp2_A1
         /// </summary>
         /// <param name="message">The message to be displayed</param>
         /// <param name="title">The title of the messagebox</param>
-        internal void DisplayInfoBox(string message, string title)
+        private void DisplayInfoBox(string message, string title)
         {
             MessageBox.Show($"{message}",
                 $"{title}",
@@ -501,7 +501,7 @@ namespace CSharp2_A1
         /// Displays a messagebox with an error-message.
         /// </summary>
         /// <param name="message">The message to be displayed</param>
-        internal void DisplayErrorBox(string message)
+        private void DisplayErrorBox(string message)
         {
             MessageBox.Show(message,
                 "Error",
@@ -515,7 +515,7 @@ namespace CSharp2_A1
         /// <param name="question">The question posed to the user</param>
         /// <param name="title">The title of the messagebox</param>
         /// <returns>True if yes, false if no</returns>
-        internal bool DisplayQuestion(string question, string title)
+        private bool DisplayQuestion(string question, string title)
         {
             MessageBoxResult answer = MessageBox.Show(question,
                 title,

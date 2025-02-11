@@ -11,7 +11,7 @@ using System.Windows.Controls;
 
 namespace Csharp2_A1.Models
 {
-    abstract class Animal : IAnimal
+    abstract internal class Animal : IAnimal
     {
         private Animal thisAnimal;
         private string id;

@@ -31,7 +31,7 @@ namespace Csharp2_A1.Control
         /// <param name="species">Species of the animal</param>
         /// <returns>An instance of InterfaceService</returns>
         /// <exception cref="ArgumentException">Throws if category/species match not found</exception>
-        public static InterfaceService CreateAnimal(string category, string species)
+        internal static InterfaceService CreateAnimal(string category, string species)
         {
             //Init new tuple array with three elements
             //Elements: (string, string, function reference)
