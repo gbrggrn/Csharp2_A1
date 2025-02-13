@@ -138,15 +138,24 @@ namespace CSharp2_A1
         {
             if (speciesListBox.SelectedIndex != -1)
             {
-                InterfaceService currentInterfaces = TryCreateAnimal();
+                InterfaceService animalInterface = TryCreateAnimal();
 
-                if (currentInterfaces != null)
+                if (animalInterface != null)
                 {
-                    categoryQuestionLabel.Content = currentInterfaces.Animal.CategoryQuestion;
-                    speciesQuestionLabel.Content = currentInterfaces.Animal.SpeciesQuestion;
+                    categoryQuestionLabel.Content = animalInterface.Animal.CategoryQuestion;
+                    speciesQuestionLabel.Content = animalInterface.Animal.SpeciesQuestion;
 
                     firstQTextBox.Visibility = Visibility.Visible;
                     secondQTextBox.Visibility = Visibility.Visible;
+                }
+
+                //If categories are disabled to highlight the category based on species selection
+                if (listAllCheckBox.IsChecked == true)
+                {
+                    string category = GetCorrespondingCategory(animalInterface.Animal.GetType().Name); //Get corresponding category
+                    categoryListBox.SelectionChanged -= LoadSpecies; //Remove subscription to prevent exception
+                    categoryListBox.SelectedItem = category; //Highlight the category
+                    categoryListBox.SelectionChanged += LoadSpecies; //Re-assign subscription
                 }
             }
             else

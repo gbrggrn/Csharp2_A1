@@ -10,7 +10,7 @@ namespace Csharp2_A1.Control.Interfaces
     /// <summary>
     /// A wrapper class for the interface IAnimal to provide a single accesspoint to
     /// interfaces if they were to be extended.
-    /// I tested out a solution based on composition, and decided to leave the wrapper.
+    /// I tested out a solution for fun utilizing multiple interfaces, and decided to leave the wrapper.
     /// </summary>
     internal class InterfaceService
     {
