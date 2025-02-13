@@ -10,14 +10,8 @@ namespace Csharp2_A1.Models.AnimalCategories
 {
     abstract class Fish : Animal
     {
-        private string categoryTrait;
         private const double minLength = 1;
         private const double maxLength = 500;
-
-        public Fish()
-        {
-            categoryTrait = string.Empty;
-        }
 
         public override bool ValidateCategoryTrait(string categoryTraitIn, out string errorMessage)
         {
@@ -37,7 +31,7 @@ namespace Csharp2_A1.Models.AnimalCategories
             return true;
         }
 
-        public override string CategoryTrait { get; set; }
+        public override string CategoryTrait { get; set; } = string.Empty;
         public override string CategoryQuestion { get { return "Length (cm)"; } }
     }
 }

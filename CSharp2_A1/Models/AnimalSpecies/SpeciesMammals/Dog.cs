@@ -11,13 +11,7 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesMammals
 {
     class Dog : Mammals
     {
-        private string speciesTrait;
         private const int maxLength = 20;
-
-        public Dog()
-        {
-            speciesTrait = string.Empty;
-        }
 
         public override bool ValidateSpeciesTrait(string speciesTraitIn, out string errorMessage)
         {
@@ -37,7 +31,7 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesMammals
             return false;
         }
 
-        public override string SpeciesTrait { get; set; }
+        public override string SpeciesTrait { get; set; } = string.Empty;
         public override string SpeciesQuestion { get { return "Favorite command"; } }
     }
 }

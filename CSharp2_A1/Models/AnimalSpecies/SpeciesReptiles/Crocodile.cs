@@ -12,14 +12,8 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesReptiles
 {
     class Crocodile : Reptiles
     {
-        private string speciesTrait;
         private const int maxJaw = 150;
         private const int minJaw = 5;
-
-        public Crocodile()
-        {
-            speciesTrait = string.Empty;
-        }
 
         public override bool ValidateSpeciesTrait(string speciesTraitIn, out string errorMessage)
         {
@@ -45,7 +39,7 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesReptiles
             return true;
         }
 
-        public override string SpeciesTrait { get; set; }
+        public override string SpeciesTrait { get; set; } = string.Empty;
         public override string SpeciesQuestion { get { return "Size of bit (cm)"; } }
     }
 }

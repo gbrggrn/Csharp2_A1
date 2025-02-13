@@ -10,14 +10,8 @@ namespace Csharp2_A1.Models.AnimalCategories
 {
     abstract class Insects : Animal
     {
-        private string categoryTrait;
         private const int minLegs = 0;
         private const int maxLegs = 100;
-
-        public Insects()
-        {
-            categoryTrait = string.Empty;
-        }
 
         public override bool ValidateCategoryTrait(string categoryTraitIn, out string errorMessage)
         {
@@ -39,7 +33,7 @@ namespace Csharp2_A1.Models.AnimalCategories
             return true;
         }
 
-        public override string CategoryTrait { get; set; }
+        public override string CategoryTrait { get; set; } = string.Empty;
         public override string CategoryQuestion { get { return "Number of legs"; } }
     }
 }

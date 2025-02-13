@@ -13,13 +13,6 @@ namespace Csharp2_A1.Models.AnimalCategories
 {
     abstract class Amphibians : Animal
     {
-        private string categoryTrait;
-
-        internal Amphibians()
-        {
-            categoryTrait = string.Empty;
-        }
-
         public override bool ValidateCategoryTrait(string categoryTraitIn, out string errorMessage)
         {
             if (string.IsNullOrWhiteSpace(categoryTraitIn))
@@ -38,7 +31,7 @@ namespace Csharp2_A1.Models.AnimalCategories
             return true;
         }
 
-        public override string CategoryTrait { get; set; }
+        public override string CategoryTrait { get; set; } = string.Empty;
         public override string CategoryQuestion { get { return "Primary habitat"; } }
     }
 }

@@ -10,14 +10,8 @@ namespace Csharp2_A1.Models.AnimalCategories
 {
     abstract class Birds : Animal
     {
-        private string categoryTrait;
         private const int maxWingSpan = 600;
         private const int minWingSpan = 0;
-
-        public Birds()
-        {
-            categoryTrait = string.Empty;
-        }
 
         public override bool ValidateCategoryTrait(string categoryTraitIn, out string errorMessage)
         {
@@ -37,7 +31,7 @@ namespace Csharp2_A1.Models.AnimalCategories
             return true;
         }
 
-        public override string CategoryTrait { get; set; }
+        public override string CategoryTrait { get; set; } = string.Empty;
         public override string CategoryQuestion { get { return "Wingspan (cm)"; } }
     }
 }

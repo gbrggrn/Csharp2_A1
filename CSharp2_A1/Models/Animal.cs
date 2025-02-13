@@ -13,26 +13,9 @@ namespace Csharp2_A1.Models
 {
     abstract internal class Animal : IAnimal
     {
-        private Animal thisAnimal;
-        private string id;
-        private string age;
-        private string name;
-        private Enums.Enums.Gender gender;
-        private bool isDomesticated;
-
         private const int minAge = 1;
         private const int maxAge = 100;
         private const int maxChar = 20;
-
-        public Animal()
-        {
-            thisAnimal = this;
-            id = string.Empty;
-            age = string.Empty;
-            name = string.Empty;
-            gender = Enums.Enums.Gender.Unknown;
-            isDomesticated = false;
-        }
 
         public bool ValidateAnimalTraits(string ageIn, string nameIn, out string errorMessages)
         {
@@ -66,19 +49,18 @@ namespace Csharp2_A1.Models
             return string.IsNullOrEmpty(errors);
         }
 
-        public Animal ThisAnimal { get => thisAnimal; }
-        public string Id { get; set; }
-        public Enums.Enums.Gender Gender { get; set; }
-        public bool IsDomesticated { get; set; }
-        public string Age { get; set; }
-        public string Name { get; set; }
+        public Animal ThisAnimal { get => this; }
+        public string Id { get; set; } = string.Empty;
+        public Enums.Enums.Gender Gender { get; set; } = Enums.Enums.Gender.Unknown;
+        public bool IsDomesticated { get; set; } = false;
+        public string Age { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
 
-        public virtual string CategoryTrait { get; set; }
-        public virtual string CategoryQuestion { get; }
-        public virtual string SpeciesTrait {  get; set; }
-        public virtual string SpeciesQuestion { get; }
+        public abstract string CategoryTrait { get; set; }
+        public abstract string CategoryQuestion { get; }
+        public abstract string SpeciesTrait {  get; set; }
+        public abstract string SpeciesQuestion { get; }
         public abstract bool ValidateCategoryTrait(string categoryTraitIn, out string errorMessage);
         public abstract bool ValidateSpeciesTrait(string speciesTraitIn, out string errorMessage);
-
     }
 }

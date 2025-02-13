@@ -13,13 +13,6 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesAmphibians
 {
     class Frog : Amphibians
     {
-        private string speciesTrait;
-
-        public Frog()
-        {
-            speciesTrait = String.Empty;
-        }
-
         public override bool ValidateSpeciesTrait(string speciesTraitIn, out string errorMessage)
         {
             if (string.IsNullOrWhiteSpace(speciesTraitIn))
@@ -41,7 +34,7 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesAmphibians
             return false;
         }
 
-        public override string SpeciesTrait { get; set; }
+        public override string SpeciesTrait { get; set; } = string.Empty;
         public override string SpeciesQuestion { get { return "Color"; } }
     }
 }

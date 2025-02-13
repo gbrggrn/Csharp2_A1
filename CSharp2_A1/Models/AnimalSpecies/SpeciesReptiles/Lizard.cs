@@ -11,14 +11,8 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesReptiles
 {
     class Lizard : Reptiles
     {
-        private string speciesTrait;
         private const int maxLength = 200;
         private const int minLength = 5;
-
-        public Lizard()
-        {
-            speciesTrait = string.Empty;
-        }
 
         public override bool ValidateSpeciesTrait(string speciesTraitIn, out string errorMessage)
         {
@@ -44,7 +38,7 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesReptiles
             return true;
         }
 
-        public override string SpeciesTrait { get; set; }
+        public override string SpeciesTrait { get; set; } = string.Empty;
         public override string SpeciesQuestion { get { return "Length of tail (cm)"; } }
     }
 }

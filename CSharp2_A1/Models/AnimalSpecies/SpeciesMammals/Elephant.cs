@@ -11,14 +11,8 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesMammals
 {
     class Elephant : Mammals
     {
-        private string speciesTrait;
         private const int maxWeight = 10000;
         private const int minWeight = 1;
-
-        public Elephant()
-        {
-            speciesTrait = string.Empty;
-        }
 
         public override bool ValidateSpeciesTrait(string speciesTraitIn, out string errorMessage)
         {
@@ -44,7 +38,7 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesMammals
             return true;
         }
 
-        public override string SpeciesTrait { get; set; }
+        public override string SpeciesTrait { get; set; } = string.Empty;
         public override string SpeciesQuestion { get { return "Weight (kg)"; } }
     }
 }
