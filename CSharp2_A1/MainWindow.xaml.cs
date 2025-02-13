@@ -246,7 +246,6 @@ namespace CSharp2_A1
         /// Upon a click of the add-button, this method calls validation on the inputs, and
         /// either saves them to the correct properties and adds the animal to the animal registry,
         /// or displays a summary of the validation-errors.
-        /// Note to self: This method is clunky and too big, should be refactored/split.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -258,22 +257,7 @@ namespace CSharp2_A1
 
                 if (animalInterface != null)
                 {
-                    List<string> errors = new List<string>();
-
-                    if (!animalInterface.Animal.ValidateAnimalTraits(ageTextBox.Text, nameTextBox.Text, out string errorMessages))
-                    {
-                        errors.Add(errorMessages);
-                    }
-
-                    if (!animalInterface.Animal.ValidateCategoryTrait(firstQTextBox.Text, out string errorMessageC))
-                    {
-                        errors.Add(errorMessageC);
-                    }
-
-                    if (!animalInterface.Animal.ValidateSpeciesTrait(secondQTextBox.Text, out string errorMessageS))
-                    {
-                        errors.Add(errorMessageS);
-                    }
+                    List<string> errors = ValidateInput(animalInterface);
 
                     if (errors.Count > 0)
                     {
@@ -327,6 +311,34 @@ namespace CSharp2_A1
             {
                 DisplayErrorBox("No animaltype selected!");
             }
+        }
+
+        /// <summary>
+        /// Calls validation methods on the input from the GUI.
+        /// Returns a list of errors.
+        /// </summary>
+        /// <param name="currentInterface"></param>
+        /// <returns></returns>
+        private List<string> ValidateInput(InterfaceService currentInterface)
+        {
+            List<string> errors = new List<string>();
+
+            if (!currentInterface.Animal.ValidateAnimalTraits(ageTextBox.Text, nameTextBox.Text, out string errorMessages))
+            {
+                errors.Add(errorMessages);
+            }
+
+            if (!currentInterface.Animal.ValidateCategoryTrait(firstQTextBox.Text, out string errorMessageC))
+            {
+                errors.Add(errorMessageC);
+            }
+
+            if (!currentInterface.Animal.ValidateSpeciesTrait(secondQTextBox.Text, out string errorMessageS))
+            {
+                errors.Add(errorMessageS);
+            }
+
+            return errors;
         }
 
         /// <summary>
@@ -485,6 +497,18 @@ namespace CSharp2_A1
         }
 
         /// <summary>
+        /// Launches the about-window upon click of the about-button in MainWindow.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AboutButton_Click(object sender, RoutedEventArgs e)
+        {
+            AboutWindow aboutWindow = new AboutWindow();
+
+            aboutWindow.ShowDialog();
+        }
+
+        /// <summary>
         /// Displays a messageBox containing information.
         /// </summary>
         /// <param name="message">The message to be displayed</param>
@@ -530,18 +554,6 @@ namespace CSharp2_A1
             {
                 return false;
             }
-        }
-
-        /// <summary>
-        /// Launches the about-window upon click of the about-button in MainWindow.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void AboutButton_Click(object sender, RoutedEventArgs e)
-        {
-            AboutWindow aboutWindow = new AboutWindow();
-
-            aboutWindow.ShowDialog();
         }
     }
 }

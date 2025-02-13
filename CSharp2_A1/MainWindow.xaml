@@ -196,7 +196,7 @@
                 <!-- Add image programatically -->
                 <Image x:Name="imgControl" Stretch="Uniform"/>
             </Border>
-            <ListBox x:Name="displayAnimalListBox" FontSize="16" Grid.Row="2" Margin="10,5"/>
+            <ListBox x:Name="displayAnimalListBox" FontSize="16" Grid.Row="2" Margin="10,5,10,10"/>
         </Grid>
     </Grid>
 </Window>
