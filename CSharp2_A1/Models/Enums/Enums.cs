@@ -20,7 +20,8 @@ namespace Csharp2_A1.Models.Enums
         {
             Carnivore,
             Herbivore,
-            Omivore
+            Omivore,
+            Unknown
         }
     }
 }
