@@ -15,5 +15,12 @@ namespace Csharp2_A1.Models.Enums
             Female,
             Unknown
         }
+
+        public enum EaterType
+        {
+            Carnivore,
+            Herbivore,
+            Omivore
+        }
     }
 }
