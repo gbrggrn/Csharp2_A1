@@ -13,6 +13,11 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesMammals
     {
         private const int maxLength = 20;
 
+        public Cat()
+        {
+            FoodSchedule = new FoodSchedule();
+        }
+
         public override bool ValidateSpeciesTrait(string speciesTraitIn, out string errorMessage)
         {
             if (string.IsNullOrWhiteSpace(speciesTraitIn))
@@ -31,6 +36,7 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesMammals
             return true;
         }
 
+        public FoodSchedule FoodSchedule { get; }
         public override string SpeciesTrait { get; set; } = string.Empty;
         public override string SpeciesQuestion { get { return "Type of fur"; } }
     }

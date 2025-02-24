@@ -211,12 +211,24 @@
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    
-                    <!-- Edit Button-->
-                    <Border Grid.Column="1" CornerRadius="10" Width="75" Background="#A0522D" Height="30" VerticalAlignment="Center">
-                        <Button x:Name="editButton" Content="Edit"/>
-                    </Border>
-                    
+
+                    <Grid Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Edit General Info Button-->
+                        <Border CornerRadius="10" Width="150" Background="#A0522D" Height="30" VerticalAlignment="Center">
+                            <Button x:Name="editButton" Content="Edit General Info"/>
+                        </Border>
+
+                        <!-- Edit Food Schedule Button-->
+                        <Border Grid.Row="1" CornerRadius="10" Width="150" Background="#A0522D" Height="30" VerticalAlignment="Center">
+                            <Button x:Name="addScheduleButton" Content="Edit Food Schedule"/>
+                        </Border>
+                    </Grid>
+
                     <!-- Food Schedule View -->
                     <ListBox x:Name="displayFoodScheduleListBox" FontSize="16" Grid.Row="0" Margin="10,5,10,10"/>
                 </Grid>

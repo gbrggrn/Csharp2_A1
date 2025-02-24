@@ -13,6 +13,11 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesBirds
     {
         private const double maxAvgAirspeed = 600;
 
+        public Falcon()
+        {
+            FoodSchedule = new FoodSchedule();
+        }
+
         public override bool ValidateSpeciesTrait(string speciesTraitIn, out string errorMessage)
         {
             if (!double.TryParse(speciesTraitIn, out double result))
@@ -31,6 +36,7 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesBirds
             return true;
         }
 
+        public FoodSchedule FoodSchedule { get; }
         public override string SpeciesTrait { get; set; } = string.Empty;
         public override string SpeciesQuestion { get { return "Avg airspeed (km/h)"; } }
     }

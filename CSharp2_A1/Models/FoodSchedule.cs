@@ -16,9 +16,7 @@ namespace Csharp2_A1.Models
             eaterType = Enums.Enums.EaterType.Unknown;
             foodList = new();
         }
-
         
-
         public Enums.Enums.EaterType EaterType
         {
             get => eaterType;
