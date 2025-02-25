@@ -37,7 +37,7 @@
         
         <!-- Exit Button -->
         <Border Grid.Row="0" Margin="0,0,25,0" HorizontalAlignment="Right" CornerRadius="10" Width="75" Background="#A0522D" Height="30">
-            <Button x:Name="exitButton" Content="Exit" Height="30" VerticalAlignment="Top" Click="AboutButton_Click"/>
+            <Button x:Name="exitButton" Content="Exit" Height="30" VerticalAlignment="Top" Click="exitButton_Click"/>
         </Border>
 
         <!-- Listbox Label -->
@@ -54,13 +54,13 @@
                 </Style>
             </StackPanel.Resources>
             <Border CornerRadius="10" Width="75" Background="#A0522D" Height="30">
-                <Button x:Name="addButton" Content="+ Add" Height="30" VerticalAlignment="Top" Click="AboutButton_Click"/>
+                <Button x:Name="addButton" Content="+ Add" Height="30" VerticalAlignment="Top"/>
             </Border>
             <Border CornerRadius="10" Width="75" Background="#A0522D" Height="30">
-                <Button x:Name="editButton" Content="Edit" Height="30" VerticalAlignment="Top" Click="AboutButton_Click"/>
+                <Button x:Name="editButton" Content="Edit" Height="30" VerticalAlignment="Top"/>
             </Border>
             <Border CornerRadius="10" Width="75" Background="#A0522D" Height="30">
-                <Button x:Name="deleteButton" Content="Delete" Height="30" VerticalAlignment="Top" Click="AboutButton_Click"/>
+                <Button x:Name="deleteButton" Content="Delete" Height="30" VerticalAlignment="Top"/>
             </Border>
         </StackPanel>
       

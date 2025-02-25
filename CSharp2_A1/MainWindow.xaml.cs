@@ -513,6 +513,18 @@ namespace CSharp2_A1
             }
         }
 
+        private void AddScheduleButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (displayAllListBox.SelectedIndex != -1)
+            {
+                FoodScheduleWindow foodScheduleWindow = new FoodScheduleWindow();
+
+                foodScheduleWindow.ShowDialog();
+            }
+
+            DisplayErrorBox("No animal selected!");
+        }
+
         /// <summary>
         /// Launches the about-window upon click of the about-button in MainWindow.
         /// </summary>

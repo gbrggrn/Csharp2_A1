@@ -225,7 +225,7 @@
 
                         <!-- Edit Food Schedule Button-->
                         <Border Grid.Row="1" CornerRadius="10" Width="150" Background="#A0522D" Height="30" VerticalAlignment="Center">
-                            <Button x:Name="addScheduleButton" Content="Edit Food Schedule"/>
+                            <Button x:Name="addScheduleButton" Content="Edit Food Schedule" Click="AddScheduleButton_Click"/>
                         </Border>
                     </Grid>
 
