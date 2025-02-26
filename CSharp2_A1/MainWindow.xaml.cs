@@ -403,17 +403,17 @@ namespace CSharp2_A1
             {
                 int indexToDisplay = displayAllListBox.SelectedIndex;
                 Animal animal = animalRegistry.Animals[indexToDisplay];
-                InterfaceService currentInterfaces = new(animal);
+                InterfaceService currentInterface = new(animal);
 
                 displayAnimalListBox.Items.Clear();
                 displayAnimalListBox.Items.Add(
-                    $"ID:{currentInterfaces.Animal.Id,-15}\n" +
-                    $"Age: {currentInterfaces.Animal.Age,-15}\n" +
-                    $"Name: {currentInterfaces.Animal.Name,-15}\n" +
-                    $"Gender: {currentInterfaces.Animal.Gender,-15}\n" +
-                    $"Domesticated: {currentInterfaces.Animal.IsDomesticated,-10}\n" +
-                    $"{currentInterfaces.Animal.CategoryQuestion}: {currentInterfaces.Animal.CategoryTrait}\n" +
-                    $"{currentInterfaces.Animal.SpeciesQuestion}: {currentInterfaces.Animal.SpeciesTrait}\n"
+                    $"ID:{currentInterface.Animal.Id,-15}\n" +
+                    $"Age: {currentInterface.Animal.Age,-15}\n" +
+                    $"Name: {currentInterface.Animal.Name,-15}\n" +
+                    $"Gender: {currentInterface.Animal.Gender,-15}\n" +
+                    $"Domesticated: {currentInterface.Animal.IsDomesticated,-10}\n" +
+                    $"{currentInterface.Animal.CategoryQuestion}: {currentInterface.Animal.CategoryTrait}\n" +
+                    $"{currentInterface.Animal.SpeciesQuestion}: {currentInterface.Animal.SpeciesTrait}\n"
                     );
             }
         }
@@ -517,7 +517,7 @@ namespace CSharp2_A1
         {
             if (displayAllListBox.SelectedIndex != -1)
             {
-                FoodScheduleWindow foodScheduleWindow = new FoodScheduleWindow();
+                FoodScheduleWindow foodScheduleWindow = new FoodScheduleWindow(animalRegistry.Animals[displayAllListBox.SelectedIndex]);
 
                 foodScheduleWindow.ShowDialog();
             }

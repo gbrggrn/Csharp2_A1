@@ -44,7 +44,7 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesReptiles
             return true;
         }
 
-        public FoodSchedule FoodSchedule { get; }
+        public override FoodSchedule FoodSchedule { get; }
         public override string SpeciesTrait { get; set; } = string.Empty;
         public override string SpeciesQuestion { get { return "Size of bit (cm)"; } }
     }

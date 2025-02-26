@@ -60,6 +60,7 @@ namespace Csharp2_A1.Models
         public abstract string CategoryQuestion { get; }
         public abstract string SpeciesTrait {  get; set; }
         public abstract string SpeciesQuestion { get; }
+        public abstract FoodSchedule FoodSchedule { get; }
         public abstract bool ValidateCategoryTrait(string categoryTraitIn, out string errorMessage);
         public abstract bool ValidateSpeciesTrait(string speciesTraitIn, out string errorMessage);
     }

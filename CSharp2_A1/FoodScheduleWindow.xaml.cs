@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Csharp2_A1.Control.Interfaces;
+using Csharp2_A1.Models;
 
 namespace Csharp2_A1
 {
@@ -19,14 +21,51 @@ namespace Csharp2_A1
     /// </summary>
     public partial class FoodScheduleWindow : Window
     {
-        public FoodScheduleWindow()
+        private Animal currentAnimal;
+
+        internal FoodScheduleWindow(Animal currentAnimalIn)
         {
             InitializeComponent();
+            currentAnimal = currentAnimalIn;
+            LoadItems();
         }
 
         private void exitButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void LoadItems()
+        {
+            List<string> foodScheduleItems = currentAnimal.FoodSchedule.FoodList;
+
+            if (foodScheduleItems != null && foodScheduleItems.Count > 0)
+            {
+                foreach (string item in foodScheduleItems)
+                {
+                    scheduleItemsListBox.Items.Add(item);
+                }
+            }
+        }
+
+        private void AddItem()
+        {
+
+        }
+
+        private void UpdateItems()
+        {
+
+        }
+
+        private void EditItem()
+        {
+
+        }
+
+        private void DeleteItem()
+        {
+
         }
     }
 }
