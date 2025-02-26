@@ -22,6 +22,11 @@
             <Setter Property="BorderBrush" Value="Black"/>
             <Setter Property="Background" Value="Transparent"/>
         </Style>
+        <Style TargetType="RichTextBox">
+            <Setter Property="FontFamily" Value="Courier new"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
     </Window.Resources>
 
     <Grid Background="#D2B48C">
@@ -29,6 +34,7 @@
             <RowDefinition Height="50"/>
             <RowDefinition Height="25"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="150"/>
             <RowDefinition Height="75"/>
         </Grid.RowDefinitions>
         
@@ -46,8 +52,11 @@
         <!-- Listbox -->
         <ListBox Grid.Row="2" x:Name="scheduleItemsListBox" Margin="10"/>
         
+        <!-- RichTextBox -->
+        <RichTextBox Grid.Row="3" x:Name="itemEntryRichTextBox" Margin="10"/>
+
         <!-- Control Buttons-->
-        <StackPanel Grid.Row="3" Orientation="Horizontal">
+        <StackPanel Grid.Row="4" Orientation="Horizontal">
             <StackPanel.Resources>
                 <Style TargetType="Border">
                     <Setter Property="Margin" Value="25,0,10,0"/>
