@@ -28,6 +28,7 @@ namespace Csharp2_A1
             InitializeComponent();
             currentAnimal = currentAnimalIn;
             LoadItems();
+            UpdateItems();
         }
 
         private void exitButton_Click(object sender, RoutedEventArgs e)
@@ -55,6 +56,7 @@ namespace Csharp2_A1
             if (itemContent != null && itemContent.Length > 0)
             {
                 currentAnimal.FoodSchedule.FoodList.Add(GetRichTextBoxString(itemEntryRichTextBox));
+                UpdateItems();
             }
         }
 
@@ -67,7 +69,16 @@ namespace Csharp2_A1
 
         private void UpdateItems()
         {
+            if (currentAnimal.FoodSchedule.FoodList.Count > 0)
+            {
+                scheduleItemsListBox.Items.Clear();
 
+                foreach (string item in currentAnimal.FoodSchedule.FoodList)
+                {
+                    string listedView = item.Length > 20 ? item.Substring(0, 20) : item;
+                    scheduleItemsListBox.Items.Add(listedView);
+                }
+            }
         }
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
