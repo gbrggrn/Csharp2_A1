@@ -48,9 +48,21 @@ namespace Csharp2_A1
             }
         }
 
-        private void AddItem()
+        private void AddButton_Click(Object sender, EventArgs e)
         {
+            string itemContent = GetRichTextBoxString(itemEntryRichTextBox);
 
+            if (itemContent != null && itemContent.Length > 0)
+            {
+                currentAnimal.FoodSchedule.FoodList.Add(GetRichTextBoxString(itemEntryRichTextBox));
+            }
+        }
+
+        private string GetRichTextBoxString(RichTextBox textBox)
+        {
+            TextRange textRange = new(textBox.Document.ContentStart, textBox.Document.ContentEnd);
+
+            return textRange.Text;
         }
 
         private void UpdateItems()
@@ -58,12 +70,12 @@ namespace Csharp2_A1
 
         }
 
-        private void EditItem()
+        private void EditButton_Click(object sender, RoutedEventArgs e)
         {
 
         }
 
-        private void DeleteItem()
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
 
         }

@@ -63,13 +63,13 @@
                 </Style>
             </StackPanel.Resources>
             <Border CornerRadius="10" Width="75" Background="#A0522D" Height="30">
-                <Button x:Name="addButton" Content="+ Add" Height="30" VerticalAlignment="Top"/>
+                <Button x:Name="addButton" Content="+ Add" Height="30" VerticalAlignment="Top" Click="AddButton_Click"/>
             </Border>
             <Border CornerRadius="10" Width="75" Background="#A0522D" Height="30">
-                <Button x:Name="editButton" Content="Edit" Height="30" VerticalAlignment="Top"/>
+                <Button x:Name="editButton" Content="Edit" Height="30" VerticalAlignment="Top" Click="EditButton_Click"/>
             </Border>
             <Border CornerRadius="10" Width="75" Background="#A0522D" Height="30">
-                <Button x:Name="deleteButton" Content="Delete" Height="30" VerticalAlignment="Top"/>
+                <Button x:Name="deleteButton" Content="Delete" Height="30" VerticalAlignment="Top" Click="DeleteButton_Click"/>
             </Border>
         </StackPanel>
       
