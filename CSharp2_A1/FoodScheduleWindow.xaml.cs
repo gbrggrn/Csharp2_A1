@@ -22,6 +22,7 @@ namespace Csharp2_A1
     public partial class FoodScheduleWindow : Window
     {
         private Animal currentAnimal;
+        private bool editing;
 
         internal FoodScheduleWindow(Animal currentAnimalIn)
         {
@@ -29,6 +30,7 @@ namespace Csharp2_A1
             currentAnimal = currentAnimalIn;
             LoadItems();
             UpdateItems();
+            editing = false;
         }
 
         private void exitButton_Click(object sender, RoutedEventArgs e)
@@ -81,9 +83,41 @@ namespace Csharp2_A1
             }
         }
 
+        private void ToggleControlsUponEdit(bool onOrOff)
+        {
+            if (onOrOff)
+            {
+                addButton.IsEnabled = true;
+                deleteButton.IsEnabled = true;
+                scheduleItemsListBox.IsEnabled = true;
+                editButton.Content = "Save";
+            }
+            if (!onOrOff)
+            {
+                addButton.IsEnabled = false;
+                deleteButton.IsEnabled = false;
+                scheduleItemsListBox.IsEnabled = false;
+                editButton.Content = "Edit";
+            }
+        }
+
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
-
+            if (scheduleItemsListBox.SelectedIndex != -1 && !editing)
+            {
+                editing = true;
+                ToggleControlsUponEdit(false);
+                itemEntryRichTextBox.Document.Blocks.Clear();
+                string toEdit = currentAnimal.FoodSchedule.FoodList[scheduleItemsListBox.SelectedIndex];
+                itemEntryRichTextBox.Document.Blocks.Add(new Paragraph(new Run(toEdit)));
+            }
+            if (scheduleItemsListBox.SelectedIndex != -1 && editing)
+            {
+                currentAnimal.FoodSchedule.FoodList.Add(GetRichTextBoxString(itemEntryRichTextBox));
+                UpdateItems();
+                editing = false;
+                ToggleControlsUponEdit(true);
+            }
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
