@@ -229,7 +229,7 @@ namespace CSharp2_A1
         /// <param name="e"></param>
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
-            if (DisplayQuestion("Do you want to quit?\nUnsaved changes will be lost", "Quit?"))
+            if (MessageBoxes.DisplayQuestion("Do you want to quit?\nUnsaved changes will be lost", "Quit?"))
             {
                 this.Close();
             }
@@ -251,7 +251,7 @@ namespace CSharp2_A1
             }
             catch (ArgumentException ax)
             {
-                DisplayErrorBox(ax.ToString());
+                MessageBoxes.DisplayErrorBox(ax.ToString());
                 animalInterface = null!;
                 return animalInterface!;
             }
@@ -278,7 +278,7 @@ namespace CSharp2_A1
 
                     if (errors.Count > 0)
                     {
-                        DisplayErrorBox($"Faulty input!\nErrorMessages:\n{string.Join("\n", errors)}");
+                        MessageBoxes.DisplayErrorBox($"Faulty input!\nErrorMessages:\n{string.Join("\n", errors)}");
                         return;
                     }
                     else
@@ -311,7 +311,7 @@ namespace CSharp2_A1
                         }
                         catch (Exception ex)
                         {
-                            DisplayErrorBox($"Something went wrong:\n{ex.Message}");
+                            MessageBoxes.DisplayErrorBox($"Something went wrong:\n{ex.Message}");
                             return;
                         }
 
@@ -320,13 +320,13 @@ namespace CSharp2_A1
                 }
                 else
                 {
-                    DisplayErrorBox("Could not create an animal");
+                    MessageBoxes.DisplayErrorBox("Could not create an animal");
                     return;
                 }
             }
             else
             {
-                DisplayErrorBox("No animaltype selected!");
+                MessageBoxes.DisplayErrorBox("No animaltype selected!");
             }
         }
 
@@ -448,24 +448,24 @@ namespace CSharp2_A1
                 string animalType = animal.GetType().Name;
                 string name = animal.Name;
 
-                if (DisplayQuestion($"Do you wish to remove the {animalType} {name} from the registry?",
+                if (MessageBoxes.DisplayQuestion($"Do you wish to remove the {animalType} {name} from the registry?",
                     $"Remove {animalType}?"))
                 {
                     if (animalRegistry.RemoveAnimal(animalRegistry.Animals[indexToDelete]))
                     {
                         displayAnimalListBox.Items.Clear();
-                        DisplayInfoBox($"The {animalType} {name} was removed from the registry",
+                        MessageBoxes.DisplayInfoBox($"The {animalType} {name} was removed from the registry",
                             $"Successful removal of {animalType}");
                     }
                     else
                     {
-                        DisplayErrorBox("Animal could not be found!");
+                        MessageBoxes.DisplayErrorBox("Animal could not be found!");
                     }
                 }
             }
             else
             {
-                DisplayErrorBox("No animal selected!");
+                MessageBoxes.DisplayErrorBox("No animal selected!");
             }
         }
 
@@ -496,7 +496,7 @@ namespace CSharp2_A1
                     }
                     catch (Exception ex)
                     {
-                        DisplayErrorBox($"Something went wrong:\n{ex.Message}");
+                        MessageBoxes.DisplayErrorBox($"Something went wrong:\n{ex.Message}");
                         return;
                     }
                 }
@@ -505,11 +505,11 @@ namespace CSharp2_A1
             {
                 if (displayAllListBox.Items.Count < 1)
                 {
-                    DisplayErrorBox("No animals added yet!");
+                    MessageBoxes.DisplayErrorBox("No animals added yet!");
                     return;
                 }
 
-                DisplayErrorBox("No animal selected!");
+                MessageBoxes.DisplayErrorBox("No animal selected!");
             }
         }
 
@@ -523,7 +523,7 @@ namespace CSharp2_A1
             }
             else
             {
-                DisplayErrorBox("No animal selected!");
+                MessageBoxes.DisplayErrorBox("No animal selected!");
             }
         }
 
@@ -537,54 +537,6 @@ namespace CSharp2_A1
             AboutWindow aboutWindow = new AboutWindow();
 
             aboutWindow.ShowDialog();
-        }
-
-        /// <summary>
-        /// Displays a messageBox containing information.
-        /// </summary>
-        /// <param name="message">The message to be displayed</param>
-        /// <param name="title">The title of the messagebox</param>
-        private void DisplayInfoBox(string message, string title)
-        {
-            MessageBox.Show($"{message}",
-                $"{title}",
-                MessageBoxButton.OK,
-                MessageBoxImage.Information);
-        }
-
-        /// <summary>
-        /// Displays a messagebox with an error-message.
-        /// </summary>
-        /// <param name="message">The message to be displayed</param>
-        private void DisplayErrorBox(string message)
-        {
-            MessageBox.Show(message,
-                "Error",
-                MessageBoxButton.OK,
-                MessageBoxImage.Error);
-        }
-
-        /// <summary>
-        /// Displays a messagebox with a prompt:question that the user can answer yes or no to.
-        /// </summary>
-        /// <param name="question">The question posed to the user</param>
-        /// <param name="title">The title of the messagebox</param>
-        /// <returns>True if yes, false if no</returns>
-        private bool DisplayQuestion(string question, string title)
-        {
-            MessageBoxResult answer = MessageBox.Show(question,
-                title,
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Question);
-
-            if (answer == MessageBoxResult.Yes)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
         }
     }
 }

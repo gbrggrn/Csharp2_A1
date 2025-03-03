@@ -61,6 +61,10 @@ namespace Csharp2_A1
                 UpdateItems();
                 itemEntryRichTextBox.Document.Blocks.Clear();
             }
+            else
+            {
+                MessageBoxes.DisplayErrorBox("No content to add!");
+            }
         }
 
         private string GetRichTextBoxString(RichTextBox textBox)
@@ -122,11 +126,22 @@ namespace Csharp2_A1
                 editing = false;
                 ToggleControlsUponEdit(true);
             }
+            else if (scheduleItemsListBox.Items == null)
+            {
+                MessageBoxes.DisplayInfoBox("No entries yet!", "No entries");
+            }
+            else
+            {
+                MessageBoxes.DisplayInfoBox("No entry selected!", "No selection");
+            }
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
+            if (scheduleItemsListBox.SelectedIndex != -1)
+            {
 
+            }
         }
     }
 }
