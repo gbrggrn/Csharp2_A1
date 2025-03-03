@@ -521,8 +521,10 @@ namespace CSharp2_A1
 
                 foodScheduleWindow.ShowDialog();
             }
-
-            DisplayErrorBox("No animal selected!");
+            else
+            {
+                DisplayErrorBox("No animal selected!");
+            }
         }
 
         /// <summary>

@@ -59,6 +59,7 @@ namespace Csharp2_A1
             {
                 currentAnimal.FoodSchedule.FoodList.Add(GetRichTextBoxString(itemEntryRichTextBox));
                 UpdateItems();
+                itemEntryRichTextBox.Document.Blocks.Clear();
             }
         }
 
@@ -90,14 +91,14 @@ namespace Csharp2_A1
                 addButton.IsEnabled = true;
                 deleteButton.IsEnabled = true;
                 scheduleItemsListBox.IsEnabled = true;
-                editButton.Content = "Save";
+                editButton.Content = "Edit";
             }
             if (!onOrOff)
             {
                 addButton.IsEnabled = false;
                 deleteButton.IsEnabled = false;
                 scheduleItemsListBox.IsEnabled = false;
-                editButton.Content = "Edit";
+                editButton.Content = "Save";
             }
         }
 
@@ -111,9 +112,12 @@ namespace Csharp2_A1
                 string toEdit = currentAnimal.FoodSchedule.FoodList[scheduleItemsListBox.SelectedIndex];
                 itemEntryRichTextBox.Document.Blocks.Add(new Paragraph(new Run(toEdit)));
             }
-            if (scheduleItemsListBox.SelectedIndex != -1 && editing)
+            else if (scheduleItemsListBox.SelectedIndex != -1 && editing)
             {
-                currentAnimal.FoodSchedule.FoodList.Add(GetRichTextBoxString(itemEntryRichTextBox));
+                int index = scheduleItemsListBox.SelectedIndex;
+                currentAnimal.FoodSchedule.FoodList[index] = GetRichTextBoxString(itemEntryRichTextBox);
+                scheduleItemsListBox.Items.Clear();
+                itemEntryRichTextBox.Document.Blocks.Clear();
                 UpdateItems();
                 editing = false;
                 ToggleControlsUponEdit(true);
