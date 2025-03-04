@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Csharp2_A1.Control.Interfaces;
 using Csharp2_A1.Models;
+using Csharp2_A1.Models.Enums;
 
 namespace Csharp2_A1
 {
@@ -29,6 +30,7 @@ namespace Csharp2_A1
             InitializeComponent();
             currentAnimal = currentAnimalIn;
             LoadItems();
+            LoadEaterTypes();
             UpdateItems();
             editing = false;
         }
@@ -51,6 +53,12 @@ namespace Csharp2_A1
             }
         }
 
+        private void LoadEaterTypes()
+        {
+            eaterTypeComboBox.ItemsSource = Enum.GetValues(typeof(Enums.EaterType)).Cast<Enums.EaterType>();
+            eaterTypeComboBox.SelectedIndex = 3;
+        }
+
         private void AddButton_Click(Object sender, EventArgs e)
         {
             string itemContent = GetRichTextBoxString(itemEntryRichTextBox);
@@ -58,6 +66,7 @@ namespace Csharp2_A1
             if (itemContent != null && itemContent.Length > 0)
             {
                 currentAnimal.FoodSchedule.AddInstruction(itemContent);
+                currentAnimal.FoodSchedule.EaterType = (Enums.EaterType)eaterTypeComboBox.SelectedItem;
                 UpdateItems();
                 itemEntryRichTextBox.Document.Blocks.Clear();
             }
