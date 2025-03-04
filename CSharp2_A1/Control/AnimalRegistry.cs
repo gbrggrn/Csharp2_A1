@@ -60,6 +60,18 @@ namespace Csharp2_A1.Control
             }
         }
 
+        internal void EditAnimal(Animal animalIn, int indexIn)
+        {
+            if (animals[indexIn] != null)
+            {
+                animals[indexIn] = animalIn;
+            }
+            else
+            {
+                throw new ArgumentException("Something went wrong. Could not save to animal");
+            }
+        }
+
         /// <summary>
         /// Removes an animal from the list, and its associated ID from the list of generated IDs.
         /// </summary>

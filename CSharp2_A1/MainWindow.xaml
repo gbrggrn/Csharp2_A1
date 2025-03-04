@@ -220,7 +220,7 @@
 
                         <!-- Edit General Info Button-->
                         <Border CornerRadius="10" Width="150" Background="#A0522D" Height="30" VerticalAlignment="Center">
-                            <Button x:Name="editButton" Content="Edit General Info"/>
+                            <Button x:Name="editButton" Content="Edit General Info" Click="EditButton_Click"/>
                         </Border>
 
                         <!-- Edit Food Schedule Button-->

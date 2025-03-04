@@ -30,6 +30,8 @@ namespace CSharp2_A1
         private readonly AnimalRegistry animalRegistry;
         private readonly IdGenerator idGenerator;
 
+        private bool editingFlag;
+
         private const int registrySize = 100;
 
         /// <summary>
@@ -44,6 +46,7 @@ namespace CSharp2_A1
             LoadCategories();
             LoadGenderComboBox();
             SetSubscriptions();
+            editingFlag = false;
         }
 
         /// <summary>
@@ -272,6 +275,12 @@ namespace CSharp2_A1
             {
                 InterfaceService animalInterface = TryCreateAnimal();
 
+                if (editingFlag)
+                {
+                    int index = displayAllListBox.SelectedIndex;
+                    animalInterface = new InterfaceService(animalRegistry.Animals[index]);
+                }
+
                 if (animalInterface != null)
                 {
                     List<string> errors = ValidateInput(animalInterface);
@@ -305,17 +314,27 @@ namespace CSharp2_A1
                         animalInterface.Animal.Id = idGenerator.GenerateId();
 
                         //Adds the current animal to the AnimalRegistry so long as the registry is not full
-                        try
+                        if (editingFlag)
                         {
-                            animalRegistry.AddAnimal(animalInterface.Animal.ThisAnimal);
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBoxes.DisplayErrorBox($"Something went wrong:\n{ex.Message}");
+                            int index = displayAllListBox.SelectedIndex;
+                            animalRegistry.EditAnimal(animalInterface.Animal.ThisAnimal, index);
+                            ResetInputFields();
                             return;
                         }
+                        else
+                        {
+                            try
+                            {
+                                animalRegistry.AddAnimal(animalInterface.Animal.ThisAnimal);
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBoxes.DisplayErrorBox($"Something went wrong:\n{ex.Message}");
+                                return;
+                            }
 
-                        ResetInputFields();
+                            ResetInputFields();
+                        }
                     }
                 }
                 else
@@ -549,6 +568,69 @@ namespace CSharp2_A1
             AboutWindow aboutWindow = new AboutWindow();
 
             aboutWindow.ShowDialog();
+        }
+
+        private void ToggleControlsUponEditing(bool onOrOff)
+        {
+            if (onOrOff)
+            {
+                deleteButton.IsEnabled = false;
+                categoryListBox.IsEnabled = false;
+                speciesListBox.IsEnabled = false;
+                listAllCheckBox.IsEnabled = false;
+                displayAllListBox.IsEnabled = false;
+                editButton.IsEnabled = false;
+                addScheduleButton.IsEnabled = false;
+
+                addButton.Content = "Save";
+                addButton.Click -= AddButton_Click;
+                addButton.Click += EditButton_Click;
+            }
+            if (!onOrOff)
+            {
+                deleteButton.IsEnabled = true;
+                categoryListBox.IsEnabled = true;
+                speciesListBox.IsEnabled = true;
+                listAllCheckBox.IsEnabled = true;
+                displayAllListBox.IsEnabled = true;
+                editButton.IsEnabled = true;
+                addScheduleButton.IsEnabled = true;
+
+                addButton.Content = "+ Add";
+                addButton.Click -= EditButton_Click;
+                addButton.Click += AddButton_Click;
+            }
+        }
+
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (displayAllListBox.SelectedIndex != -1)
+            {
+                if (!editingFlag)
+                {
+                    editingFlag = true;
+                    ToggleControlsUponEditing(editingFlag);
+                    int index = displayAllListBox.SelectedIndex;
+                    InterfaceService currentInterface = new InterfaceService(animalRegistry.Animals[index]);
+                    LoadAnimalToEdit(currentInterface);
+                }
+                else if (editingFlag)
+                {
+                    AddButton_Click(sender, e);
+                    editingFlag = false;
+                    ToggleControlsUponEditing(editingFlag);
+                }
+            }
+        }
+
+        private void LoadAnimalToEdit(InterfaceService currentAnimalInterfaceIn)
+        {
+            nameTextBox.Text = currentAnimalInterfaceIn.Animal.Name;
+            ageTextBox.Text = currentAnimalInterfaceIn.Animal.Age;
+            genderComboBox.SelectedItem = currentAnimalInterfaceIn.Animal.Gender;
+            domesticatedCheckBox.IsChecked = currentAnimalInterfaceIn.Animal.IsDomesticated;
+            firstQTextBox.Text = currentAnimalInterfaceIn.Animal.CategoryTrait;
+            secondQTextBox.Text = currentAnimalInterfaceIn.Animal.SpeciesTrait;
         }
     }
 }
