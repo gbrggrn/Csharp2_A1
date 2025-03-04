@@ -311,7 +311,6 @@ namespace CSharp2_A1
                         //Sets the rest of the animal-attributes that are not strings.
                         animalInterface.Animal.IsDomesticated = domesticatedCheckBox.IsChecked!.Value;
                         animalInterface.Animal.Gender = (Enums.Gender)genderComboBox.SelectedItem;
-                        animalInterface.Animal.Id = idGenerator.GenerateId();
 
                         //Adds the current animal to the AnimalRegistry so long as the registry is not full
                         if (editingFlag)
@@ -326,6 +325,7 @@ namespace CSharp2_A1
                             try
                             {
                                 animalRegistry.AddAnimal(animalInterface.Animal.ThisAnimal);
+                                animalInterface.Animal.Id = idGenerator.GenerateId();
                             }
                             catch (Exception ex)
                             {
