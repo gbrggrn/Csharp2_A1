@@ -57,7 +57,7 @@ namespace Csharp2_A1
 
             if (itemContent != null && itemContent.Length > 0)
             {
-                currentAnimal.FoodSchedule.FoodList.Add(GetRichTextBoxString(itemEntryRichTextBox));
+                currentAnimal.FoodSchedule.AddInstruction(itemContent);
                 UpdateItems();
                 itemEntryRichTextBox.Document.Blocks.Clear();
             }
@@ -111,15 +111,16 @@ namespace Csharp2_A1
             if (scheduleItemsListBox.SelectedIndex != -1 && !editing)
             {
                 editing = true;
+                int index = scheduleItemsListBox.SelectedIndex;
                 ToggleControlsUponEdit(false);
                 itemEntryRichTextBox.Document.Blocks.Clear();
-                string toEdit = currentAnimal.FoodSchedule.FoodList[scheduleItemsListBox.SelectedIndex];
+                string toEdit = currentAnimal.FoodSchedule.GetSpecificInstruction(index);
                 itemEntryRichTextBox.Document.Blocks.Add(new Paragraph(new Run(toEdit)));
             }
             else if (scheduleItemsListBox.SelectedIndex != -1 && editing)
             {
                 int index = scheduleItemsListBox.SelectedIndex;
-                currentAnimal.FoodSchedule.FoodList[index] = GetRichTextBoxString(itemEntryRichTextBox);
+                currentAnimal.FoodSchedule.EditInstruction(GetRichTextBoxString(itemEntryRichTextBox), index);
                 scheduleItemsListBox.Items.Clear();
                 itemEntryRichTextBox.Document.Blocks.Clear();
                 UpdateItems();
@@ -140,7 +141,12 @@ namespace Csharp2_A1
         {
             if (scheduleItemsListBox.SelectedIndex != -1)
             {
-
+                int index = scheduleItemsListBox.SelectedIndex;
+                if (!currentAnimal.FoodSchedule.RemoveInstruction(index))
+                {
+                    MessageBoxes.DisplayErrorBox("Something went wrong");
+                }
+                UpdateItems();
             }
         }
     }

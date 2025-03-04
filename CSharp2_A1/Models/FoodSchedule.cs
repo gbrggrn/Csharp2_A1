@@ -18,7 +18,7 @@ namespace Csharp2_A1.Models
             foodList = new();
         }
 
-        private bool AddInstruction(string instructionIn)
+        internal bool AddInstruction(string instructionIn)
         {
             if (FoodList != null)
             {
@@ -29,9 +29,9 @@ namespace Csharp2_A1.Models
             return false;
         }
 
-        private string GetSpecificInstruction(int indexIn)
+        internal string GetSpecificInstruction(int indexIn)
         {
-            if (FoodList != null && FoodList.Count <= indexIn)
+            if (FoodList != null && indexIn >= 0 && indexIn < FoodList.Count)
             {
                 return FoodList[indexIn];
             }
@@ -39,9 +39,9 @@ namespace Csharp2_A1.Models
             return string.Empty;
         }
 
-        private bool EditInstruction(string newInstructionIn, int indexIn)
+        internal bool EditInstruction(string newInstructionIn, int indexIn)
         {
-            if (FoodList != null && FoodList.Count <= indexIn)
+            if (FoodList != null && indexIn >= 0 && indexIn < FoodList.Count)
             {
                 FoodList[indexIn] = newInstructionIn;
                 return true;
@@ -50,9 +50,9 @@ namespace Csharp2_A1.Models
             return false;
         }
 
-        private bool RemoveInstruction(int indexIn)
+        internal bool RemoveInstruction(int indexIn)
         {
-            if (FoodList != null && FoodList.Count <= indexIn)
+            if (FoodList != null && indexIn >= 0 && indexIn < FoodList.Count)
             {
                 FoodList.RemoveAt(indexIn);
                 return true;
