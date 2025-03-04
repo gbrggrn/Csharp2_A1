@@ -230,7 +230,7 @@
                     </Grid>
 
                     <!-- Food Schedule Short Form ListBox -->
-                    <ListBox x:Name="displayFoodScheduleListBox" FontSize="16" Grid.Row="0" Margin="10,5,10,10"/>
+                    <ListBox x:Name="displayFoodScheduleListBox" FontSize="13" Grid.Row="0" Margin="10,5,10,10"/>
                 </Grid>
             </Grid>
         </Grid>

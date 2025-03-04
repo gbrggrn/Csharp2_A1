@@ -415,6 +415,16 @@ namespace CSharp2_A1
                     $"{currentInterface.Animal.CategoryQuestion}: {currentInterface.Animal.CategoryTrait}\n" +
                     $"{currentInterface.Animal.SpeciesQuestion}: {currentInterface.Animal.SpeciesTrait}\n"
                     );
+
+                displayFoodScheduleListBox.Items.Clear();
+                if (animal.FoodSchedule.FoodList != null)
+                {
+                    foreach (string item in animal.FoodSchedule.FoodList)
+                    {
+                        string itemView = item.Length > 15 ? item.Substring(0, 15) : item;
+                        displayFoodScheduleListBox.Items.Add(itemView);
+                    }
+                }
             }
         }
 
@@ -520,6 +530,8 @@ namespace CSharp2_A1
                 FoodScheduleWindow foodScheduleWindow = new FoodScheduleWindow(animalRegistry.Animals[displayAllListBox.SelectedIndex]);
 
                 foodScheduleWindow.ShowDialog();
+
+                DisplayAnimal(sender, e);
             }
             else
             {
