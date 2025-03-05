@@ -7,17 +7,28 @@ using System.Windows.Controls;
 
 namespace Csharp2_A1.Models
 {
+    /// <summary>
+    /// Contains operations pertaining to the FoodSchedule class
+    /// </summary>
     internal class FoodSchedule
     {
         private Enums.Enums.EaterType eaterType;
         private List<string> foodList;
 
+        /// <summary>
+        /// Constructor initializes instance variables
+        /// </summary>
         public FoodSchedule() 
         { 
             eaterType = Enums.Enums.EaterType.Unknown;
             foodList = new();
         }
 
+        /// <summary>
+        /// Adds an instruction to the FoodList so long as it is not null
+        /// </summary>
+        /// <param name="instructionIn">The instruction to be added</param>
+        /// <returns>A boolean value true if succesful : false if not</returns>
         internal bool AddInstruction(string instructionIn)
         {
             if (FoodList != null)
@@ -29,6 +40,11 @@ namespace Csharp2_A1.Models
             return false;
         }
 
+        /// <summary>
+        /// Retrieves a specific instruction in the FoodList
+        /// </summary>
+        /// <param name="indexIn">Index of instruction to get</param>
+        /// <returns>The specified instruction or an empty string</returns>
         internal string GetSpecificInstruction(int indexIn)
         {
             if (FoodList != null && indexIn >= 0 && indexIn < FoodList.Count)
@@ -39,6 +55,12 @@ namespace Csharp2_A1.Models
             return string.Empty;
         }
 
+        /// <summary>
+        /// Replaces an existing instruction with an edited one
+        /// </summary>
+        /// <param name="newInstructionIn">The edited instruction</param>
+        /// <param name="indexIn">Index of the edited instruction</param>
+        /// <returns>A boolean value true if successful : false if not</returns>
         internal bool EditInstruction(string newInstructionIn, int indexIn)
         {
             if (FoodList != null && indexIn >= 0 && indexIn < FoodList.Count)
@@ -50,6 +72,11 @@ namespace Csharp2_A1.Models
             return false;
         }
 
+        /// <summary>
+        /// Removes an existing instruction
+        /// </summary>
+        /// <param name="indexIn">Index of the instruction to remove</param>
+        /// <returns>A boolean value true if succesful : false if not</returns>
         internal bool RemoveInstruction(int indexIn)
         {
             if (FoodList != null && indexIn >= 0 && indexIn < FoodList.Count)
@@ -61,6 +88,7 @@ namespace Csharp2_A1.Models
             return false;
         }
         
+        //Properties
         public Enums.Enums.EaterType EaterType
         {
             get => eaterType;
