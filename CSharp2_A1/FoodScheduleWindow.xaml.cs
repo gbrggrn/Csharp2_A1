@@ -104,6 +104,7 @@ namespace Csharp2_A1
                 addButton.IsEnabled = true;
                 deleteButton.IsEnabled = true;
                 scheduleItemsListBox.IsEnabled = true;
+                eaterTypeComboBox.IsEnabled = true;
                 editButton.Content = "Edit";
             }
             if (!onOrOff)
@@ -111,6 +112,7 @@ namespace Csharp2_A1
                 addButton.IsEnabled = false;
                 deleteButton.IsEnabled = false;
                 scheduleItemsListBox.IsEnabled = false;
+                eaterTypeComboBox.IsEnabled = false;
                 editButton.Content = "Save";
             }
         }
@@ -151,10 +153,7 @@ namespace Csharp2_A1
             if (scheduleItemsListBox.SelectedIndex != -1)
             {
                 int index = scheduleItemsListBox.SelectedIndex;
-                if (!currentAnimal.FoodSchedule.RemoveInstruction(index))
-                {
-                    MessageBoxes.DisplayErrorBox("Something went wrong");
-                }
+                currentAnimal.FoodSchedule.RemoveInstruction(index);
                 UpdateItems();
             }
         }

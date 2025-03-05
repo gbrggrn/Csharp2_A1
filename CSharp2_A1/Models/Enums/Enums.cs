@@ -23,5 +23,11 @@ namespace Csharp2_A1.Models.Enums
             Omivore,
             Unknown
         }
+
+        public enum SortBy
+        {
+            Name,
+            Species
+        }
     }
 }

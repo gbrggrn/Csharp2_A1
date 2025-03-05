@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Automation.Text;
 using System.Windows.Media.Imaging;
+using Csharp2_A1.Models.Enums;
 
 namespace Csharp2_A1.Control
 {
@@ -41,7 +42,23 @@ namespace Csharp2_A1.Control
         /// <summary>
         /// Get-property for the ObservableCollection.
         /// </summary>
-        internal ObservableCollection<Animal> Animals => animals;
+        internal ObservableCollection<Animal> Animals
+        {
+            get => animals;
+            set => animals = value;
+        }
+
+        internal void SortCollection(Enums.SortBy sortByIn)
+        {
+            AnimalSorting animalSorter = new AnimalSorting(sortByIn);
+            List<Animal> sortedAnimals = animals.OrderBy(animal => animal, animalSorter).ToList();
+
+            Animals.Clear();
+            foreach (Animal animal in sortedAnimals)
+            {
+                Animals.Add(animal);
+            }
+        }
 
         /// <summary>
         /// If the registry is not full - adds the animal received.
