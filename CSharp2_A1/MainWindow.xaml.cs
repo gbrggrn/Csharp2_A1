@@ -59,6 +59,8 @@ namespace CSharp2_A1
             listAllCheckBox.Checked += LoadAllSpecies;
             listAllCheckBox.Unchecked += EnableCategories;
             displayAllListBox.SelectionChanged += DisplayAnimal;
+            sortNameCheckBox.Checked += SortAction;
+            sortSpeciesCheckBox.Checked += SortAction;
         }
 
         /// <summary>
@@ -130,6 +132,25 @@ namespace CSharp2_A1
         }
 
         /// <summary>
+        /// Sorting calls depending on user choice via checkboxes.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SortAction(Object sender, EventArgs e)
+        {
+            //Call sorting of animal-list by name
+            if (sortNameCheckBox.IsChecked == true)
+            {
+                animalRegistry.SortCollection(Enums.SortBy.Name);
+            }
+            //Call sorting of animal-list by species
+            if (sortSpeciesCheckBox.IsChecked == true)
+            {
+                animalRegistry.SortCollection(Enums.SortBy.Species);
+            }
+        }
+
+        /// <summary>
         /// Called upon a change of index in speciesListBox to manipulate the input fields.
         /// Retrieves interfaces for the currently chosen animal and accesses the relevant properties
         /// to display the category-, and species specific question.
@@ -142,6 +163,13 @@ namespace CSharp2_A1
             if (speciesListBox.SelectedIndex != -1)
             {
                 InterfaceService animalInterface = TryCreateAnimal();
+
+                //If editing, retrieve interface of currently selected animal
+                if (displayAllListBox.SelectedIndex != -1 && editingFlag)
+                {
+                    int index = displayAllListBox.SelectedIndex;
+                    animalInterface = new InterfaceService(animalRegistry.Animals[index]);
+                }
 
                 if (animalInterface != null)
                 {
@@ -275,6 +303,7 @@ namespace CSharp2_A1
             {
                 InterfaceService animalInterface = TryCreateAnimal();
 
+                //If editing, retrieve interface of currently selected animal
                 if (editingFlag)
                 {
                     int index = displayAllListBox.SelectedIndex;
@@ -432,13 +461,14 @@ namespace CSharp2_A1
                     $"Gender: {currentInterface.Animal.Gender,-15}\n" +
                     $"Domesticated: {currentInterface.Animal.IsDomesticated,-10}\n" +
                     $"{currentInterface.Animal.CategoryQuestion}: {currentInterface.Animal.CategoryTrait}\n" +
-                    $"{currentInterface.Animal.SpeciesQuestion}: {currentInterface.Animal.SpeciesTrait}\n"
+                    $"{currentInterface.Animal.SpeciesQuestion}: {currentInterface.Animal.SpeciesTrait}\n" +
+                    $"Eater type: {currentInterface.Animal.FoodSchedule.EaterType}"
                     );
 
                 displayFoodScheduleListBox.Items.Clear();
-                if (animal.FoodSchedule.FoodList != null)
+                if (currentInterface.Animal.FoodSchedule.FoodList != null)
                 {
-                    foreach (string item in animal.FoodSchedule.FoodList)
+                    foreach (string item in currentInterface.Animal.FoodSchedule.FoodList)
                     {
                         string itemView = item.Length > 15 ? item.Substring(0, 15) : item;
                         displayFoodScheduleListBox.Items.Add(itemView);
@@ -542,6 +572,11 @@ namespace CSharp2_A1
             }
         }
 
+        /// <summary>
+        /// Displays a new FoodScheduleWindow.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AddScheduleButton_Click(object sender, RoutedEventArgs e)
         {
             if (displayAllListBox.SelectedIndex != -1)
@@ -570,6 +605,10 @@ namespace CSharp2_A1
             aboutWindow.ShowDialog();
         }
 
+        /// <summary>
+        /// Toggles controls on/off when editing/not editing.
+        /// </summary>
+        /// <param name="onOrOff">Boolean false if On : true if Off</param>
         private void ToggleControlsUponEditing(bool onOrOff)
         {
             if (onOrOff)
@@ -582,6 +621,7 @@ namespace CSharp2_A1
                 editButton.IsEnabled = false;
                 addScheduleButton.IsEnabled = false;
 
+                //Rearrange subscriptions
                 addButton.Content = "Save";
                 addButton.Click -= AddButton_Click;
                 addButton.Click += EditButton_Click;
@@ -596,24 +636,33 @@ namespace CSharp2_A1
                 editButton.IsEnabled = true;
                 addScheduleButton.IsEnabled = true;
 
+                //Rearrange subcriptions
                 addButton.Content = "+ Add";
                 addButton.Click -= EditButton_Click;
                 addButton.Click += AddButton_Click;
             }
         }
 
+        /// <summary>
+        /// Provides the logic for when the "Edit general info"-button i clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
             if (displayAllListBox.SelectedIndex != -1)
             {
+                //If not currently editing:
                 if (!editingFlag)
                 {
                     editingFlag = true;
+                    UpdateInputControls(sender, e);
                     ToggleControlsUponEditing(editingFlag);
                     int index = displayAllListBox.SelectedIndex;
                     InterfaceService currentInterface = new InterfaceService(animalRegistry.Animals[index]);
                     LoadAnimalToEdit(currentInterface);
                 }
+                //If currently editing:
                 else if (editingFlag)
                 {
                     AddButton_Click(sender, e);
@@ -623,6 +672,10 @@ namespace CSharp2_A1
             }
         }
 
+        /// <summary>
+        /// Loads the info from the currently selected animal to the GUI controls for editing.
+        /// </summary>
+        /// <param name="currentAnimalInterfaceIn">The interface of the currently selected animal</param>
         private void LoadAnimalToEdit(InterfaceService currentAnimalInterfaceIn)
         {
             nameTextBox.Text = currentAnimalInterfaceIn.Animal.Name;
