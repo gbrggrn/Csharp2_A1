@@ -25,6 +25,10 @@ namespace Csharp2_A1
         private Animal currentAnimal;
         private bool editing;
 
+        /// <summary>
+        /// Constructor loads controls and initializes instance variables
+        /// </summary>
+        /// <param name="currentAnimalIn">The current instance of animal being edited</param>
         internal FoodScheduleWindow(Animal currentAnimalIn)
         {
             InitializeComponent();
@@ -35,11 +39,19 @@ namespace Csharp2_A1
             editing = false;
         }
 
+        /// <summary>
+        /// Closes the window upon click of the exit-button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void exitButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
 
+        /// <summary>
+        /// Loads existing FoodList-items to the scheduleItemsListBox
+        /// </summary>
         private void LoadItems()
         {
             List<string> foodScheduleItems = currentAnimal.FoodSchedule.FoodList;
@@ -53,12 +65,21 @@ namespace Csharp2_A1
             }
         }
 
+        /// <summary>
+        /// Loads the EaterType enum values to the eaterTypeComboBox
+        /// </summary>
         private void LoadEaterTypes()
         {
             eaterTypeComboBox.ItemsSource = Enum.GetValues(typeof(Enums.EaterType)).Cast<Enums.EaterType>();
             eaterTypeComboBox.SelectedIndex = 3;
         }
 
+        /// <summary>
+        /// Executes upon addbutton-click.
+        /// Saves the instruction and calls an update of the GUI.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AddButton_Click(Object sender, EventArgs e)
         {
             string itemContent = GetRichTextBoxString(itemEntryRichTextBox);
@@ -76,6 +97,11 @@ namespace Csharp2_A1
             }
         }
 
+        /// <summary>
+        /// Retrieves the string from the FlowDocument of the RichTextBox.
+        /// </summary>
+        /// <param name="textBox">The RichTextBox to be retrieved from</param>
+        /// <returns>The content of the FlowDocument</returns>
         private string GetRichTextBoxString(RichTextBox textBox)
         {
             TextRange textRange = new(textBox.Document.ContentStart, textBox.Document.ContentEnd);
@@ -83,6 +109,10 @@ namespace Csharp2_A1
             return textRange.Text;
         }
 
+        /// <summary>
+        /// Displays the instruction in short form in the listbox.
+        /// If the item is longer than 20 char, a substring is created of the first 20 chars.
+        /// </summary>
         private void UpdateItems()
         {
             if (currentAnimal.FoodSchedule.FoodList.Count > 0)
@@ -97,6 +127,10 @@ namespace Csharp2_A1
             }
         }
 
+        /// <summary>
+        /// Toggles controls on or off dependning on boolean value passed.
+        /// </summary>
+        /// <param name="onOrOff">On if true : Off if false</param>
         private void ToggleControlsUponEdit(bool onOrOff)
         {
             if (onOrOff)
@@ -117,8 +151,17 @@ namespace Csharp2_A1
             }
         }
 
+        /// <summary>
+        /// Reacts to editbutton-click.
+        /// Depending on value of editing flag 
+        /// - loads item to be edited and toggles controls
+        /// - or saves item edited
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
+            //If not currently editing:
             if (scheduleItemsListBox.SelectedIndex != -1 && !editing)
             {
                 editing = true;
@@ -128,6 +171,7 @@ namespace Csharp2_A1
                 string toEdit = currentAnimal.FoodSchedule.GetSpecificInstruction(index);
                 itemEntryRichTextBox.Document.Blocks.Add(new Paragraph(new Run(toEdit)));
             }
+            //If currently editing:
             else if (scheduleItemsListBox.SelectedIndex != -1 && editing)
             {
                 int index = scheduleItemsListBox.SelectedIndex;
@@ -148,6 +192,12 @@ namespace Csharp2_A1
             }
         }
 
+        /// <summary>
+        /// Reacts to deletebutton-click.
+        /// Calls removal of selected instruction.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             if (scheduleItemsListBox.SelectedIndex != -1)
