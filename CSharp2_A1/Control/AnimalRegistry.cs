@@ -48,12 +48,20 @@ namespace Csharp2_A1.Control
             set => animals = value;
         }
 
+        /// <summary>
+        /// Sorts the collection depending on which sortBy was passed.
+        /// </summary>
+        /// <param name="sortByIn">Enum deciding what to sort by</param>
         internal void SortCollection(Enums.SortBy sortByIn)
         {
+            //New AnimalSorting instance
             AnimalSorting animalSorter = new AnimalSorting(sortByIn);
+            //Pass to orderby-method and assign result to list
             List<Animal> sortedAnimals = animals.OrderBy(animal => animal, animalSorter).ToList();
 
+            //Clear observablecollection
             Animals.Clear();
+            //Add sorted animals
             foreach (Animal animal in sortedAnimals)
             {
                 Animals.Add(animal);
@@ -77,6 +85,12 @@ namespace Csharp2_A1.Control
             }
         }
 
+        /// <summary>
+        /// Replaces the animal at a specified index with a new, edited instance.
+        /// </summary>
+        /// <param name="animalIn">The edited instance</param>
+        /// <param name="indexIn">Index of the instance to replace</param>
+        /// <exception cref="ArgumentException">Throws is replacement fails</exception>
         internal void EditAnimal(Animal animalIn, int indexIn)
         {
             if (animals[indexIn] != null)
