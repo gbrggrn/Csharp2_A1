@@ -58,7 +58,7 @@ namespace CSharp2_A1
             speciesListBox.SelectionChanged += UpdateInputControls;
             listAllCheckBox.Checked += LoadAllSpecies;
             listAllCheckBox.Unchecked += EnableCategories;
-            displayAllListBox.SelectionChanged += DisplayAnimal;
+            displayAllListView.SelectionChanged += DisplayAnimal;
             sortNameCheckBox.Checked += SortAction;
             sortSpeciesCheckBox.Checked += SortAction;
         }
@@ -165,9 +165,9 @@ namespace CSharp2_A1
                 InterfaceService animalInterface = TryCreateAnimal();
 
                 //If editing, retrieve interface of currently selected animal
-                if (displayAllListBox.SelectedIndex != -1 && editingFlag)
+                if (displayAllListView.SelectedIndex != -1 && editingFlag)
                 {
-                    int index = displayAllListBox.SelectedIndex;
+                    int index = displayAllListView.SelectedIndex;
                     animalInterface = new InterfaceService(animalRegistry.Animals[index]);
                 }
 
@@ -224,7 +224,7 @@ namespace CSharp2_A1
         /// a future small side-project should be to make this more efficient...
         /// </summary>
         /// <returns>The complete dictionary of categories and corresponding species</returns>
-        private Dictionary<string, List<string>> GetCategoriesAndSpecies()
+        private static Dictionary<string, List<string>> GetCategoriesAndSpecies()
         {
             Dictionary<string, List<string>> categoriesAndSpecies = new();
             Type[] allTypes = Assembly.GetExecutingAssembly().GetTypes();
@@ -306,7 +306,7 @@ namespace CSharp2_A1
                 //If editing, retrieve interface of currently selected animal
                 if (editingFlag)
                 {
-                    int index = displayAllListBox.SelectedIndex;
+                    int index = displayAllListView.SelectedIndex;
                     animalInterface = new InterfaceService(animalRegistry.Animals[index]);
                 }
 
@@ -344,7 +344,7 @@ namespace CSharp2_A1
                         //Adds the current animal to the AnimalRegistry so long as the registry is not full
                         if (editingFlag)
                         {
-                            int index = displayAllListBox.SelectedIndex;
+                            int index = displayAllListView.SelectedIndex;
                             animalRegistry.EditAnimal(animalInterface.Animal.ThisAnimal, index);
                             ResetInputFields();
                             return;
@@ -426,12 +426,12 @@ namespace CSharp2_A1
         /// <param name="animals">The observablecollection animals from animalRegistry</param>
         private void DisplayAnimals(ObservableCollection<Animal> animals)
         {
-            displayAllListBox.Items.Clear();
+            displayAllListView.Items.Clear();
 
             foreach (Animal animal in animals)
             {
                 InterfaceService interfaces = new(animal);
-                displayAllListBox.Items.Add(
+                displayAllListView.Items.Add(
                     $"{interfaces.Animal.Name,-15}" +
                     $"{interfaces.Animal.GetType().Name,-15}" +
                     $"{interfaces.Animal.Age, -5}");
@@ -447,9 +447,9 @@ namespace CSharp2_A1
         /// <param name="e"></param>
         private void DisplayAnimal(Object sender, EventArgs e)
         {
-            if (displayAllListBox.SelectedIndex != -1)
+            if (displayAllListView.SelectedIndex != -1)
             {
-                int indexToDisplay = displayAllListBox.SelectedIndex;
+                int indexToDisplay = displayAllListView.SelectedIndex;
                 Animal animal = animalRegistry.Animals[indexToDisplay];
                 InterfaceService currentInterface = new(animal);
 
@@ -470,7 +470,7 @@ namespace CSharp2_A1
                 {
                     foreach (string item in currentInterface.Animal.FoodSchedule.FoodList)
                     {
-                        string itemView = item.Length > 15 ? item.Substring(0, 15) : item;
+                        string itemView = item.Length > 15 ? item[..15] : item;
                         displayFoodScheduleListBox.Items.Add(itemView);
                     }
                 }
@@ -500,9 +500,9 @@ namespace CSharp2_A1
         /// <param name="e"></param>
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            if (displayAllListBox.SelectedIndex != -1)
+            if (displayAllListView.SelectedIndex != -1)
             {
-                int indexToDelete = displayAllListBox.SelectedIndex;
+                int indexToDelete = displayAllListView.SelectedIndex;
                 Animal animal = animalRegistry.Animals[indexToDelete];
                 string animalType = animal.GetType().Name;
                 string name = animal.Name;
@@ -536,7 +536,7 @@ namespace CSharp2_A1
         /// <param name="e"></param>
         private void AddImgButton_Click(object sender, RoutedEventArgs e)
         {
-            if (displayAllListBox.SelectedIndex != -1)
+            if (displayAllListView.SelectedIndex != -1)
             {
                 OpenFileDialog openFile = new();
                 openFile.Filter = "Image Files (*.png;*.jpg)|*.png;*.jpg";
@@ -562,7 +562,7 @@ namespace CSharp2_A1
             }
             else
             {
-                if (displayAllListBox.Items.Count < 1)
+                if (displayAllListView.Items.Count < 1)
                 {
                     MessageBoxes.DisplayErrorBox("No animals added yet!");
                     return;
@@ -579,9 +579,9 @@ namespace CSharp2_A1
         /// <param name="e"></param>
         private void AddScheduleButton_Click(object sender, RoutedEventArgs e)
         {
-            if (displayAllListBox.SelectedIndex != -1)
+            if (displayAllListView.SelectedIndex != -1)
             {
-                FoodScheduleWindow foodScheduleWindow = new FoodScheduleWindow(animalRegistry.Animals[displayAllListBox.SelectedIndex]);
+                FoodScheduleWindow foodScheduleWindow = new FoodScheduleWindow(animalRegistry.Animals[displayAllListView.SelectedIndex]);
 
                 foodScheduleWindow.ShowDialog();
 
@@ -617,7 +617,7 @@ namespace CSharp2_A1
                 categoryListBox.IsEnabled = false;
                 speciesListBox.IsEnabled = false;
                 listAllCheckBox.IsEnabled = false;
-                displayAllListBox.IsEnabled = false;
+                displayAllListView.IsEnabled = false;
                 editButton.IsEnabled = false;
                 addScheduleButton.IsEnabled = false;
 
@@ -632,7 +632,7 @@ namespace CSharp2_A1
                 categoryListBox.IsEnabled = true;
                 speciesListBox.IsEnabled = true;
                 listAllCheckBox.IsEnabled = true;
-                displayAllListBox.IsEnabled = true;
+                displayAllListView.IsEnabled = true;
                 editButton.IsEnabled = true;
                 addScheduleButton.IsEnabled = true;
 
@@ -650,7 +650,7 @@ namespace CSharp2_A1
         /// <param name="e"></param>
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
-            if (displayAllListBox.SelectedIndex != -1)
+            if (displayAllListView.SelectedIndex != -1)
             {
                 //If not currently editing:
                 if (!editingFlag)
@@ -658,7 +658,7 @@ namespace CSharp2_A1
                     editingFlag = true;
                     UpdateInputControls(sender, e);
                     ToggleControlsUponEditing(editingFlag);
-                    int index = displayAllListBox.SelectedIndex;
+                    int index = displayAllListView.SelectedIndex;
                     InterfaceService currentInterface = new InterfaceService(animalRegistry.Animals[index]);
                     LoadAnimalToEdit(currentInterface);
                 }
