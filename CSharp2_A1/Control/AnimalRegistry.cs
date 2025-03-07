@@ -21,7 +21,6 @@ namespace Csharp2_A1.Control
         ObservableCollection<Animal> animals;
         MainWindow mainWindow;
         IdGenerator idGenerator;
-        private int registrySize;
 
         /// <summary>
         /// Constructor initializes the instance variables and sets the subscription for
@@ -30,12 +29,11 @@ namespace Csharp2_A1.Control
         /// <param name="mainWindowIn">A reference to the current instance of the MainWindow-class</param>
         /// <param name="registrySizeIn">The size of the registry</param>
         /// <param name="idGeneratorIn">A reference to the current instance of the idGenerator-class</param>
-        internal AnimalRegistry(MainWindow mainWindowIn, int registrySizeIn, IdGenerator idGeneratorIn)
+        internal AnimalRegistry(MainWindow mainWindowIn, IdGenerator idGeneratorIn)
         {
             animals = new ObservableCollection<Animal>();
             mainWindow = mainWindowIn;
             animals.CollectionChanged += mainWindow.ObserveRegistry!;
-            this.registrySize = registrySizeIn;
             this.idGenerator = idGeneratorIn;
         }
 
@@ -69,13 +67,13 @@ namespace Csharp2_A1.Control
         }
 
         /// <summary>
-        /// If the registry is not full - adds the animal received.
+        /// If the registry is not null - adds the animal received.
         /// </summary>
         /// <param name="animalIn">The current instance of Animal</param>
         /// <exception cref="ArgumentException">Thrown if registry is full</exception>
         internal void AddAnimal(Animal animalIn)
         {
-            if (animals.Count < registrySize)
+            if (animals != null)
             {
                 animals.Add(animalIn);
             }

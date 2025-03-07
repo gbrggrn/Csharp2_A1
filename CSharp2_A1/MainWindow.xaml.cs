@@ -91,6 +91,8 @@ namespace CSharp2_A1
             {
                 string category = categoryListBox.SelectedItem.ToString()!;
 
+                //A bit of an inefficient lookup, but the dictionary is small.
+                //Could be changed to TryGetValue if application was bigger but this feels more readable.
                 if (categoriesAndSpecies.ContainsKey(category))
                 {
                     speciesListBox.ItemsSource = categoriesAndSpecies[category];
@@ -107,8 +109,6 @@ namespace CSharp2_A1
         {
             categoryListBox.IsEnabled = false;
             speciesListBox.ItemsSource = null;
-
-            List<string> categories = categoriesAndSpecies.Keys.ToList();
 
             foreach (var listOfSpecies in categoriesAndSpecies.Values)
             {
@@ -144,7 +144,7 @@ namespace CSharp2_A1
                 animalRegistry.SortCollection(Enums.SortBy.Name);
             }
             //Call sorting of animal-list by species
-            if (sortSpeciesCheckBox.IsChecked == true)
+            else if (sortSpeciesCheckBox.IsChecked == true)
             {
                 animalRegistry.SortCollection(Enums.SortBy.Species);
             }
@@ -341,7 +341,7 @@ namespace CSharp2_A1
                         animalInterface.Animal.IsDomesticated = domesticatedCheckBox.IsChecked!.Value;
                         animalInterface.Animal.Gender = (Enums.Gender)genderComboBox.SelectedItem;
 
-                        //Adds the current animal to the AnimalRegistry so long as the registry is not full
+                        //Adds the current animal to the AnimalRegistry
                         if (editingFlag)
                         {
                             int index = displayAllListView.SelectedIndex;
@@ -361,7 +361,6 @@ namespace CSharp2_A1
                                 MessageBoxes.DisplayErrorBox($"Something went wrong:\n{ex.Message}");
                                 return;
                             }
-
                             ResetInputFields();
                         }
                     }
