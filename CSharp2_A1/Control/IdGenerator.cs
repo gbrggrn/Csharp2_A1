@@ -12,16 +12,13 @@ namespace Csharp2_A1.Control
     internal class IdGenerator
     {
         private List<int> generatedIds;
-        private int registrySize;
         private Random random;
 
         /// <summary>
         /// Constructor initializes the instance variables.
         /// </summary>
-        /// <param name="registrySizeIn"></param>
-        internal IdGenerator(int registrySizeIn)
+        internal IdGenerator()
         {
-            registrySize = registrySizeIn;
             generatedIds = new();
             random = new Random();
         }
@@ -66,7 +63,7 @@ namespace Csharp2_A1.Control
         /// <returns></returns>
         internal int TryGenerateId()
         {
-            return random.Next(registrySize);
+            return random.Next();
         }
     }
 }

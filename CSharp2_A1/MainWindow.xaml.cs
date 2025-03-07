@@ -32,16 +32,14 @@ namespace CSharp2_A1
 
         private bool editingFlag;
 
-        private const int registrySize = 100;
-
         /// <summary>
         /// Constructor instantiates classes and initiates basic configuration of the GUI.
         /// </summary>
         public MainWindow()
         {
             InitializeComponent();
-            idGenerator = new(registrySize);
-            animalRegistry = new(this, registrySize, idGenerator);
+            idGenerator = new();
+            animalRegistry = new(this, idGenerator);
             categoriesAndSpecies = GetCategoriesAndSpecies();
             LoadCategories();
             LoadGenderComboBox();
