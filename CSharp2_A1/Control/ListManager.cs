@@ -7,7 +7,7 @@ using Csharp2_A1.Control.Interfaces;
 
 namespace Csharp2_A1.Control
 {
-    internal class ListManager<T> : IListManager
+    internal class ListManager<T> : IListManager<T>
     {
         private List<T> list;
 
@@ -16,7 +16,7 @@ namespace Csharp2_A1.Control
             list = new();
         }
 
-        internal bool Add(T type)
+        public bool Add(T type)
         {
             if (type != null)
             {
@@ -27,7 +27,7 @@ namespace Csharp2_A1.Control
             return false;
         }
 
-        internal bool ChangeAt(T type, int indexIn)
+        public bool ChangeAt(T type, int indexIn)
         {
             if (CheckIndex(indexIn))
             {
@@ -38,7 +38,7 @@ namespace Csharp2_A1.Control
             return false;
         }
 
-        private bool CheckIndex(int indexIn)
+        public bool CheckIndex(int indexIn)
         {
             if (list != null && indexIn < list.Count)
             {
@@ -49,12 +49,12 @@ namespace Csharp2_A1.Control
             return false;
         }
 
-        internal void DeleteAll()
+        public void DeleteAll()
         {
             list.Clear();
         }
 
-        internal bool DeleteAt(int indexIn)
+        public bool DeleteAt(int indexIn)
         {
             if (CheckIndex(indexIn))
             {
@@ -65,7 +65,7 @@ namespace Csharp2_A1.Control
             return false;
         }
 
-        internal T GetAt(int indexIn)
+        public T GetAt(int indexIn)
         {
             if (CheckIndex(indexIn))
             {
@@ -77,7 +77,7 @@ namespace Csharp2_A1.Control
             }
         }
 
-        internal string[] ToStringArray()
+        public string[] ToStringArray()
         {
             string[] listArray = new string[list.Count];
 
@@ -92,7 +92,7 @@ namespace Csharp2_A1.Control
             return listArray;
         }
 
-        internal List<string> ToStringList()
+        public List<string> ToStringList()
         {
             List<string> listStrings = new List<string>();
             foreach (var item in list)

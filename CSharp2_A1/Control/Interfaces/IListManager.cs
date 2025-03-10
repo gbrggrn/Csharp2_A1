@@ -6,7 +6,16 @@ using System.Threading.Tasks;
 
 namespace Csharp2_A1.Control.Interfaces
 {
-    internal class IListManager
+    internal interface IListManager<T>
     {
+        //Methods
+        bool Add(T type);
+        bool ChangeAt(T type, int indexIn);
+        bool CheckIndex(int indexIn);
+        void DeleteAll();
+        bool DeleteAt(int indexIn);
+        T GetAt(int indexIn);
+        string[] ToStringArray();
+        List<string> ToStringList();
     }
 }
