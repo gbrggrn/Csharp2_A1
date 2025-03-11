@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Navigation;
 using Csharp2_A1.Control.Interfaces;
 
 namespace Csharp2_A1.Control
@@ -10,10 +11,12 @@ namespace Csharp2_A1.Control
     internal class ListManager<T> : IListManager<T>
     {
         private List<T> list;
+        private int count;
 
         public ListManager()
         {
             list = new();
+            count = 0;
         }
 
         public bool Add(T type)
@@ -52,6 +55,7 @@ namespace Csharp2_A1.Control
         public void DeleteAll()
         {
             list.Clear();
+            count = 0;
         }
 
         public bool DeleteAt(int indexIn)
@@ -105,5 +109,7 @@ namespace Csharp2_A1.Control
 
             return listStrings;
         }
+
+        public int Count { get => list.Count; }
     }
 }

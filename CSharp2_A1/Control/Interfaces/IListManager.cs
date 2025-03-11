@@ -17,5 +17,8 @@ namespace Csharp2_A1.Control.Interfaces
         T GetAt(int indexIn);
         string[] ToStringArray();
         List<string> ToStringList();
+
+        //Properties
+        int Count { get; }
     }
 }
