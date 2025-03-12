@@ -33,7 +33,7 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesFish
             }
 
             errorMessage = "Success";
-            return false;
+            return true;
         }
 
         public override FoodSchedule FoodSchedule { get; }

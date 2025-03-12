@@ -39,12 +39,13 @@ namespace CSharp2_A1
         {
             InitializeComponent();
             idGenerator = new();
-            animalRegistry = new(this, idGenerator);
+            animalRegistry = new(idGenerator);
             categoriesAndSpecies = GetCategoriesAndSpecies();
             LoadCategories();
             LoadGenderComboBox();
             SetSubscriptions();
             editingFlag = false;
+            animalRegistry.Collection.CollectionChanged += DisplayAnimals!;
         }
 
         /// <summary>
@@ -166,7 +167,7 @@ namespace CSharp2_A1
                 if (displayAllListView.SelectedIndex != -1 && editingFlag)
                 {
                     int index = displayAllListView.SelectedIndex;
-                    animalInterface = new InterfaceService(animalRegistry.Animals[index]);
+                    animalInterface = new InterfaceService(animalRegistry.GetAt(index));
                 }
 
                 if (animalInterface != null)
@@ -305,7 +306,7 @@ namespace CSharp2_A1
                 if (editingFlag)
                 {
                     int index = displayAllListView.SelectedIndex;
-                    animalInterface = new InterfaceService(animalRegistry.Animals[index]);
+                    animalInterface = new InterfaceService(animalRegistry.GetAt(index));
                 }
 
                 if (animalInterface != null)
@@ -343,7 +344,7 @@ namespace CSharp2_A1
                         if (editingFlag)
                         {
                             int index = displayAllListView.SelectedIndex;
-                            animalRegistry.EditAnimal(animalInterface.Animal.ThisAnimal, index);
+                            animalRegistry.ChangeAt(animalInterface.Animal.ThisAnimal, index);
                             ResetInputFields();
                             return;
                         }
@@ -404,28 +405,17 @@ namespace CSharp2_A1
         }
 
         /// <summary>
-        /// Provides access to the ObservableCollection. This method is called upon the event that the collection is
-        /// modified in AnimalRegistry.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        internal void ObserveRegistry(Object sender, EventArgs e)
-        {
-            DisplayAnimals(animalRegistry.Animals);
-        }
-
-        /// <summary>
         /// Displays a shortlist of all animals that have been registered so far.
         /// Retrieves the interface for the specific animal in the collection.
         /// Through the interface, retrieves the name, name of the class (type->string)
         /// and age.
         /// </summary>
         /// <param name="animals">The observablecollection animals from animalRegistry</param>
-        private void DisplayAnimals(ObservableCollection<Animal> animals)
+        private void DisplayAnimals(Object sender, EventArgs e)
         {
             displayAllListView.Items.Clear();
 
-            foreach (Animal animal in animals)
+            foreach (Animal animal in animalRegistry.Collection)
             {
                 InterfaceService interfaces = new(animal);
                 displayAllListView.Items.Add(
@@ -447,7 +437,7 @@ namespace CSharp2_A1
             if (displayAllListView.SelectedIndex != -1)
             {
                 int indexToDisplay = displayAllListView.SelectedIndex;
-                Animal animal = animalRegistry.Animals[indexToDisplay];
+                Animal animal = animalRegistry.GetAt(indexToDisplay);
                 InterfaceService currentInterface = new(animal);
 
                 displayAnimalListBox.Items.Clear();
@@ -500,14 +490,14 @@ namespace CSharp2_A1
             if (displayAllListView.SelectedIndex != -1)
             {
                 int indexToDelete = displayAllListView.SelectedIndex;
-                Animal animal = animalRegistry.Animals[indexToDelete];
+                Animal animal = animalRegistry.GetAt(indexToDelete);
                 string animalType = animal.GetType().Name;
                 string name = animal.Name;
 
                 if (MessageBoxes.DisplayQuestion($"Do you wish to remove the {animalType} {name} from the registry?",
                     $"Remove {animalType}?"))
                 {
-                    if (animalRegistry.RemoveAnimal(animalRegistry.Animals[indexToDelete]))
+                    if (animalRegistry.DeleteAt(animal))
                     {
                         displayAnimalListBox.Items.Clear();
                         MessageBoxes.DisplayInfoBox($"The {animalType} {name} was removed from the registry",
@@ -578,7 +568,8 @@ namespace CSharp2_A1
         {
             if (displayAllListView.SelectedIndex != -1)
             {
-                FoodScheduleWindow foodScheduleWindow = new FoodScheduleWindow(animalRegistry.Animals[displayAllListView.SelectedIndex]);
+                int index = displayAllListView.SelectedIndex;
+                FoodScheduleWindow foodScheduleWindow = new FoodScheduleWindow(animalRegistry.GetAt(index));
 
                 foodScheduleWindow.ShowDialog();
 
@@ -656,7 +647,7 @@ namespace CSharp2_A1
                     UpdateInputControls(sender, e);
                     ToggleControlsUponEditing(editingFlag);
                     int index = displayAllListView.SelectedIndex;
-                    InterfaceService currentInterface = new InterfaceService(animalRegistry.Animals[index]);
+                    InterfaceService currentInterface = new InterfaceService(animalRegistry.GetAt(index));
                     LoadAnimalToEdit(currentInterface);
                 }
                 //If currently editing:

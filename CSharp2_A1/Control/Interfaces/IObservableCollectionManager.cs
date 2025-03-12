@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Csharp2_A1.Control.Interfaces
 {
-    internal interface IListManager<T>
+    internal interface IObservableCollectionManager<T>
     {
         //Methods
         bool Add(T type);
@@ -20,5 +21,6 @@ namespace Csharp2_A1.Control.Interfaces
 
         //Properties
         int Count { get; }
+        ObservableCollection<T> Collection { get; }
     }
 }

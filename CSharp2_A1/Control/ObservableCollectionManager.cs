@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,22 +9,22 @@ using Csharp2_A1.Control.Interfaces;
 
 namespace Csharp2_A1.Control
 {
-    internal class ListManager<T> : IListManager<T>
+    internal class ObservableCollectionManager<T> : IObservableCollectionManager<T>
     {
-        private List<T> list;
+        private ObservableCollection<T> collection;
         private int count;
 
-        public ListManager()
+        public ObservableCollectionManager()
         {
-            list = new();
+            collection = new();
             count = 0;
         }
 
         public bool Add(T typeIn)
         {
-            if (type != null)
+            if (typeIn != null)
             {
-                list.Add(type);
+                collection.Add(typeIn);
                 return true;
             }
 
@@ -34,7 +35,7 @@ namespace Csharp2_A1.Control
         {
             if (CheckIndex(indexIn))
             {
-                list[indexIn] = type;
+                collection[indexIn] = typeIn;
                 return true;
             }
 
@@ -43,9 +44,8 @@ namespace Csharp2_A1.Control
 
         public bool CheckIndex(int indexIn)
         {
-            if (list != null && indexIn < list.Count)
+            if (collection != null && indexIn < Count)
             {
-                list.RemoveAt(indexIn);
                 return true;
             }
 
@@ -54,18 +54,18 @@ namespace Csharp2_A1.Control
 
         public void DeleteAll()
         {
-            list.Clear();
+            collection.Clear();
             count = 0;
         }
 
         public bool DeleteAt(T typeIn)
         {
-            if (!list.Contains(typeIn))
+            if (!collection.Contains(typeIn))
             {
                 return false;
             }
 
-            list.Remove(typeIn);
+            collection.Remove(typeIn);
             return true;
         }
 
@@ -73,7 +73,7 @@ namespace Csharp2_A1.Control
         {
             if (CheckIndex(indexIn))
             {
-                return list[indexIn];
+                return collection[indexIn];
             }
             else
             {
@@ -83,13 +83,13 @@ namespace Csharp2_A1.Control
 
         public string[] ToStringArray()
         {
-            string[] listArray = new string[list.Count];
+            string[] listArray = new string[Count];
 
-            for (int i = 0; i < list.Count; i++)
+            for (int i = 0; i < Count; i++)
             {
-                if (list[i] != null)
+                if (collection[i] != null)
                 {
-                    listArray[i] = list[i]!.ToString()!;
+                    listArray[i] = collection[i]!.ToString()!;
                 }
             }
 
@@ -99,7 +99,7 @@ namespace Csharp2_A1.Control
         public List<string> ToStringList()
         {
             List<string> listStrings = new List<string>();
-            foreach (var item in list)
+            foreach (var item in collection)
             {
                 if (item != null)
                 {
@@ -110,6 +110,7 @@ namespace Csharp2_A1.Control
             return listStrings;
         }
 
-        public int Count { get => list.Count; }
+        public int Count { get => collection.Count; }
+        public ObservableCollection<T> Collection { get { return collection; } }
     }
 }

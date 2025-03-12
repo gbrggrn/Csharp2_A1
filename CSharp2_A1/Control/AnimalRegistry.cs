@@ -16,10 +16,8 @@ namespace Csharp2_A1.Control
     /// <summary>
     /// Class responsible for maintaining and manipulating the animal registry.
     /// </summary>
-    internal class AnimalRegistry : ListManager<Animal>
+    internal class AnimalRegistry : ObservableCollectionManager<Animal>
     {
-        ObservableCollection<Animal> animals;
-        MainWindow mainWindow;
         IdGenerator idGenerator;
 
         /// <summary>
@@ -29,21 +27,9 @@ namespace Csharp2_A1.Control
         /// <param name="mainWindowIn">A reference to the current instance of the MainWindow-class</param>
         /// <param name="registrySizeIn">The size of the registry</param>
         /// <param name="idGeneratorIn">A reference to the current instance of the idGenerator-class</param>
-        internal AnimalRegistry(MainWindow mainWindowIn, IdGenerator idGeneratorIn)
+        internal AnimalRegistry(IdGenerator idGeneratorIn)
         {
-            animals = new ObservableCollection<Animal>();
-            mainWindow = mainWindowIn;
-            animals.CollectionChanged += mainWindow.ObserveRegistry!;
             this.idGenerator = idGeneratorIn;
-        }
-
-        /// <summary>
-        /// Get-property for the ObservableCollection.
-        /// </summary>
-        internal ObservableCollection<Animal> Animals
-        {
-            get => animals;
-            set => animals = value;
         }
 
         /// <summary>
@@ -55,14 +41,14 @@ namespace Csharp2_A1.Control
             //New AnimalSorting instance
             AnimalSorting animalSorter = new AnimalSorting(sortByIn);
             //Pass to orderby-method and assign result to list
-            List<Animal> sortedAnimals = animals.OrderBy(animal => animal, animalSorter).ToList();
+            List<Animal> sortedAnimals = Collection.OrderBy(animal => animal, animalSorter).ToList();
 
             //Clear observablecollection
-            Animals.Clear();
+            DeleteAll();
             //Add sorted animals
             foreach (Animal animal in sortedAnimals)
             {
-                Animals.Add(animal);
+                Collection.Add(animal);
             }
         }
 
@@ -73,7 +59,7 @@ namespace Csharp2_A1.Control
         /// <exception cref="ArgumentException">Thrown if registry is full</exception>
         internal void AddAnimal(Animal animalIn)
         {
-            if (animals != null && animalIn != null)
+            if (Collection != null && animalIn != null)
             {
                 Add(animalIn);
             }
