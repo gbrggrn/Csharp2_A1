@@ -16,7 +16,7 @@ namespace Csharp2_A1.Control
     /// <summary>
     /// Class responsible for maintaining and manipulating the animal registry.
     /// </summary>
-    internal class AnimalRegistry
+    internal class AnimalRegistry : ListManager<Animal>
     {
         ObservableCollection<Animal> animals;
         MainWindow mainWindow;
@@ -73,13 +73,13 @@ namespace Csharp2_A1.Control
         /// <exception cref="ArgumentException">Thrown if registry is full</exception>
         internal void AddAnimal(Animal animalIn)
         {
-            if (animals != null)
+            if (animals != null && animalIn != null)
             {
-                animals.Add(animalIn);
+                Add(animalIn);
             }
             else
             {
-                throw new ArgumentException("Can not register animal: registry is full");
+                throw new ArgumentException("Something went wrong. Could not add animal");
             }
         }
 
@@ -91,16 +91,16 @@ namespace Csharp2_A1.Control
         /// <exception cref="ArgumentException">Throws is replacement fails</exception>
         internal void EditAnimal(Animal animalIn, int indexIn)
         {
-            if (animals[indexIn] != null)
+            if (ChangeAt(animalIn, indexIn))
             {
-                animals[indexIn] = animalIn;
+                return;
             }
             else
             {
                 throw new ArgumentException("Something went wrong. Could not save to animal");
             }
         }
-
+        
         /// <summary>
         /// Removes an animal from the list, and its associated ID from the list of generated IDs.
         /// </summary>
@@ -108,17 +108,14 @@ namespace Csharp2_A1.Control
         /// <returns>true if registry contains the instance of Animal : false if not</returns>
         internal bool RemoveAnimal(Animal animalIn)
         {
-            if (Animals.Contains(animalIn))
+            if (DeleteAt(animalIn))
             {
                 int id = int.Parse(animalIn.Id);
                 idGenerator.DeleteId(id);
-                animals.Remove(animalIn);
                 return true;
             }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
     }
 }

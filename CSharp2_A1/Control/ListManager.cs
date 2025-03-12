@@ -19,7 +19,7 @@ namespace Csharp2_A1.Control
             count = 0;
         }
 
-        public bool Add(T type)
+        public bool Add(T typeIn)
         {
             if (type != null)
             {
@@ -30,7 +30,7 @@ namespace Csharp2_A1.Control
             return false;
         }
 
-        public bool ChangeAt(T type, int indexIn)
+        public bool ChangeAt(T typeIn, int indexIn)
         {
             if (CheckIndex(indexIn))
             {
@@ -58,15 +58,15 @@ namespace Csharp2_A1.Control
             count = 0;
         }
 
-        public bool DeleteAt(int indexIn)
+        public bool DeleteAt(T typeIn)
         {
-            if (CheckIndex(indexIn))
+            if (!list.Contains(typeIn))
             {
-                list.RemoveAt(indexIn);
-                return true;
+                return false;
             }
 
-            return false;
+            list.Remove(typeIn);
+            return true;
         }
 
         public T GetAt(int indexIn)

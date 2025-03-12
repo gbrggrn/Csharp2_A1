@@ -13,7 +13,7 @@ namespace Csharp2_A1.Control.Interfaces
         bool ChangeAt(T type, int indexIn);
         bool CheckIndex(int indexIn);
         void DeleteAll();
-        bool DeleteAt(int indexIn);
+        bool DeleteAt(T typeIn);
         T GetAt(int indexIn);
         string[] ToStringArray();
         List<string> ToStringList();
