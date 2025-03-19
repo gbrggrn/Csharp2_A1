@@ -18,28 +18,39 @@ namespace Csharp2_A1.Control
             connections = new();
         }
 
-        internal bool AddConnection(Animal animal, List<FoodItem> item)
+        internal bool AddConnection(Animal animal, FoodItem item)
         {
-            try
+            if (connections.TryGetValue(animal, out List<FoodItem>? items))
             {
-                connections.Add(animal, item);
+                items.Add(item);
                 return true;
             }
-            catch (Exception ex)
+            else
             {
-                MessageBoxes.DisplayErrorBox("Something went wrong - no connection made");
-                return false;
+                try
+                {
+                    List<FoodItem> newItems = [];
+                    newItems.Add(item);
+                    connections.Add(animal, newItems);
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    MessageBoxes.DisplayErrorBox($"Something went wrong - no connection made\n" +
+                        $"Exception: {ex}");
+                    return false;
+                }
             }
         }
 
         internal bool RemoveConnection(Animal animal, FoodItem itemToRemove)
         {
-            try
+            if (connections.TryGetValue(animal, out List<FoodItem>? items))
             {
-                connections[animal].Remove(itemToRemove);
+                items.Remove(itemToRemove);
                 return true;
             }
-            catch (Exception ex)
+            else
             {
                 MessageBoxes.DisplayErrorBox("Something went wrong - could not remove fooditem");
                 return false;
