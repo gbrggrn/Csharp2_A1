@@ -1,39 +1,38 @@
-﻿using System;
+﻿using Csharp2_A1.Control;
+using Csharp2_A1.Control.Interfaces;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Controls;
 
 namespace Csharp2_A1.Models
 {
-    /// <summary>
-    /// Contains operations pertaining to the FoodSchedule class
-    /// </summary>
-    internal class FoodSchedule
+    internal class FoodItem
     {
-        private Enums.Enums.EaterType eaterType;
-        private List<string> foodList;
+        private List<string> ingredients;
+        private string name;
 
         /// <summary>
         /// Constructor initializes instance variables
         /// </summary>
-        public FoodSchedule() 
-        { 
-            eaterType = Enums.Enums.EaterType.Unknown;
-            foodList = new();
+        public FoodItem(string nameIn)
+        {
+            ingredients = new();
+            Name = nameIn;
         }
 
         /// <summary>
-        /// Adds an instruction to the FoodList so long as it is not null
+        /// Adds an instruction to the foodItems list so long as it is not null
         /// </summary>
         /// <param name="instructionIn">The instruction to be added</param>
         /// <returns>A boolean value true if succesful : false if not</returns>
-        internal bool AddInstruction(string instructionIn)
+        internal bool AddIngredient(string instructionIn)
         {
-            if (FoodList != null)
+            if (Ingredients != null)
             {
-                foodList.Add(instructionIn);
+                ingredients.Add(instructionIn);
                 return true;
             }
 
@@ -41,15 +40,15 @@ namespace Csharp2_A1.Models
         }
 
         /// <summary>
-        /// Retrieves a specific instruction in the FoodList
+        /// Retrieves a specific instruction in the FoodItems list
         /// </summary>
         /// <param name="indexIn">Index of instruction to get</param>
         /// <returns>The specified instruction or an empty string</returns>
-        internal string GetSpecificInstruction(int indexIn)
+        internal string GetSpecificIngredient(int indexIn)
         {
-            if (FoodList != null && indexIn >= 0 && indexIn < FoodList.Count)
+            if (Ingredients != null && indexIn >= 0 && indexIn < Ingredients.Count)
             {
-                return FoodList[indexIn];
+                return Ingredients[indexIn];
             }
 
             return string.Empty;
@@ -61,11 +60,11 @@ namespace Csharp2_A1.Models
         /// <param name="newInstructionIn">The edited instruction</param>
         /// <param name="indexIn">Index of the edited instruction</param>
         /// <returns>A boolean value true if successful : false if not</returns>
-        internal bool EditInstruction(string newInstructionIn, int indexIn)
+        internal bool EditIngredient(string newInstructionIn, int indexIn)
         {
-            if (FoodList != null && indexIn >= 0 && indexIn < FoodList.Count)
+            if (Ingredients != null && indexIn >= 0 && indexIn < Ingredients.Count)
             {
-                FoodList[indexIn] = newInstructionIn;
+                Ingredients[indexIn] = newInstructionIn;
                 return true;
             }
 
@@ -77,28 +76,28 @@ namespace Csharp2_A1.Models
         /// </summary>
         /// <param name="indexIn">Index of the instruction to remove</param>
         /// <returns>A boolean value true if succesful : false if not</returns>
-        internal bool RemoveInstruction(int indexIn)
+        internal bool RemoveIngredient(int indexIn)
         {
-            if (FoodList != null && indexIn >= 0 && indexIn < FoodList.Count)
+            if (Ingredients != null && indexIn >= 0 && indexIn < Ingredients.Count)
             {
-                FoodList.RemoveAt(indexIn);
+                Ingredients.RemoveAt(indexIn);
                 return true;
             }
 
             return false;
         }
-        
+
         //Properties
-        public Enums.Enums.EaterType EaterType
+        public List<string> Ingredients
         {
-            get => eaterType;
-            set => eaterType = value;
+            get => ingredients;
+            set => ingredients = value;
         }
 
-        public List<string> FoodList
+        public string Name
         {
-            get => foodList;
-            set => foodList = value;
+            get => name;
+            set => name = value;
         }
     }
 }

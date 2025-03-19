@@ -12,11 +12,6 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesFish
 {
     class Salmon : Fish
     {
-        public Salmon()
-        {
-            FoodSchedule = new FoodSchedule();
-        }
-
         public override bool ValidateSpeciesTrait(string speciesTraitIn, out string errorMessage)
         {
             if (string.IsNullOrWhiteSpace(speciesTraitIn))
@@ -38,7 +33,6 @@ namespace Csharp2_A1.Models.AnimalSpecies.SpeciesFish
             return false;
         }
 
-        public override FoodSchedule FoodSchedule { get; }
         public override string SpeciesTrait { get; set; } = string.Empty;
         public override string SpeciesQuestion { get { return "Color"; } }
     }

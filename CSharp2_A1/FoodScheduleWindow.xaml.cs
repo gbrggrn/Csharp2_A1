@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using Csharp2_A1.Control.Interfaces;
 using Csharp2_A1.Models;
 using Csharp2_A1.Models.Enums;
+using Csharp2_A1.Control;
 
 namespace Csharp2_A1
 {
@@ -22,21 +23,20 @@ namespace Csharp2_A1
     /// </summary>
     public partial class FoodScheduleWindow : Window
     {
-        private Animal currentAnimal;
+        private FoodManager foodManager;
         private bool editing;
 
         /// <summary>
         /// Constructor loads controls and initializes instance variables
         /// </summary>
         /// <param name="currentAnimalIn">The current instance of animal being edited</param>
-        internal FoodScheduleWindow(Animal currentAnimalIn)
+        internal FoodScheduleWindow(FoodManager foodManagerIn)
         {
             InitializeComponent();
-            currentAnimal = currentAnimalIn;
-            LoadItems();
-            LoadEaterTypes();
+            foodManager = foodManagerIn;
             UpdateItems();
             editing = false;
+            foodItemNamesListBox.SelectionChanged += UpdateIngredients;
         }
 
         /// <summary>
@@ -50,31 +50,6 @@ namespace Csharp2_A1
         }
 
         /// <summary>
-        /// Loads existing FoodList-items to the scheduleItemsListBox
-        /// </summary>
-        private void LoadItems()
-        {
-            List<string> foodScheduleItems = currentAnimal.FoodSchedule.FoodList;
-
-            if (foodScheduleItems != null && foodScheduleItems.Count > 0)
-            {
-                foreach (string item in foodScheduleItems)
-                {
-                    scheduleItemsListBox.Items.Add(item);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Loads the EaterType enum values to the eaterTypeComboBox
-        /// </summary>
-        private void LoadEaterTypes()
-        {
-            eaterTypeComboBox.ItemsSource = Enum.GetValues(typeof(Enums.EaterType)).Cast<Enums.EaterType>();
-            eaterTypeComboBox.SelectedIndex = 3;
-        }
-
-        /// <summary>
         /// Executes upon addbutton-click.
         /// Saves the instruction and calls an update of the GUI.
         /// </summary>
@@ -84,12 +59,13 @@ namespace Csharp2_A1
         {
             string itemContent = GetRichTextBoxString(itemEntryRichTextBox);
 
-            if (itemContent != null && itemContent.Length > 0)
+            if (itemContent != null && itemContent.Length > 0 && foodItemNameTextBox.Text != null)
             {
-                currentAnimal.FoodSchedule.AddInstruction(itemContent);
-                currentAnimal.FoodSchedule.EaterType = (Enums.EaterType)eaterTypeComboBox.SelectedItem;
+                foodManager.Collection.Add(new FoodItem(foodItemNameTextBox.Text));
+                foodManager.Collection[foodManager.Collection.Count - 1].Ingredients.Add(itemContent);
                 UpdateItems();
                 itemEntryRichTextBox.Document.Blocks.Clear();
+                foodItemNameTextBox.Text = string.Empty;
             }
             else
             {
@@ -115,14 +91,28 @@ namespace Csharp2_A1
         /// </summary>
         private void UpdateItems()
         {
-            if (currentAnimal.FoodSchedule.FoodList.Count > 0)
+            if (foodManager.Collection.Count > 0)
             {
-                scheduleItemsListBox.Items.Clear();
+                foodItemNamesListBox.Items.Clear();
 
-                foreach (string item in currentAnimal.FoodSchedule.FoodList)
+                foreach (FoodItem item in foodManager.Collection)
                 {
-                    string listedView = item.Length > 20 ? item.Substring(0, 20) : item;
-                    scheduleItemsListBox.Items.Add(listedView);
+                    foodItemNamesListBox.Items.Add(item.Name);
+                }
+            }
+        }
+
+        private void UpdateIngredients(Object sender, EventArgs e)
+        {
+            ingredientsShortListBox.Items.Clear();
+
+            if (foodItemNamesListBox.SelectedIndex != -1)
+            {
+                int index = foodItemNamesListBox.SelectedIndex;
+                foreach (string ingredient in foodManager.Collection[index].Ingredients)
+                {
+                    string ingredientView = ingredient.Length > 15 ? ingredient[..10] : ingredient;
+                    ingredientsShortListBox.Items.Add(ingredientView);
                 }
             }
         }
@@ -137,16 +127,16 @@ namespace Csharp2_A1
             {
                 addButton.IsEnabled = true;
                 deleteButton.IsEnabled = true;
-                scheduleItemsListBox.IsEnabled = true;
-                eaterTypeComboBox.IsEnabled = true;
+                foodItemNamesListBox.IsEnabled = true;
+                foodItemNameTextBox.IsEnabled = true;
                 editButton.Content = "Edit";
             }
             if (!onOrOff)
             {
                 addButton.IsEnabled = false;
                 deleteButton.IsEnabled = false;
-                scheduleItemsListBox.IsEnabled = false;
-                eaterTypeComboBox.IsEnabled = false;
+                foodItemNamesListBox.IsEnabled = false;
+                foodItemNameTextBox.IsEnabled = false;
                 editButton.Content = "Save";
             }
         }
@@ -161,28 +151,28 @@ namespace Csharp2_A1
         /// <param name="e"></param>
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
-            //If not currently editing:
-            if (scheduleItemsListBox.SelectedIndex != -1 && !editing)
+            //If not editing:
+            if (foodItemNamesListBox.SelectedIndex != -1 && !editing)
             {
                 editing = true;
-                int index = scheduleItemsListBox.SelectedIndex;
+                int foodItemIndex = foodItemNamesListBox.SelectedIndex;
+                int ingredientIndex = ingredientsShortListBox.SelectedIndex;
                 ToggleControlsUponEdit(false);
                 itemEntryRichTextBox.Document.Blocks.Clear();
-                string toEdit = currentAnimal.FoodSchedule.GetSpecificInstruction(index);
+                string toEdit = foodManager.Collection[foodItemIndex].GetSpecificIngredient(ingredientIndex);
                 itemEntryRichTextBox.Document.Blocks.Add(new Paragraph(new Run(toEdit)));
             }
-            //If currently editing:
-            else if (scheduleItemsListBox.SelectedIndex != -1 && editing)
+            //If editing:
+            else if (foodItemNamesListBox.SelectedIndex != -1 && ingredientsShortListBox.SelectedIndex != -1 && editing)
             {
-                int index = scheduleItemsListBox.SelectedIndex;
-                currentAnimal.FoodSchedule.EditInstruction(GetRichTextBoxString(itemEntryRichTextBox), index);
-                scheduleItemsListBox.Items.Clear();
+                int index = foodItemNamesListBox.SelectedIndex;
+                foodManager.Collection[index].EditIngredient(GetRichTextBoxString(itemEntryRichTextBox), ingredientsShortListBox.SelectedIndex);
                 itemEntryRichTextBox.Document.Blocks.Clear();
                 UpdateItems();
                 editing = false;
                 ToggleControlsUponEdit(true);
             }
-            else if (scheduleItemsListBox.Items == null)
+            else if (foodItemNamesListBox.Items == null)
             {
                 MessageBoxes.DisplayInfoBox("No entries yet!", "No entries");
             }
@@ -200,11 +190,33 @@ namespace Csharp2_A1
         /// <param name="e"></param>
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            if (scheduleItemsListBox.SelectedIndex != -1)
+            if (foodItemNamesListBox.SelectedIndex != -1 && ingredientsShortListBox.SelectedIndex == -1)
             {
-                int index = scheduleItemsListBox.SelectedIndex;
-                currentAnimal.FoodSchedule.RemoveInstruction(index);
-                UpdateItems();
+                int index = foodItemNamesListBox.SelectedIndex;
+                if (MessageBoxes.DisplayQuestion($"Remove {foodManager.Collection[index].Name} and all its ingredients?", "Remove?"))
+                {
+                    foodManager.Collection.RemoveAt(index);
+                    UpdateItems();
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            if (foodItemNamesListBox.SelectedIndex != -1 && ingredientsShortListBox.SelectedIndex != -1)
+            {
+                int ingredientIndex = ingredientsShortListBox.SelectedIndex;
+                int foodItemIndex = foodItemNamesListBox.SelectedIndex;
+                if (MessageBoxes.DisplayQuestion("Remove the selected ingredient?", "Remove?"))
+                {
+                    foodManager.Collection[foodItemIndex].RemoveIngredient(ingredientIndex);
+                    UpdateIngredients(sender, e);
+                }
+                else
+                {
+                    return;
+                }
             }
         }
     }

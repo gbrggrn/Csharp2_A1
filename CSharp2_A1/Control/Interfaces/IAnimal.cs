@@ -25,7 +25,6 @@ namespace Csharp2_A1.Control.Interfaces
         string CategoryQuestion { get; }
         string SpeciesTrait { get; set; }
         string SpeciesQuestion { get; }
-        FoodSchedule FoodSchedule { get; }
 
         //Methods
         bool ValidateAnimalTraits(string ageIn, string nameIn, out string errorMessages);

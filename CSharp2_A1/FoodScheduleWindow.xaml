@@ -40,31 +40,39 @@
         </Grid.RowDefinitions>
         
         <!-- Header -->
-        <Label Grid.Row="0" x:Name="scheduleHeaderLabel" Content="Food Schedule" FontSize="18" VerticalAlignment="Center" Margin="10,0,0,0"/>
+        <Label Grid.Row="0" x:Name="scheduleHeaderLabel" Content="Manage food items" FontSize="18" VerticalAlignment="Center" Margin="10,0,0,0"/>
         
         <!-- Exit Button -->
         <Border Grid.Row="0" Margin="0,0,25,0" HorizontalAlignment="Right" CornerRadius="10" Width="75" Background="#A0522D" Height="30">
             <Button x:Name="exitButton" Content="Exit" Height="30" VerticalAlignment="Top" Click="exitButton_Click"/>
         </Border>
 
-        <!-- Listbox Label -->
-        <Label Grid.Row="1" x:Name="scheduleItemsHeaderLabel" Content="Food Schedule Items" VerticalAlignment="Bottom" Margin="10,0,0,0"/>
+        <!-- Food item listbox Label -->
+        <Label Grid.Row="1" x:Name="foodItemNamesLabel" Content="Food item names" VerticalAlignment="Bottom" Margin="10,0,0,0"/>
 
-        <!-- Listbox -->
-        <ListBox Grid.Row="2" x:Name="scheduleItemsListBox" Margin="10"/>
+        <!-- Ingredients short form Label -->
+        <Label Grid.Row="1" x:Name="ingredientsShortLabel" Content="Ingredients" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,100,0"/>
         
-        <!-- Eatertype Choice -->
-        <Grid Grid.Row="3">
+        <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Label Grid.Column="0" x:Name="eaterTypeLabel" Content="Eater type" HorizontalAlignment="Center"/>
-            <ComboBox Grid.Column="1" x:Name="eaterTypeComboBox" Margin="5,5,10,5"/> 
+
+            <!-- Food item names listbox-->
+            <ListBox Grid.Column="0" x:Name="foodItemNamesListBox" Margin="10"/>
+            
+            <!-- Ingredients shortform listbox -->
+            <ListBox Grid.Column="1" x:Name="ingredientsShortListBox" Margin="10"/>
         </Grid>
-        
+
+        <!-- Food item name -->
+        <Label Grid.Row="3" x:Name="foodItemNameLabel" Content="Food item name" Margin="10,0,0,0"/>
+        <TextBox Grid.Row="3" x:Name="foodItemNameTextBox" HorizontalAlignment="Right" Width="200" Margin="0,2,10,2"/>
+
         <!-- RichTextBox -->
-        <RichTextBox Grid.Row="4" x:Name="itemEntryRichTextBox" Margin="10"/>
+        <Label Grid.Row="4" x:Name="ingredientsLabel" Content="Food item details" Margin="10,0,0,0"/>
+        <RichTextBox Grid.Row="4" x:Name="itemEntryRichTextBox" Margin="10,25,10,0"/>
 
         <!-- Control Buttons-->
         <StackPanel Grid.Row="5" Orientation="Horizontal">

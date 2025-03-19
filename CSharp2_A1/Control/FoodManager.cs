@@ -1,0 +1,15 @@
+﻿using Csharp2_A1.Control.Interfaces;
+using Csharp2_A1.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Csharp2_A1.Control
+{
+    internal class FoodManager : ObservableCollectionManager<FoodItem>
+    {
+        
+    }
+}

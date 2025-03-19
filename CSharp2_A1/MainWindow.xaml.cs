@@ -28,6 +28,7 @@ namespace CSharp2_A1
     {
         private readonly Dictionary<string, List<String>> categoriesAndSpecies;
         private readonly AnimalRegistry animalRegistry;
+        private readonly FoodManager foodManager;
         private readonly IdGenerator idGenerator;
 
         private bool editingFlag;
@@ -40,6 +41,7 @@ namespace CSharp2_A1
             InitializeComponent();
             idGenerator = new();
             animalRegistry = new(idGenerator);
+            foodManager = new();
             categoriesAndSpecies = GetCategoriesAndSpecies();
             LoadCategories();
             LoadGenderComboBox();
@@ -448,11 +450,10 @@ namespace CSharp2_A1
                     $"Gender: {currentInterface.Animal.Gender,-15}\n" +
                     $"Domesticated: {currentInterface.Animal.IsDomesticated,-10}\n" +
                     $"{currentInterface.Animal.CategoryQuestion}: {currentInterface.Animal.CategoryTrait}\n" +
-                    $"{currentInterface.Animal.SpeciesQuestion}: {currentInterface.Animal.SpeciesTrait}\n" +
-                    $"Eater type: {currentInterface.Animal.FoodSchedule.EaterType}"
+                    $"{currentInterface.Animal.SpeciesQuestion}: {currentInterface.Animal.SpeciesTrait}\n" 
                     );
 
-                displayFoodScheduleListBox.Items.Clear();
+                /*displayFoodScheduleListBox.Items.Clear();
                 if (currentInterface.Animal.FoodSchedule.FoodList != null)
                 {
                     foreach (string item in currentInterface.Animal.FoodSchedule.FoodList)
@@ -460,7 +461,7 @@ namespace CSharp2_A1
                         string itemView = item.Length > 15 ? item[..15] : item;
                         displayFoodScheduleListBox.Items.Add(itemView);
                     }
-                }
+                }*/
             }
         }
 
@@ -569,7 +570,7 @@ namespace CSharp2_A1
             if (displayAllListView.SelectedIndex != -1)
             {
                 int index = displayAllListView.SelectedIndex;
-                FoodScheduleWindow foodScheduleWindow = new FoodScheduleWindow(animalRegistry.GetAt(index));
+                FoodScheduleWindow foodScheduleWindow = new FoodScheduleWindow(foodManager);
 
                 foodScheduleWindow.ShowDialog();
 

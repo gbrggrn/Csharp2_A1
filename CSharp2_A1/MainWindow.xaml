@@ -132,7 +132,7 @@
                 <!-- Output labels -->
                 <Label x:Name="categoryLabel" Content="Category" Grid.Row="0" Grid.Column="0" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
                 <Label x:Name="speciesLabel" Content="Species" Grid.Row="0" Grid.Column="1" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-                <Label x:Name="listAllLabel" Content="List All Animals" Grid.Row="2" Grid.Column="0" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                <Label x:Name="listAllLabel" Content="List all animals" Grid.Row="2" Grid.Column="0" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
                 
                 <!-- Output controls -->
                 <ListBox x:Name="categoryListBox" Grid.Row="1" Grid.Column="0" Margin="5"/>
@@ -232,6 +232,7 @@
                         <Grid.RowDefinitions>
                             <RowDefinition/>
                             <RowDefinition/>
+                            <RowDefinition/>
                         </Grid.RowDefinitions>
 
                         <!-- Edit General Info Button-->
@@ -241,13 +242,18 @@
 
                         <!-- Edit Food Schedule Button-->
                         <Border Grid.Row="1" CornerRadius="10" Width="150" Background="#A0522D" Height="30" VerticalAlignment="Center">
-                            <Button x:Name="addScheduleButton" Content="Edit Food Schedule" Click="AddScheduleButton_Click"/>
+                            <Button x:Name="addScheduleButton" Content="Manage food items" Click="AddScheduleButton_Click"/>
+                        </Border>
+
+                        <!-- View food items button-->
+                        <Border Grid.Row="2" CornerRadius="10" Width="150" Background="#A0522D" Height="30" VerticalAlignment="Center">
+                            <Button x:Name="viewItemsButton" Content="Edit/view connections"/>
                         </Border>
                     </Grid>
 
                     <!-- Food Schedule Short Form ListBox -->
                     <StackPanel Grid.Row="0" Orientation="Vertical">
-                        <Label x:Name="displayFoodScheduleLabel" Content="FoodSchedule short form" Margin="10,0,0,0"/>
+                        <Label x:Name="displayFoodScheduleLabel" Content="Connected food items" Margin="10,0,0,0"/>
                         <ListBox x:Name="displayFoodScheduleListBox" FontSize="13" Grid.Row="0" Margin="10,5,10,10" ScrollViewer.CanContentScroll="True" Height="110"/>
                     </StackPanel>
                     
