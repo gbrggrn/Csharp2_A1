@@ -23,5 +23,45 @@ namespace Csharp2_A1
         {
             InitializeComponent();
         }
+
+        private void LoadAnimals()
+        {
+
+        }
+
+        private void LoadFoodItems()
+        {
+
+        }
+
+        private void DisplayCurrentlyConnected()
+        {
+
+        }
+
+        private void ConnectButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ExitButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ToggleButtonsOnEdit(bool toggle)
+        {
+
+        }
     }
 }
