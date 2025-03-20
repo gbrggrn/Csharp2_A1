@@ -56,5 +56,7 @@ namespace Csharp2_A1.Control
                 return false;
             }
         }
+
+        public Dictionary<Animal, List<FoodItem>> Connections => connections;
     }
 }

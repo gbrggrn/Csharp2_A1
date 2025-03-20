@@ -29,6 +29,12 @@ namespace Csharp2_A1
             InitializeComponent();
             LoadAnimals();
             LoadFoodItems();
+            SetSubscriptions();
+        }
+
+        private void SetSubscriptions()
+        {
+            animalsListView.SelectionChanged += DisplayCurrentlyConnected;
         }
 
         private void LoadAnimals()
@@ -47,9 +53,23 @@ namespace Csharp2_A1
             }
         }
 
-        private void DisplayCurrentlyConnected()
+        private void DisplayCurrentlyConnected(Object sender, EventArgs e)
         {
-
+            if (animalsListView.SelectedIndex != -1)
+            {
+                Animal displayAnimal = currentRegistry.GetAt(animalsListView.SelectedIndex);
+                if (displayAnimal != null)
+                {
+                    currentConnectedLabel.Content = $"Food items currently connected to: {displayAnimal.Name} the {displayAnimal.GetType().Name}";
+                    if (currentFoodManager.Connections.TryGetValue(displayAnimal, out List<FoodItem> foodItems))
+                    {
+                        foreach (FoodItem item in foodItems)
+                        {
+                            currentconnectedListBox.Items.Add(item.Name);
+                        }
+                    }
+                }
+            }
         }
 
         private void ConnectButton_Click(object sender, RoutedEventArgs e)
