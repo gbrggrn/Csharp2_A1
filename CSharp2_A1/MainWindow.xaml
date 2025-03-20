@@ -242,12 +242,12 @@
 
                         <!-- Edit Food Schedule Button-->
                         <Border Grid.Row="1" CornerRadius="10" Width="150" Background="#A0522D" Height="30" VerticalAlignment="Center">
-                            <Button x:Name="addScheduleButton" Content="Manage food items" Click="AddScheduleButton_Click"/>
+                            <Button x:Name="manageFoodItemsButton" Content="Manage food items" Click="ManageFoodItemsButton_Click"/>
                         </Border>
 
                         <!-- View food items button-->
                         <Border Grid.Row="2" CornerRadius="10" Width="150" Background="#A0522D" Height="30" VerticalAlignment="Center">
-                            <Button x:Name="viewItemsButton" Content="Edit/view connections"/>
+                            <Button x:Name="connectionsButton" Content="Edit/view connections" Click="ConnectionsButton_Click"/>
                         </Border>
                     </Grid>
 

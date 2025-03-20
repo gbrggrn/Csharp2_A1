@@ -565,7 +565,7 @@ namespace CSharp2_A1
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void AddScheduleButton_Click(object sender, RoutedEventArgs e)
+        private void ManageFoodItemsButton_Click(object sender, RoutedEventArgs e)
         {
             if (displayAllListView.SelectedIndex != -1)
             {
@@ -608,7 +608,7 @@ namespace CSharp2_A1
                 listAllCheckBox.IsEnabled = false;
                 displayAllListView.IsEnabled = false;
                 editButton.IsEnabled = false;
-                addScheduleButton.IsEnabled = false;
+                manageFoodItemsButton.IsEnabled = false;
 
                 //Rearrange subscriptions
                 addButton.Content = "Save";
@@ -623,7 +623,7 @@ namespace CSharp2_A1
                 listAllCheckBox.IsEnabled = true;
                 displayAllListView.IsEnabled = true;
                 editButton.IsEnabled = true;
-                addScheduleButton.IsEnabled = true;
+                manageFoodItemsButton.IsEnabled = true;
 
                 //Rearrange subcriptions
                 addButton.Content = "+ Add";
@@ -673,6 +673,13 @@ namespace CSharp2_A1
             domesticatedCheckBox.IsChecked = currentAnimalInterfaceIn.Animal.IsDomesticated;
             firstQTextBox.Text = currentAnimalInterfaceIn.Animal.CategoryTrait;
             secondQTextBox.Text = currentAnimalInterfaceIn.Animal.SpeciesTrait;
+        }
+
+        private void ConnectionsButton_Click(object sender, RoutedEventArgs e)
+        {
+            ConnectionsWindow connectionsWindow = new ConnectionsWindow(animalRegistry, foodManager);
+
+            connectionsWindow.ShowDialog();
         }
     }
 }

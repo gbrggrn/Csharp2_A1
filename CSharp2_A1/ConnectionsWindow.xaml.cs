@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Csharp2_A1.Control;
+using Csharp2_A1.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,19 +21,30 @@ namespace Csharp2_A1
     /// </summary>
     public partial class ConnectionsWindow : Window
     {
-        public ConnectionsWindow()
+        private readonly AnimalRegistry currentRegistry;
+        private readonly FoodManager currentFoodManager;
+
+        internal ConnectionsWindow(AnimalRegistry currentRegistryIn, FoodManager currentFoodManagerIn)
         {
             InitializeComponent();
+            LoadAnimals();
+            LoadFoodItems();
         }
 
         private void LoadAnimals()
         {
-
+            foreach (Animal animal in currentRegistry.Collection)
+            {
+                animalsListView.Items.Add($"{animal.Name} {animal.GetType().Name}");
+            }
         }
 
         private void LoadFoodItems()
         {
-
+            foreach (FoodItem item in currentFoodManager.Collection)
+            {
+                foodItemsListBox.Items.Add(item.Name);
+            }
         }
 
         private void DisplayCurrentlyConnected()
