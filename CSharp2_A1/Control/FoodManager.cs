@@ -13,11 +13,21 @@ namespace Csharp2_A1.Control
     {
         private readonly Dictionary<Animal, List<FoodItem>> connections;
 
+        /// <summary>
+        /// Constructor initializes the dictionary.
+        /// </summary>
         internal FoodManager()
         {
             connections = [];
         }
 
+        /// <summary>
+        /// If animal is already added: adds new foodItem to its corresponding list.
+        /// If animal is not added: adds the animal and a new corresponding list containing the fooditem.
+        /// </summary>
+        /// <param name="animal">The animal to be added</param>
+        /// <param name="item">The item to be added</param>
+        /// <returns>true if successful : false if not</returns>
         internal bool AddConnection(Animal animal, FoodItem item)
         {
             if (connections.TryGetValue(animal, out List<FoodItem>? items))
@@ -43,6 +53,12 @@ namespace Csharp2_A1.Control
             }
         }
 
+        /// <summary>
+        /// If animal exists: removes the specified fooditem from its corresponding list.
+        /// If animal does not exist: prompts error message.
+        /// </summary>
+        /// <param name="animal">The animal from which to remove a food item connection</param>
+        /// <param name="removalIndex">The fooditem to be removed</param>
         internal void RemoveConnection(Animal animal, int removalIndex)
         {
             if (connections.TryGetValue(animal, out List<FoodItem>? items))
@@ -55,6 +71,7 @@ namespace Csharp2_A1.Control
             }
         }
 
+        //Properties
         public Dictionary<Animal, List<FoodItem>> Connections => connections;
     }
 }

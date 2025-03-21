@@ -25,6 +25,11 @@ namespace Csharp2_A1
         private readonly FoodManager currentFoodManager;
         private const int unselected = -1;
 
+        /// <summary>
+        /// Constructor initializes instance variables and calls setup methods.
+        /// </summary>
+        /// <param name="currentRegistryIn">The current instance of animalRegistry</param>
+        /// <param name="currentFoodManagerIn">The current instance of FoodManager</param>
         internal ConnectionsWindow(AnimalRegistry currentRegistryIn, FoodManager currentFoodManagerIn)
         {
             InitializeComponent();
@@ -35,11 +40,17 @@ namespace Csharp2_A1
             SetSubscriptions();
         }
 
+        /// <summary>
+        /// Sets subscriptions for this form.
+        /// </summary>
         private void SetSubscriptions()
         {
             animalsListView.SelectionChanged += DisplayCurrentlyConnected;
         }
 
+        /// <summary>
+        /// Loads animals to the animalsListView.
+        /// </summary>
         private void LoadAnimals()
         {
             foreach (Animal animal in currentRegistry.Collection)
@@ -48,6 +59,9 @@ namespace Csharp2_A1
             }
         }
 
+        /// <summary>
+        /// Loads food item names to the foodItemsListBox.
+        /// </summary>
         private void LoadFoodItems()
         {
             foreach (FoodItem item in currentFoodManager.Collection)
@@ -56,6 +70,11 @@ namespace Csharp2_A1
             }
         }
 
+        /// <summary>
+        /// Displays the current connections of food items to a chosen animal.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DisplayCurrentlyConnected(Object sender, EventArgs e)
         {
             if (animalsListView.SelectedIndex != unselected)
@@ -78,6 +97,11 @@ namespace Csharp2_A1
             }
         }
 
+        /// <summary>
+        /// Connects the chosen animal to the chosen foodItem.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ConnectButton_Click(object sender, RoutedEventArgs e)
         {
             if (animalsListView.SelectedIndex != unselected)
@@ -88,6 +112,7 @@ namespace Csharp2_A1
                     int foodItemIndex = foodItemsListBox.SelectedIndex;
 
                     currentFoodManager.AddConnection(currentRegistry.GetAt(animalIndex), currentFoodManager.GetAt(foodItemIndex));
+                    //Update GUI
                     DisplayCurrentlyConnected(sender, e);
                 }
                 else
@@ -103,6 +128,11 @@ namespace Csharp2_A1
 
         }
 
+        /// <summary>
+        /// Deletes a chosen foodItem connected to an animal.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             if (!currentConnectedListBox.Items.IsEmpty)
@@ -119,6 +149,11 @@ namespace Csharp2_A1
             }
         }
 
+        /// <summary>
+        /// Returns to MainWindow.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();

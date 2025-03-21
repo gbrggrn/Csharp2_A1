@@ -96,23 +96,26 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
                 <!-- Input Labels -->
                 <Label x:Name="nameLabel" Content="Name" Grid.Row="0" VerticalAlignment="Bottom" FontSize="14"/>
                 <Label x:Name="ageLabel" Content="Age" Grid.Row="1" VerticalAlignment="Center" FontSize="14"/>
                 <Label x:Name="genderLabel" Content="Gender" Grid.Row="2" VerticalAlignment="Center" FontSize="14"/>
-                <Label x:Name="domesticatedLabel" Content="Domesticated" Grid.Row="3" VerticalAlignment="Center" FontSize="14"/>
-                <Label x:Name="categoryQuestionLabel" Grid.Row="4" VerticalAlignment="Center" FontSize="14"/>
-                <Label x:Name="speciesQuestionLabel" Grid.Row="5" VerticalAlignment="Center" FontSize="14"/>
+                <Label x:Name="eaterTypeLabel" Content="Eater type" Grid.Row="3" VerticalAlignment="Center" FontSize="14"/>
+                <Label x:Name="domesticatedLabel" Content="Domesticated" Grid.Row="4" VerticalAlignment="Center" FontSize="14"/>
+                <Label x:Name="categoryQuestionLabel" Grid.Row="5" VerticalAlignment="Center" FontSize="14"/>
+                <Label x:Name="speciesQuestionLabel" Grid.Row="6" VerticalAlignment="Center" FontSize="14"/>
                 
                 <!-- Input controls -->
                 <TextBox x:Name="nameTextBox" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center"/>
                 <TextBox x:Name="ageTextBox" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"/>
                 <ComboBox x:Name="genderComboBox" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center"/>
-                <CheckBox x:Name="domesticatedCheckBox" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <TextBox x:Name="firstQTextBox" Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" Visibility="Hidden"/>
-                <TextBox x:Name="secondQTextBox" Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" Visibility="Hidden"/>
+                <ComboBox x:Name="eaterTypeComboBox" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" />
+                <CheckBox x:Name="domesticatedCheckBox" Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <TextBox x:Name="firstQTextBox" Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" Visibility="Hidden"/>
+                <TextBox x:Name="secondQTextBox" Grid.Row="6" Grid.Column="1" VerticalAlignment="Center" Visibility="Hidden"/>
 
             </Grid>
 
@@ -254,7 +257,7 @@
                     <!-- Food Schedule Short Form ListBox -->
                     <StackPanel Grid.Row="0" Orientation="Vertical">
                         <Label x:Name="displayFoodScheduleLabel" Content="Connected food items" Margin="10,0,0,0"/>
-                        <ListBox x:Name="displayFoodScheduleListBox" FontSize="13" Grid.Row="0" Margin="10,5,10,10" ScrollViewer.CanContentScroll="True" Height="110"/>
+                        <ListBox x:Name="displayConnectionsListBox" FontSize="13" Grid.Row="0" Margin="10,5,10,10" ScrollViewer.CanContentScroll="True" Height="110"/>
                     </StackPanel>
                     
                 </Grid>

@@ -453,15 +453,18 @@ namespace CSharp2_A1
                     $"{currentInterface.Animal.SpeciesQuestion}: {currentInterface.Animal.SpeciesTrait}\n" 
                     );
 
-                /*displayFoodScheduleListBox.Items.Clear();
-                if (currentInterface.Animal.FoodSchedule.FoodList != null)
+                //Update food connections display
+                displayConnectionsListBox.Items.Clear();
+                if (foodManager.Connections.Count > 0)
                 {
-                    foreach (string item in currentInterface.Animal.FoodSchedule.FoodList)
+                    if (foodManager.Connections.TryGetValue(animal, out List<FoodItem>? foodItems))
                     {
-                        string itemView = item.Length > 15 ? item[..15] : item;
-                        displayFoodScheduleListBox.Items.Add(itemView);
+                        foreach (FoodItem item in foodItems)
+                        {
+                            displayConnectionsListBox.Items.Add(item.Name);
+                        }
                     }
-                }*/
+                }
             }
         }
 
@@ -567,19 +570,9 @@ namespace CSharp2_A1
         /// <param name="e"></param>
         private void ManageFoodItemsButton_Click(object sender, RoutedEventArgs e)
         {
-            if (displayAllListView.SelectedIndex != -1)
-            {
-                int index = displayAllListView.SelectedIndex;
-                FoodScheduleWindow foodScheduleWindow = new FoodScheduleWindow(foodManager);
+            FoodScheduleWindow foodScheduleWindow = new FoodScheduleWindow(foodManager);
 
-                foodScheduleWindow.ShowDialog();
-
-                DisplayAnimal(sender, e);
-            }
-            else
-            {
-                MessageBoxes.DisplayErrorBox("No animal selected!");
-            }
+            foodScheduleWindow.ShowDialog();
         }
 
         /// <summary>
@@ -675,11 +668,19 @@ namespace CSharp2_A1
             secondQTextBox.Text = currentAnimalInterfaceIn.Animal.SpeciesTrait;
         }
 
+        /// <summary>
+        /// Displays a new Connections Window.
+        /// Updates GUI upon return.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ConnectionsButton_Click(object sender, RoutedEventArgs e)
         {
             ConnectionsWindow connectionsWindow = new ConnectionsWindow(animalRegistry, foodManager);
 
             connectionsWindow.ShowDialog();
+
+            DisplayAnimal(sender, e);
         }
     }
 }

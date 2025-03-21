@@ -62,7 +62,7 @@ namespace Csharp2_A1
             if (itemContent != null && itemContent.Length > 0 && foodItemNameTextBox.Text != null)
             {
                 foodManager.Collection.Add(new FoodItem(foodItemNameTextBox.Text));
-                foodManager.Collection[foodManager.Collection.Count - 1].Ingredients.Add(itemContent);
+                foodManager.Collection[foodManager.Collection.Count - 1].AddIngredient(itemContent);
                 UpdateItems();
                 itemEntryRichTextBox.Document.Blocks.Clear();
                 foodItemNameTextBox.Text = string.Empty;
@@ -102,6 +102,11 @@ namespace Csharp2_A1
             }
         }
 
+        /// <summary>
+        /// Updates the ingredients rich textbox based on selection of food item.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void UpdateIngredients(Object sender, EventArgs e)
         {
             ingredientsShortListBox.Items.Clear();
