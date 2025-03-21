@@ -23,6 +23,7 @@ namespace Csharp2_A1
     {
         private readonly AnimalRegistry currentRegistry;
         private readonly FoodManager currentFoodManager;
+        private const int unselected = -1;
 
         internal ConnectionsWindow(AnimalRegistry currentRegistryIn, FoodManager currentFoodManagerIn)
         {
@@ -57,9 +58,10 @@ namespace Csharp2_A1
 
         private void DisplayCurrentlyConnected(Object sender, EventArgs e)
         {
-            if (animalsListView.SelectedIndex != -1)
+            if (animalsListView.SelectedIndex != unselected)
             {
                 currentConnectedListBox.Items.Clear();
+                foodItemsListBox.SelectedIndex = unselected;
 
                 Animal displayAnimal = currentRegistry.GetAt(animalsListView.SelectedIndex);
                 if (displayAnimal != null)
@@ -78,14 +80,15 @@ namespace Csharp2_A1
 
         private void ConnectButton_Click(object sender, RoutedEventArgs e)
         {
-            if (animalsListView.SelectedIndex != -1)
+            if (animalsListView.SelectedIndex != unselected)
             {
-                if (foodItemsListBox.SelectedIndex != -1)
+                if (foodItemsListBox.SelectedIndex != unselected)
                 {
                     int animalIndex = animalsListView.SelectedIndex;
                     int foodItemIndex = foodItemsListBox.SelectedIndex;
 
                     currentFoodManager.AddConnection(currentRegistry.GetAt(animalIndex), currentFoodManager.GetAt(foodItemIndex));
+                    DisplayCurrentlyConnected(sender, e);
                 }
                 else
                 {
@@ -102,16 +105,17 @@ namespace Csharp2_A1
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            if (currentConnectedListBox.Items != null)
+            if (!currentConnectedListBox.Items.IsEmpty)
             {
                 int animalIndex = animalsListView.SelectedIndex;
                 Animal animal = currentRegistry.GetAt(animalIndex);
                 int itemIndex = currentConnectedListBox.SelectedIndex;
                 currentFoodManager.RemoveConnection(animal, itemIndex);
+                DisplayCurrentlyConnected(sender, e);
             }
             else
             {
-                MessageBoxes.DisplayErrorBox("No food items connected to this animal yet!");
+                MessageBoxes.DisplayErrorBox("No food items connected yet!");
             }
         }
 
