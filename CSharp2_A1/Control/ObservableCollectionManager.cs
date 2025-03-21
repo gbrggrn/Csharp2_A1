@@ -11,12 +11,12 @@ namespace Csharp2_A1.Control
 {
     internal class ObservableCollectionManager<T> : IObservableCollectionManager<T>
     {
-        private ObservableCollection<T> collection;
+        private readonly ObservableCollection<T> collection;
         private int count;
 
         public ObservableCollectionManager()
         {
-            collection = new();
+            collection = [];
             count = 0;
         }
 
@@ -98,7 +98,7 @@ namespace Csharp2_A1.Control
 
         public List<string> ToStringList()
         {
-            List<string> listStrings = new List<string>();
+            List<string> listStrings = [];
             foreach (var item in collection)
             {
                 if (item != null)

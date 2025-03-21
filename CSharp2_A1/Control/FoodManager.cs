@@ -11,11 +11,11 @@ namespace Csharp2_A1.Control
 {
     internal class FoodManager : ObservableCollectionManager<FoodItem>
     {
-        Dictionary<Animal, List<FoodItem>> connections;
+        private readonly Dictionary<Animal, List<FoodItem>> connections;
 
         internal FoodManager()
         {
-            connections = new();
+            connections = [];
         }
 
         internal bool AddConnection(Animal animal, FoodItem item)
@@ -43,17 +43,15 @@ namespace Csharp2_A1.Control
             }
         }
 
-        internal bool RemoveConnection(Animal animal, FoodItem itemToRemove)
+        internal void RemoveConnection(Animal animal, int removalIndex)
         {
             if (connections.TryGetValue(animal, out List<FoodItem>? items))
             {
-                items.Remove(itemToRemove);
-                return true;
+                items.RemoveAt(removalIndex);
             }
             else
             {
                 MessageBoxes.DisplayErrorBox("Something went wrong - could not remove fooditem");
-                return false;
             }
         }
 

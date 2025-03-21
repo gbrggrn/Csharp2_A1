@@ -27,6 +27,8 @@ namespace Csharp2_A1
         internal ConnectionsWindow(AnimalRegistry currentRegistryIn, FoodManager currentFoodManagerIn)
         {
             InitializeComponent();
+            currentRegistry = currentRegistryIn;
+            currentFoodManager = currentFoodManagerIn;
             LoadAnimals();
             LoadFoodItems();
             SetSubscriptions();
@@ -57,15 +59,17 @@ namespace Csharp2_A1
         {
             if (animalsListView.SelectedIndex != -1)
             {
+                currentConnectedListBox.Items.Clear();
+
                 Animal displayAnimal = currentRegistry.GetAt(animalsListView.SelectedIndex);
                 if (displayAnimal != null)
                 {
                     currentConnectedLabel.Content = $"Food items currently connected to: {displayAnimal.Name} the {displayAnimal.GetType().Name}";
-                    if (currentFoodManager.Connections.TryGetValue(displayAnimal, out List<FoodItem> foodItems))
+                    if (currentFoodManager.Connections.TryGetValue(displayAnimal, out List<FoodItem>? foodItems))
                     {
                         foreach (FoodItem item in foodItems)
                         {
-                            currentconnectedListBox.Items.Add(item.Name);
+                            currentConnectedListBox.Items.Add(item.Name);
                         }
                     }
                 }
@@ -74,27 +78,46 @@ namespace Csharp2_A1
 
         private void ConnectButton_Click(object sender, RoutedEventArgs e)
         {
+            if (animalsListView.SelectedIndex != -1)
+            {
+                if (foodItemsListBox.SelectedIndex != -1)
+                {
+                    int animalIndex = animalsListView.SelectedIndex;
+                    int foodItemIndex = foodItemsListBox.SelectedIndex;
 
-        }
-
-        private void EditButton_Click(object sender, RoutedEventArgs e)
-        {
+                    currentFoodManager.AddConnection(currentRegistry.GetAt(animalIndex), currentFoodManager.GetAt(foodItemIndex));
+                }
+                else
+                {
+                    MessageBoxes.DisplayErrorBox("No food item selected!");
+                    return;
+                }
+            }
+            else
+            {
+                MessageBoxes.DisplayErrorBox("No animal selected!");
+            }
 
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-
+            if (currentConnectedListBox.Items != null)
+            {
+                int animalIndex = animalsListView.SelectedIndex;
+                Animal animal = currentRegistry.GetAt(animalIndex);
+                int itemIndex = currentConnectedListBox.SelectedIndex;
+                currentFoodManager.RemoveConnection(animal, itemIndex);
+            }
+            else
+            {
+                MessageBoxes.DisplayErrorBox("No food items connected to this animal yet!");
+            }
         }
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
-
-        }
-
-        private void ToggleButtonsOnEdit(bool toggle)
-        {
-
+            this.Close();
         }
     }
 }
