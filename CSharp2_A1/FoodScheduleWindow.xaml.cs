@@ -59,10 +59,13 @@ namespace Csharp2_A1
         {
             string itemContent = GetRichTextBoxString(itemEntryRichTextBox);
 
-            if (itemContent != null && itemContent.Length > 0 && foodItemNameTextBox.Text != null)
+            if (foodItemNameTextBox.Text != string.Empty)
             {
                 foodManager.Collection.Add(new FoodItem(foodItemNameTextBox.Text));
-                foodManager.Collection[foodManager.Collection.Count - 1].AddIngredient(itemContent);
+                if (itemContent != string.Empty)
+                {
+                    foodManager.Collection[foodManager.Collection.Count - 1].AddIngredient(itemContent);
+                }
                 UpdateItems();
                 itemEntryRichTextBox.Document.Blocks.Clear();
                 foodItemNameTextBox.Text = string.Empty;
@@ -91,10 +94,10 @@ namespace Csharp2_A1
         /// </summary>
         private void UpdateItems()
         {
+            foodItemNamesListBox.Items.Clear();
+
             if (foodManager.Collection.Count > 0)
             {
-                foodItemNamesListBox.Items.Clear();
-
                 foreach (FoodItem item in foodManager.Collection)
                 {
                     foodItemNamesListBox.Items.Add(item.Name);
@@ -133,7 +136,6 @@ namespace Csharp2_A1
                 addButton.IsEnabled = true;
                 deleteButton.IsEnabled = true;
                 foodItemNamesListBox.IsEnabled = true;
-                foodItemNameTextBox.IsEnabled = true;
                 editButton.Content = "Edit";
             }
             if (!onOrOff)
@@ -141,7 +143,6 @@ namespace Csharp2_A1
                 addButton.IsEnabled = false;
                 deleteButton.IsEnabled = false;
                 foodItemNamesListBox.IsEnabled = false;
-                foodItemNameTextBox.IsEnabled = false;
                 editButton.Content = "Save";
             }
         }
@@ -156,23 +157,34 @@ namespace Csharp2_A1
         /// <param name="e"></param>
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
+            int foodItemIndex = foodItemNamesListBox.SelectedIndex;
             //If not editing:
             if (foodItemNamesListBox.SelectedIndex != -1 && !editing)
             {
                 editing = true;
-                int foodItemIndex = foodItemNamesListBox.SelectedIndex;
                 int ingredientIndex = ingredientsShortListBox.SelectedIndex;
                 ToggleControlsUponEdit(false);
                 itemEntryRichTextBox.Document.Blocks.Clear();
                 string toEdit = foodManager.Collection[foodItemIndex].GetSpecificIngredient(ingredientIndex);
                 itemEntryRichTextBox.Document.Blocks.Add(new Paragraph(new Run(toEdit)));
+                foodItemNameTextBox.Text = foodManager.GetAt(foodItemIndex).Name;
             }
             //If editing:
             else if (foodItemNamesListBox.SelectedIndex != -1 && ingredientsShortListBox.SelectedIndex != -1 && editing)
             {
-                int index = foodItemNamesListBox.SelectedIndex;
-                foodManager.Collection[index].EditIngredient(GetRichTextBoxString(itemEntryRichTextBox), ingredientsShortListBox.SelectedIndex);
+                foodManager.Collection[foodItemIndex].EditIngredient(GetRichTextBoxString(itemEntryRichTextBox), ingredientsShortListBox.SelectedIndex);
                 itemEntryRichTextBox.Document.Blocks.Clear();
+                foodItemNameTextBox.Text = string.Empty;
+                UpdateItems();
+                editing = false;
+                ToggleControlsUponEdit(true);
+            }
+            else if (foodItemNamesListBox.SelectedIndex != -1 && editing)
+            {
+                foodManager.Collection[foodItemIndex].AddIngredient(GetRichTextBoxString(itemEntryRichTextBox));
+                foodManager.Collection[foodItemIndex].Name = foodItemNameTextBox.Text;
+                itemEntryRichTextBox.Document.Blocks.Clear();
+                foodItemNameTextBox.Text = string.Empty;
                 UpdateItems();
                 editing = false;
                 ToggleControlsUponEdit(true);

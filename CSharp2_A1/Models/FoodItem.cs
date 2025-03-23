@@ -19,7 +19,7 @@ namespace Csharp2_A1.Models
         /// </summary>
         public FoodItem(string nameIn)
         {
-            ingredients = new();
+            ingredients = [];
             name = nameIn;
         }
 

@@ -30,7 +30,7 @@ namespace Csharp2_A1.Control
         /// <returns>true if successful : false if not</returns>
         internal bool AddConnection(Animal animal, FoodItem item)
         {
-            if (connections.TryGetValue(animal, out List<FoodItem>? items))
+            if (Connections.TryGetValue(animal, out List<FoodItem>? items))
             {
                 items.Add(item);
                 return true;
@@ -41,7 +41,7 @@ namespace Csharp2_A1.Control
                 {
                     List<FoodItem> newItems = [];
                     newItems.Add(item);
-                    connections.Add(animal, newItems);
+                    Connections.Add(animal, newItems);
                     return true;
                 }
                 catch (Exception ex)
@@ -61,7 +61,7 @@ namespace Csharp2_A1.Control
         /// <param name="removalIndex">The fooditem to be removed</param>
         internal void RemoveConnection(Animal animal, int removalIndex)
         {
-            if (connections.TryGetValue(animal, out List<FoodItem>? items))
+            if (Connections.TryGetValue(animal, out List<FoodItem>? items))
             {
                 items.RemoveAt(removalIndex);
             }

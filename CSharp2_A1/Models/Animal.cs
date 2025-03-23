@@ -51,6 +51,7 @@ namespace Csharp2_A1.Models
 
         public Animal ThisAnimal { get => this; }
         public string Id { get; set; } = string.Empty;
+        public Enums.Enums.EaterType EaterType { get; set; } = Enums.Enums.EaterType.Unknown;
         public Enums.Enums.Gender Gender { get; set; } = Enums.Enums.Gender.Unknown;
         public bool IsDomesticated { get; set; } = false;
         public string Age { get; set; } = string.Empty;

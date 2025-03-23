@@ -77,9 +77,10 @@ namespace Csharp2_A1
         /// <param name="e"></param>
         private void DisplayCurrentlyConnected(Object sender, EventArgs e)
         {
+            currentConnectedListBox.Items.Clear();
+
             if (animalsListView.SelectedIndex != unselected)
             {
-                currentConnectedListBox.Items.Clear();
                 foodItemsListBox.SelectedIndex = unselected;
 
                 Animal displayAnimal = currentRegistry.GetAt(animalsListView.SelectedIndex);

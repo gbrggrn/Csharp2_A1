@@ -227,7 +227,7 @@ namespace CSharp2_A1
         /// <returns>The complete dictionary of categories and corresponding species</returns>
         private static Dictionary<string, List<string>> GetCategoriesAndSpecies()
         {
-            Dictionary<string, List<string>> categoriesAndSpecies = new();
+            Dictionary<string, List<string>> categoriesAndSpecies = [];
             Type[] allTypes = Assembly.GetExecutingAssembly().GetTypes();
 
             //Iterates over all types to retrieve a category and find its' corresponding species
@@ -236,7 +236,7 @@ namespace CSharp2_A1
                 if (category.IsClass && category.Namespace == "Csharp2_A1.Models.AnimalCategories")
                 {
                     //Initialize list to store species for retrieved category
-                    List<string> speciesList = new List<string>();
+                    List<string> speciesList = [];
 
                     //Iterates over all types to retrieve the species connected to the retrieved category
                     foreach (Type species in allTypes)
@@ -324,7 +324,7 @@ namespace CSharp2_A1
                     {
                         //Creates a Dictionary where the key represents an action (in this case a setter)
                         //and the value represents a string from a textbox in the UI.
-                        Dictionary<Action<string>, string> settersAndValues = new Dictionary<Action<string>, string>
+                        Dictionary<Action<string>, string> settersAndValues = new()
                         {
                             [value => animalInterface.Animal.Age = value] = ageTextBox.Text,
                             [value => animalInterface.Animal.Name = value] = nameTextBox.Text,
@@ -386,7 +386,7 @@ namespace CSharp2_A1
         /// <returns></returns>
         private List<string> ValidateInput(InterfaceService currentInterface)
         {
-            List<string> errors = new List<string>();
+            List<string> errors = [];
 
             if (!currentInterface.Animal.ValidateAnimalTraits(ageTextBox.Text, nameTextBox.Text, out string errorMessages))
             {
@@ -529,15 +529,17 @@ namespace CSharp2_A1
         {
             if (displayAllListView.SelectedIndex != -1)
             {
-                OpenFileDialog openFile = new();
-                openFile.Filter = "Image Files (*.png;*.jpg)|*.png;*.jpg";
-                openFile.Multiselect = false;
+                OpenFileDialog openFile = new()
+                {
+                    Filter = "Image Files (*.png;*.jpg)|*.png;*.jpg",
+                    Multiselect = false
+                };
 
                 if (openFile.ShowDialog() == true)
                 {
                     try
                     {
-                        BitmapImage img = new BitmapImage();
+                        BitmapImage img = new();
                         img.BeginInit();
                         img.UriSource = new Uri(openFile.FileName);
                         img.EndInit();
@@ -570,7 +572,7 @@ namespace CSharp2_A1
         /// <param name="e"></param>
         private void ManageFoodItemsButton_Click(object sender, RoutedEventArgs e)
         {
-            FoodScheduleWindow foodScheduleWindow = new FoodScheduleWindow(foodManager);
+            FoodScheduleWindow foodScheduleWindow = new(foodManager);
 
             foodScheduleWindow.ShowDialog();
         }
@@ -582,7 +584,7 @@ namespace CSharp2_A1
         /// <param name="e"></param>
         private void AboutButton_Click(object sender, RoutedEventArgs e)
         {
-            AboutWindow aboutWindow = new AboutWindow();
+            AboutWindow aboutWindow = new();
 
             aboutWindow.ShowDialog();
         }
@@ -641,7 +643,7 @@ namespace CSharp2_A1
                     UpdateInputControls(sender, e);
                     ToggleControlsUponEditing(editingFlag);
                     int index = displayAllListView.SelectedIndex;
-                    InterfaceService currentInterface = new InterfaceService(animalRegistry.GetAt(index));
+                    InterfaceService currentInterface = new(animalRegistry.GetAt(index));
                     LoadAnimalToEdit(currentInterface);
                 }
                 //If currently editing:
@@ -676,7 +678,7 @@ namespace CSharp2_A1
         /// <param name="e"></param>
         private void ConnectionsButton_Click(object sender, RoutedEventArgs e)
         {
-            ConnectionsWindow connectionsWindow = new ConnectionsWindow(animalRegistry, foodManager);
+            ConnectionsWindow connectionsWindow = new(animalRegistry, foodManager);
 
             connectionsWindow.ShowDialog();
 

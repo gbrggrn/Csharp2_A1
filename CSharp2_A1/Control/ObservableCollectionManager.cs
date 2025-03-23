@@ -12,14 +12,20 @@ namespace Csharp2_A1.Control
     internal class ObservableCollectionManager<T> : IObservableCollectionManager<T>
     {
         private readonly ObservableCollection<T> collection;
-        private int count;
 
+        /// <summary>
+        /// Constructor initializes the collection.
+        /// </summary>
         public ObservableCollectionManager()
         {
             collection = [];
-            count = 0;
         }
 
+        /// <summary>
+        /// Adds an instance of the type specified to the collection.
+        /// </summary>
+        /// <param name="typeIn">The instance to be added</param>
+        /// <returns>True if successful : false if not</returns>
         public bool Add(T typeIn)
         {
             if (typeIn != null)
@@ -31,6 +37,12 @@ namespace Csharp2_A1.Control
             return false;
         }
 
+        /// <summary>
+        /// Replaces a specified element in the collection.
+        /// </summary>
+        /// <param name="typeIn">The instance that is to be saved</param>
+        /// <param name="indexIn">The index of the element to replace</param>
+        /// <returns>True if successful : false if not</returns>
         public bool ChangeAt(T typeIn, int indexIn)
         {
             if (CheckIndex(indexIn))
@@ -42,6 +54,11 @@ namespace Csharp2_A1.Control
             return false;
         }
 
+        /// <summary>
+        /// Checks if an index is in range.
+        /// </summary>
+        /// <param name="indexIn">The index to be checked</param>
+        /// <returns>true if index is in range : false if not</returns>
         public bool CheckIndex(int indexIn)
         {
             if (collection != null && indexIn < Count)
@@ -52,12 +69,19 @@ namespace Csharp2_A1.Control
             return false;
         }
 
+        /// <summary>
+        /// Clears the collection.
+        /// </summary>
         public void DeleteAll()
         {
             collection.Clear();
-            count = 0;
         }
 
+        /// <summary>
+        /// Deletes a specified element in the collection.
+        /// </summary>
+        /// <param name="typeIn">The instance to be deleted</param>
+        /// <returns>False if element does not exist : true if successful deletion</returns>
         public bool DeleteAt(T typeIn)
         {
             if (!collection.Contains(typeIn))
@@ -69,6 +93,12 @@ namespace Csharp2_A1.Control
             return true;
         }
 
+        /// <summary>
+        /// Returns a specific element of the collection based on a given index.
+        /// </summary>
+        /// <param name="indexIn">Index of the element to be retrieved</param>
+        /// <returns>The element corresponding to the given index</returns>
+        /// <exception cref="ArgumentException">Throws if index is out of bounds</exception>
         public T GetAt(int indexIn)
         {
             if (CheckIndex(indexIn))
@@ -81,35 +111,7 @@ namespace Csharp2_A1.Control
             }
         }
 
-        public string[] ToStringArray()
-        {
-            string[] listArray = new string[Count];
-
-            for (int i = 0; i < Count; i++)
-            {
-                if (collection[i] != null)
-                {
-                    listArray[i] = collection[i]!.ToString()!;
-                }
-            }
-
-            return listArray;
-        }
-
-        public List<string> ToStringList()
-        {
-            List<string> listStrings = [];
-            foreach (var item in collection)
-            {
-                if (item != null)
-                {
-                    listStrings.Add(item.ToString()!);
-                }
-            }
-
-            return listStrings;
-        }
-
+        //Properties
         public int Count { get => collection.Count; }
         public ObservableCollection<T> Collection { get { return collection; } }
     }

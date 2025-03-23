@@ -16,8 +16,6 @@ namespace Csharp2_A1.Control.Interfaces
         void DeleteAll();
         bool DeleteAt(T typeIn);
         T GetAt(int indexIn);
-        string[] ToStringArray();
-        List<string> ToStringList();
 
         //Properties
         int Count { get; }

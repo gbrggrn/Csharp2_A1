@@ -19,6 +19,7 @@ namespace Csharp2_A1.Control.Interfaces
         string Id { get; set; }
         string Age { get; set; }
         string Name { get; set; }
+        Enums.EaterType EaterType { get; set; }
         Enums.Gender Gender { get; set; }
         bool IsDomesticated { get; set; }
         string CategoryTrait { get; set; }
