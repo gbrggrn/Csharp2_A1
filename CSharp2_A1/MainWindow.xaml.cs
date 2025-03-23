@@ -44,7 +44,7 @@ namespace CSharp2_A1
             foodManager = new();
             categoriesAndSpecies = GetCategoriesAndSpecies();
             LoadCategories();
-            LoadGenderComboBox();
+            LoadComboBoxes();
             SetSubscriptions();
             editingFlag = false;
             animalRegistry.Collection.CollectionChanged += DisplayAnimals!;
@@ -65,12 +65,15 @@ namespace CSharp2_A1
         }
 
         /// <summary>
-        /// Sets the ItemsSource for genderComboBox to the Enum "Gender".
+        /// Sets the ItemsSource for genderComboBox and eaterTypeComboBox as well as default values.
         /// </summary>
-        private void LoadGenderComboBox()
+        private void LoadComboBoxes()
         {
             genderComboBox.ItemsSource = Enum.GetValues(typeof(Enums.Gender)).Cast<Enums.Gender>();
             genderComboBox.SelectedIndex = 2;
+
+            eaterTypeComboBox.ItemsSource = Enum.GetValues(typeof(Enums.EaterType)).Cast<Enums.EaterType>();
+            eaterTypeComboBox.SelectedIndex = 3;
         }
 
         /// <summary>
@@ -340,6 +343,7 @@ namespace CSharp2_A1
 
                         //Sets the rest of the animal-attributes that are not strings.
                         animalInterface.Animal.IsDomesticated = domesticatedCheckBox.IsChecked!.Value;
+                        animalInterface.Animal.EaterType = (Enums.EaterType)eaterTypeComboBox.SelectedItem;
                         animalInterface.Animal.Gender = (Enums.Gender)genderComboBox.SelectedItem;
 
                         //Adds the current animal to the AnimalRegistry
@@ -448,6 +452,7 @@ namespace CSharp2_A1
                     $"Age: {currentInterface.Animal.Age,-15}\n" +
                     $"Name: {currentInterface.Animal.Name,-15}\n" +
                     $"Gender: {currentInterface.Animal.Gender,-15}\n" +
+                    $"Eater type: {currentInterface.Animal.EaterType,-15}\n" +
                     $"Domesticated: {currentInterface.Animal.IsDomesticated,-10}\n" +
                     $"{currentInterface.Animal.CategoryQuestion}: {currentInterface.Animal.CategoryTrait}\n" +
                     $"{currentInterface.Animal.SpeciesQuestion}: {currentInterface.Animal.SpeciesTrait}\n" 
@@ -475,6 +480,7 @@ namespace CSharp2_A1
         {
             nameTextBox.Text = string.Empty;
             ageTextBox.Text = string.Empty;
+            eaterTypeComboBox.SelectedIndex = 3;
             genderComboBox.SelectedIndex = 2;
             domesticatedCheckBox.IsChecked = false;
             firstQTextBox.Text = string.Empty;
@@ -664,6 +670,7 @@ namespace CSharp2_A1
         {
             nameTextBox.Text = currentAnimalInterfaceIn.Animal.Name;
             ageTextBox.Text = currentAnimalInterfaceIn.Animal.Age;
+            eaterTypeComboBox.SelectedItem = currentAnimalInterfaceIn.Animal.EaterType;
             genderComboBox.SelectedItem = currentAnimalInterfaceIn.Animal.Gender;
             domesticatedCheckBox.IsChecked = currentAnimalInterfaceIn.Animal.IsDomesticated;
             firstQTextBox.Text = currentAnimalInterfaceIn.Animal.CategoryTrait;
