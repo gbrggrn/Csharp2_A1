@@ -15,9 +15,16 @@ namespace Csharp2_A1.Control.Serializers
         {
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
 
-            using (StreamWriter write = new StreamWriter(filePath))
+            try
             {
-                xmlSerializer.Serialize(write, data);
+                using (StreamWriter write = new StreamWriter(filePath))
+                {
+                    xmlSerializer.Serialize(write, data);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new IOException("Unable to deserialize XML");
             }
         }
 
@@ -25,15 +32,21 @@ namespace Csharp2_A1.Control.Serializers
         {
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
 
-            using (StreamReader read = new StreamReader(filePath))
+            T result;
+
+            try
             {
-                var result = (T)xmlSerializer.Deserialize(read)!;
-                if (result is not T validData)
+                using (StreamReader read = new StreamReader(filePath))
                 {
-                    throw new Exception("Create custom exception here!");
+                    result = (T)xmlSerializer.Deserialize(read)!;
                 }
-                return validData;
             }
+            catch (Exception e)
+            {
+                throw new Exception("Create custom Exception here!");
+            }
+
+            return result;
         }
     }
 }

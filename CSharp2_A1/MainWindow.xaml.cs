@@ -26,10 +26,10 @@ namespace CSharp2_A1
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly Dictionary<string, List<String>> categoriesAndSpecies;
         private readonly AnimalRegistry animalRegistry;
         private readonly FoodManager foodManager;
         private readonly IdGenerator idGenerator;
+        private readonly AssemblyHelpers assemblyHelpers;
 
         private bool editingFlag;
 
@@ -39,10 +39,10 @@ namespace CSharp2_A1
         public MainWindow()
         {
             InitializeComponent();
+            assemblyHelpers = new();
             idGenerator = new();
             animalRegistry = new(idGenerator);
             foodManager = new();
-            categoriesAndSpecies = GetCategoriesAndSpecies();
             LoadCategories();
             LoadComboBoxes();
             SetSubscriptions();
@@ -81,7 +81,7 @@ namespace CSharp2_A1
         /// </summary>
         private void LoadCategories()
         {
-            categoryListBox.ItemsSource = categoriesAndSpecies.Keys;
+            categoryListBox.ItemsSource = assemblyHelpers.CategoriesAndSpecies.Keys;
         }
 
         /// <summary>
@@ -97,9 +97,9 @@ namespace CSharp2_A1
 
                 //A bit of an inefficient lookup, but the dictionary is small.
                 //Could be changed to TryGetValue if application was bigger but this feels more readable.
-                if (categoriesAndSpecies.ContainsKey(category))
+                if (assemblyHelpers.CategoriesAndSpecies.ContainsKey(category))
                 {
-                    speciesListBox.ItemsSource = categoriesAndSpecies[category];
+                    speciesListBox.ItemsSource = assemblyHelpers.CategoriesAndSpecies[category];
                 }
             }
         }
@@ -114,7 +114,7 @@ namespace CSharp2_A1
             categoryListBox.IsEnabled = false;
             speciesListBox.ItemsSource = null;
 
-            foreach (var listOfSpecies in categoriesAndSpecies.Values)
+            foreach (var listOfSpecies in assemblyHelpers.CategoriesAndSpecies.Values)
             {
                 foreach (string species in listOfSpecies)
                 {
@@ -186,7 +186,7 @@ namespace CSharp2_A1
                     //If categories are disabled to highlight the category based on species selection
                     if (listAllCheckBox.IsChecked == true)
                     {
-                        string category = GetCorrespondingCategory(animalInterface.Animal.GetType().Name); //Get corresponding category
+                        string category = assemblyHelpers.GetCorrespondingCategory(animalInterface.Animal.GetType().Name); //Get corresponding category
                         categoryListBox.SelectionChanged -= LoadSpecies; //Remove subscription to prevent exception
                         categoryListBox.SelectedItem = category; //Highlight the category
                         categoryListBox.SelectionChanged += LoadSpecies; //Re-assign subscription
@@ -201,60 +201,6 @@ namespace CSharp2_A1
                 firstQTextBox.Visibility = Visibility.Hidden;
                 secondQTextBox.Visibility = Visibility.Hidden;
             }
-        }
-
-        /// <summary>
-        /// Returns the name of the category corresponding to the chosen species.
-        /// </summary>
-        /// <param name="species">The chosen species</param>
-        /// <returns>The corresponding category</returns>
-        private string GetCorrespondingCategory(string species)
-        {
-            foreach (var category in categoriesAndSpecies)
-            {
-                if (category.Value.Contains(species))
-                {
-                    return category.Key;
-                }
-            }
-            return string.Empty;
-        }
-
-        /// <summary>
-        /// Retrieves all types in the assembly, then iterates over them to filter out classnames of categories and species.
-        /// Adds the categories as keys and the corresponding species as a list as values to a dictionary.
-        /// It seems to me this method might be inefficient at scale since it is iterating multiple times over the
-        /// entire assembly. I still think this is a fun approach to dynamically retrieve the class-names but
-        /// a future small side-project should be to make this more efficient...
-        /// </summary>
-        /// <returns>The complete dictionary of categories and corresponding species</returns>
-        private static Dictionary<string, List<string>> GetCategoriesAndSpecies()
-        {
-            Dictionary<string, List<string>> categoriesAndSpecies = [];
-            Type[] allTypes = Assembly.GetExecutingAssembly().GetTypes();
-
-            //Iterates over all types to retrieve a category and find its' corresponding species
-            foreach (Type category in allTypes)
-            {
-                if (category.IsClass && category.Namespace == "Csharp2_A1.Models.AnimalCategories")
-                {
-                    //Initialize list to store species for retrieved category
-                    List<string> speciesList = [];
-
-                    //Iterates over all types to retrieve the species connected to the retrieved category
-                    foreach (Type species in allTypes)
-                    {
-                        if (species.IsClass && species.Namespace == $"Csharp2_A1.Models.AnimalSpecies.Species{category.Name}")
-                        {
-                            //Add retreieved specie to the list of this category
-                            speciesList.Add(species.Name);
-                        }
-                    }
-                    //Add the category and its' species to the dictionary
-                    categoriesAndSpecies.Add(category.Name, speciesList);
-                }
-            }
-            return categoriesAndSpecies;
         }
 
         /// <summary>
@@ -277,7 +223,7 @@ namespace CSharp2_A1
         private InterfaceService TryCreateAnimal()
         {
             string selectedSpecies = speciesListBox.SelectedItem.ToString()!.Trim();
-            string selectedCategory = GetCorrespondingCategory(selectedSpecies);
+            string selectedCategory = assemblyHelpers.GetCorrespondingCategory(selectedSpecies);
             InterfaceService animalInterface;
 
             try
