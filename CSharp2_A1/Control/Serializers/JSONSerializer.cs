@@ -9,6 +9,7 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Csharp2_A1.Control.Interfaces;
 using Csharp2_A1.Models;
+using Csharp2_A1.Models.Enums;
 
 namespace Csharp2_A1.Control.Serializers
 {
@@ -42,7 +43,7 @@ namespace Csharp2_A1.Control.Serializers
                 {
                     string jsonString = JsonSerializer.Serialize(animalDTOList);
 
-                    write.WriteLine(jsonString);
+                    write.Write(jsonString);
                 }
             }
             catch (Exception ex)
@@ -53,7 +54,37 @@ namespace Csharp2_A1.Control.Serializers
 
         public ObservableCollection<Animal> Deserialize(string filePath)
         {
-            throw new NotImplementedException();
+            ObservableCollection<Animal> deserializedAnimals = [];
+
+            try
+            {
+                using (StreamReader read = new StreamReader(filePath))
+                {
+                    string jsonString = read.ReadToEnd();
+                    List<AnimalDTO> animalDTOList = JsonSerializer.Deserialize<List<AnimalDTO>>(jsonString)!;
+
+                    foreach (AnimalDTO animalDTO in animalDTOList)
+                    {
+                        InterfaceService currentInterface = AnimalFactory.CreateAnimal(animalDTO.Category, animalDTO.Species);
+
+                        currentInterface.Animal.IsDomesticated = animalDTO.IsDomesticated;
+                        currentInterface.Animal.Gender = (Enums.Gender)Enum.Parse(typeof(Enums.Gender), animalDTO.Gender);
+                        currentInterface.Animal.EaterType = (Enums.EaterType)Enum.Parse(typeof(Enums.EaterType), animalDTO.EaterType);
+                        currentInterface.Animal.Name = animalDTO.Name;
+                        currentInterface.Animal.Age = animalDTO.Age;
+                        currentInterface.Animal.CategoryTrait = animalDTO.CategoryTrait;
+                        currentInterface.Animal.SpeciesTrait = animalDTO.SpeciesTrait;
+
+                        deserializedAnimals.Add(currentInterface.Animal.ThisAnimal);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Create exception here");
+            }
+
+            return deserializedAnimals;
         }
     }
 }
