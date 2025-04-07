@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Csharp2_A1.Models
 {
+    [Serializable]
     internal class FoodItem
     {
         private List<string> ingredients;
