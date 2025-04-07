@@ -13,11 +13,11 @@ namespace Csharp2_A1.Control.Serializers
     {
         public void Serialize(string filePath, T data)
         {
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
+            XmlSerializer xmlSerializer = new(typeof(T));
 
             try
             {
-                using (StreamWriter write = new StreamWriter(filePath))
+                using (StreamWriter write = new(filePath))
                 {
                     xmlSerializer.Serialize(write, data);
                 }
@@ -30,13 +30,13 @@ namespace Csharp2_A1.Control.Serializers
 
         public T Deserialize(string filePath)
         {
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
+            XmlSerializer xmlSerializer = new(typeof(T));
 
             T result;
 
             try
             {
-                using (StreamReader read = new StreamReader(filePath))
+                using (StreamReader read = new(filePath))
                 {
                     result = (T)xmlSerializer.Deserialize(read)!;
                 }

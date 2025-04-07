@@ -18,7 +18,7 @@ namespace Csharp2_A1.Control.Serializers
         {
             try
             {
-                using (StreamWriter writer = new StreamWriter(filePath))
+                using (StreamWriter writer = new(filePath))
                 {
                     foreach (Animal animal in data)
                     {
@@ -38,7 +38,7 @@ namespace Csharp2_A1.Control.Serializers
 
             try
             {
-                using (StreamReader read = new StreamReader(filePath))
+                using (StreamReader read = new(filePath))
                 {
                     string line;
                     while ((line = read.ReadLine()!) != null)
