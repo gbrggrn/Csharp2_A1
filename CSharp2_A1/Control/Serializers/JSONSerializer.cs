@@ -14,6 +14,10 @@ using Csharp2_A1.Control.UserDefinedExceptions;
 
 namespace Csharp2_A1.Control.Serializers
 {
+    /// <summary>
+    /// Custom JSON serializer class. Handles serialization and deserialization.
+    /// Organizes the collection elements in DTOs instead of using a nuget-package (see AnimalDTO.cs)
+    /// </summary>
     internal class JSONSerializer : IFileSerializer<ObservableCollection<Animal>>
     {
         public void Serialize(string filePath, ObservableCollection<Animal> animalsIn)

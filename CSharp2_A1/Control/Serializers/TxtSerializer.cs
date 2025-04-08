@@ -14,6 +14,9 @@ using System.Threading.Tasks;
 
 namespace Csharp2_A1.Control.Serializers
 {
+    /// <summary>
+    /// Custom TXTSerializer class. Handles serialization and deserialization.
+    /// </summary>
     internal class TxtSerializer : IFileSerializer<ObservableCollection<Animal>>
     {
         public void Serialize(string filePath, ObservableCollection<Animal> data)

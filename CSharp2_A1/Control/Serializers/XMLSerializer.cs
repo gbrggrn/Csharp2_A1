@@ -10,6 +10,10 @@ using Csharp2_A1.Control.UserDefinedExceptions;
 
 namespace Csharp2_A1.Control.Serializers
 {
+    /// <summary>
+    /// Custom generic XML serializer class. Handles serialization and deserialization.
+    /// </summary>
+    /// <typeparam name="T">The type of object to be serialized</typeparam>
     internal class XMLSerializer<T> : IFileSerializer<T> where T : class
     {
         public void Serialize(string filePath, T data)
