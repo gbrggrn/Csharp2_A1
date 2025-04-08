@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using Csharp2_A1.Control.UserDefinedExceptions;
 
 namespace Csharp2_A1.Control.Serializers
 {
@@ -43,7 +44,7 @@ namespace Csharp2_A1.Control.Serializers
             }
             catch (Exception e)
             {
-                throw new Exception("Create custom Exception here!");
+                throw new UserDefinedException("XML deserialization failed", "Most likely wrong filepath");
             }
 
             return result;

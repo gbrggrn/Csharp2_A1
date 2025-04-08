@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace Csharp2_A1.Control.UserDefinedExceptions
 {
-    public class SerializationException : Exception
+    public class UserDefinedException : Exception
     {
-        public SerializationException() { }
+        public UserDefinedException() { }
 
-        public SerializationException(string message) : base(message) { }
+        public UserDefinedException(string message) : base(message) { }
 
-        public SerializationException(string message, Exception inner) : base(message, inner) { }
+        public UserDefinedException(string message, Exception inner) : base(message, inner) { }
 
-        public SerializationException(string message, string moreInfo) : base(message)
+        public UserDefinedException(string message, string moreInfo) : base(message)
         {
             MoreInfo = moreInfo;
         }

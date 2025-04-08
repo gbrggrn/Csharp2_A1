@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Csharp2_A1.Control.Interfaces;
 using Csharp2_A1.Models;
 using Csharp2_A1.Models.Enums;
+using Csharp2_A1.Control.UserDefinedExceptions;
 
 namespace Csharp2_A1.Control.Serializers
 {
@@ -46,9 +47,9 @@ namespace Csharp2_A1.Control.Serializers
                     write.Write(jsonString);
                 }
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                throw new Exception("Create exception here");
+                throw new UserDefinedException("Could not write to file", e.Message);
             }
         }
 
@@ -58,7 +59,7 @@ namespace Csharp2_A1.Control.Serializers
 
             try
             {
-                using (StreamReader read = new StreamReader(filePath))
+                using (StreamReader read = new(filePath))
                 {
                     string jsonString = read.ReadToEnd();
                     List<AnimalDTO> animalDTOList = JsonSerializer.Deserialize<List<AnimalDTO>>(jsonString)!;
@@ -79,9 +80,21 @@ namespace Csharp2_A1.Control.Serializers
                     }
                 }
             }
-            catch (Exception ex)
+            catch (FileNotFoundException fnfe)
             {
-                throw new Exception("Create exception here");
+                throw new UserDefinedException("File not found", fnfe.Message);
+            }
+            catch (DirectoryNotFoundException dnfe)
+            {
+                throw new UserDefinedException("Directory not found", dnfe.Message);
+            }
+            catch (IOException ioe)
+            {
+                throw new UserDefinedException("File could not be read", ioe.Message);
+            }
+            catch (Exception e)
+            {
+                throw new UserDefinedException("Something went wrong", e.Message);
             }
 
             return deserializedAnimals;

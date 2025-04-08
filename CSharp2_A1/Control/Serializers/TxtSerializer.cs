@@ -1,12 +1,14 @@
 ﻿using Csharp2_A1.Control.Interfaces;
 using Csharp2_A1.Models;
 using Csharp2_A1.Models.Enums;
+using Csharp2_A1.Control.UserDefinedExceptions;
 using CSharp2_A1;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,25 +24,34 @@ namespace Csharp2_A1.Control.Serializers
                 {
                     foreach (Animal animal in data)
                     {
-                        writer.WriteLine($"{animal.GetType()}|{animal.IsDomesticated}|{animal.Gender}|{animal.EaterType}|{animal.Name}|{animal.Age}|{animal.CategoryTrait}|{animal.SpeciesTrait}");
+                        writer.WriteLine($"{animal.GetType()}|" +
+                            $"{animal.IsDomesticated}|" +
+                            $"{animal.Gender}|" +
+                            $"{animal.EaterType}|" +
+                            $"{animal.Name}|" +
+                            $"{animal.Age}|" +
+                            $"{animal.CategoryTrait}|" +
+                            $"{animal.SpeciesTrait}");
                     }
                 }
             } 
-            catch (Exception ex)
+            catch (IOException ioe)
             {
-                throw new Exception("Create custom Exception here!");
+                throw new UserDefinedException("Could not write to file", ioe.Message);
             }
         }
 
         public ObservableCollection<Animal> Deserialize(string filePath)
         {
             ObservableCollection<Animal> data = [];
+            StreamReader? read = null;
 
             try
             {
-                using (StreamReader read = new(filePath))
+                using (read = new(filePath))
                 {
                     string line;
+                    //Read line by line - not all at once
                     while ((line = read.ReadLine()!) != null)
                     {
                         string[] splitLine = line.Split("|");
@@ -60,9 +71,30 @@ namespace Csharp2_A1.Control.Serializers
                         }
                     }
                 }
-            } catch (Exception ex)
+            } 
+            catch (FileNotFoundException fnfe)
             {
-                throw new Exception("Custom exception here!");
+                throw new UserDefinedException("File could not be found", fnfe.Message);
+            }
+            catch (DirectoryNotFoundException dnfe)
+            {
+                throw new UserDefinedException("Directory could not be found", dnfe.Message);
+            }
+            catch (IOException ioe)
+            {
+                throw new UserDefinedException("Filepath could not be read", ioe.Message);
+            }
+            catch (Exception e)
+            {
+                throw new UserDefinedException("Something went wrong", e.Message);
+            }
+            //"using" already handles disposal - this just to show usage of "finally"
+            finally
+            {
+                if (read != null)
+                {
+                    read.Dispose();
+                }
             }
 
             return data;
