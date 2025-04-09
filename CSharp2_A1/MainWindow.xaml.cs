@@ -1,6 +1,7 @@
 ﻿using Csharp2_A1;
 using Csharp2_A1.Control;
 using Csharp2_A1.Control.Interfaces;
+using Csharp2_A1.Control.Serializers;
 using Csharp2_A1.Models;
 using Csharp2_A1.Models.AnimalCategories;
 using Csharp2_A1.Models.Enums;
@@ -29,6 +30,7 @@ namespace CSharp2_A1
         private readonly AnimalRegistry animalRegistry;
         private readonly FoodManager foodManager;
         private readonly IdGenerator idGenerator;
+        private (string path, string format) userFilePath;
 
         private bool editingFlag;
 
@@ -41,6 +43,7 @@ namespace CSharp2_A1
             idGenerator = new();
             animalRegistry = new(idGenerator);
             foodManager = new();
+            userFilePath = (string.Empty, string.Empty);
             LoadCategories();
             LoadComboBoxes();
             SetSubscriptions();
@@ -648,27 +651,88 @@ namespace CSharp2_A1
 
         private void OpenJson_Click(object sender, RoutedEventArgs e)
         {
+            OpenFileDialog open = new()
+            {
+                Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*"
+            };
 
+            if (open.ShowDialog() == true)
+            {
+                IFileSerializer<ObservableCollection<Animal>> jsonInterface = new JSONSerializer();
+                ObservableCollection<Animal> result = jsonInterface.Deserialize(open.FileName);
+                animalRegistry.Replace(result);
+                userFilePath = (open.FileName, "json");
+                DisplayAnimals(sender, e);
+            }
         }
 
         private void OpenTxt_Click(object sender, RoutedEventArgs e)
         {
+            OpenFileDialog open = new()
+            {
+                Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*"
+            };
 
+            if (open.ShowDialog() == true)
+            {
+                IFileSerializer<ObservableCollection<Animal>> txtInterface = new TxtSerializer();
+                ObservableCollection<Animal> result = txtInterface.Deserialize(open.FileName);
+                animalRegistry.Replace(result);
+                userFilePath = (open.FileName, "txt");
+                DisplayAnimals(sender, e);
+            }
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-
+            if (userFilePath.format == "json")
+            {
+                IFileSerializer<ObservableCollection<Animal>> jsonInterface = new JSONSerializer();
+                jsonInterface.Serialize(userFilePath.path, animalRegistry.Collection);
+            }
+            else if (userFilePath.format == "txt")
+            {
+                IFileSerializer<ObservableCollection<Animal>> txtInterface = new TxtSerializer();
+                txtInterface.Serialize(userFilePath.path, animalRegistry.Collection);
+            }
+            else if (string.IsNullOrEmpty(userFilePath.path))
+            {
+                MessageBoxes.DisplayErrorBox("No previous filepath to save to");
+            }
+            else
+            {
+                MessageBoxes.DisplayErrorBox("Something went wrong\nCould not save to file");
+            }
         }
 
         private void SaveAsJson_Click(Object sender, RoutedEventArgs e)
         {
+            SaveFileDialog save = new()
+            {
+                Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*"
+            };
 
+            if (save.ShowDialog() == true)
+            {
+                IFileSerializer<ObservableCollection<Animal>> jsonInterface = new JSONSerializer();
+                jsonInterface.Serialize(save.FileName, animalRegistry.Collection);
+                userFilePath = (save.FileName, "json");
+            }
         }
 
         private void SaveAsTxt_Click(Object sender, RoutedEventArgs e)
         {
+            SaveFileDialog save = new()
+            {
+                Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*"
+            };
 
+            if (save.ShowDialog() == true)
+            {
+                IFileSerializer<ObservableCollection<Animal>> txtInterface = new TxtSerializer();
+                txtInterface.Serialize(save.FileName, animalRegistry.Collection);
+                userFilePath = (save.FileName, "txt");
+            }
         }
 
         private void SaveXML_Click(Object sender, RoutedEventArgs e)

@@ -27,7 +27,7 @@ namespace Csharp2_A1.Control.Serializers
                 {
                     foreach (Animal animal in data)
                     {
-                        writer.WriteLine($"{animal.GetType()}|" +
+                        writer.WriteLine($"{animal.GetType().Name}|" +
                             $"{animal.IsDomesticated}|" +
                             $"{animal.Gender}|" +
                             $"{animal.EaterType}|" +
@@ -60,6 +60,7 @@ namespace Csharp2_A1.Control.Serializers
                         string[] splitLine = line.Split("|");
                         if (splitLine.Length == 8)
                         {
+                            Console.WriteLine(splitLine[0]);
                             InterfaceService currentInterface = AnimalFactory.CreateAnimal(AssemblyHelpers.GetCorrespondingCategory(splitLine[0]), splitLine[0]);
                             bool.TryParse(splitLine[1], out bool domesticated);
                             currentInterface.Animal.IsDomesticated = domesticated;
@@ -89,6 +90,7 @@ namespace Csharp2_A1.Control.Serializers
             }
             catch (Exception e)
             {
+                Console.WriteLine(e.Message);
                 throw new UserDefinedException("Something went wrong", e.Message);
             }
             //"using" already handles disposal - this just to show usage of "finally"
@@ -99,7 +101,6 @@ namespace Csharp2_A1.Control.Serializers
                     read.Dispose();
                 }
             }
-
             return data;
         }
     }

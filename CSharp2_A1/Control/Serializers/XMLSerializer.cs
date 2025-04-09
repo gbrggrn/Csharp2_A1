@@ -50,7 +50,6 @@ namespace Csharp2_A1.Control.Serializers
             {
                 throw new UserDefinedException("XML deserialization failed", e.Message);
             }
-
             return result;
         }
     }

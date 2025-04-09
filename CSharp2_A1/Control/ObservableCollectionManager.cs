@@ -11,7 +11,7 @@ namespace Csharp2_A1.Control
 {
     internal class ObservableCollectionManager<T> : IObservableCollectionManager<T>
     {
-        private readonly ObservableCollection<T> collection;
+        private ObservableCollection<T> collection;
 
         /// <summary>
         /// Constructor initializes the collection.
@@ -31,6 +31,23 @@ namespace Csharp2_A1.Control
             if (typeIn != null)
             {
                 collection.Add(typeIn);
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Replaces the entire collection.
+        /// </summary>
+        /// <param name="collectionIn">The new collection</param>
+        /// <returns>True if succesful : false if not</returns>
+        public bool Replace(ObservableCollection<T> collectionIn)
+        {
+            if (collectionIn != null)
+            {
+                DeleteAll();
+                collection = collectionIn;
                 return true;
             }
 

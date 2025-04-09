@@ -11,6 +11,7 @@ namespace Csharp2_A1.Control.Interfaces
     {
         //Methods
         bool Add(T type);
+        bool Replace(ObservableCollection<T> collectionIn);
         bool ChangeAt(T type, int indexIn);
         bool CheckIndex(int indexIn);
         void DeleteAll();

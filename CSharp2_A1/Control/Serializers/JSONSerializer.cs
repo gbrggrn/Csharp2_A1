@@ -100,7 +100,6 @@ namespace Csharp2_A1.Control.Serializers
             {
                 throw new UserDefinedException("Something went wrong", e.Message);
             }
-
             return deserializedAnimals;
         }
     }
