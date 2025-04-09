@@ -51,7 +51,7 @@
         <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Background="#D2B48C"/>
 
         <!-- Header -->
-        <Label x:Name="headerLabel" Content="Animal Specifications" Grid.Row="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" FontSize="26" FontWeight="Bold" FontFamily="Aptos"/>
+        <Label x:Name="headerLabel" Content="Animal Specifications" Grid.Row="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" FontSize="26" FontWeight="Bold" FontFamily="Aptos" Margin="10,0,0,0"/>
 
         <!-- Header controls -->
         <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
@@ -66,8 +66,28 @@
             <Border CornerRadius="10" Width="75" Background="#A0522D" Height="30">
                 <Button x:Name="aboutButton" Content="About" Height="30" VerticalAlignment="Top" Click="AboutButton_Click"/>
             </Border>
+            
+            <!--- Main menu -->
             <Border CornerRadius="10" Width="75" Background="#A0522D" Height="30">
-                <Button x:Name="saveButton" Content="Save"/>
+                <Menu Grid.Row="0" x:Name="mnuFile" Height="20" Width="75" HorizontalAlignment="Center" VerticalAlignment="Center" Background="Transparent">
+                    <MenuItem Header="_File" Margin="20,0,0,0" FontSize="14" FontFamily="Calibri">
+                        <MenuItem Header="_New" Click="New_Click"/>
+                        <MenuItem Header="_Open">
+                            <MenuItem Header="_Text File" Click="OpenTxt_Click"/>
+                            <MenuItem Header="_Json" Click="OpenJson_Click"/>
+                        </MenuItem>
+                        <MenuItem Header="_Save" Click="Save_Click"/>
+                        <MenuItem Header="_Save as">
+                            <MenuItem Header="_Text File" Click="SaveAsTxt_Click"/>
+                            <MenuItem Header="_Json" Click="SaveAsJson_Click"/>
+                        </MenuItem>
+                        <Separator/>
+                        <MenuItem Header="_XML">
+                            <MenuItem Header="_Save food schedule" Click="SaveXML_Click"/>
+                        </MenuItem>
+                        <MenuItem Header="_Exit" Click="ExitButton_Click"/>
+                    </MenuItem>
+                </Menu>
             </Border>
         </StackPanel>
 

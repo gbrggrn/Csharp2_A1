@@ -29,7 +29,6 @@ namespace CSharp2_A1
         private readonly AnimalRegistry animalRegistry;
         private readonly FoodManager foodManager;
         private readonly IdGenerator idGenerator;
-        private readonly AssemblyHelpers assemblyHelpers;
 
         private bool editingFlag;
 
@@ -39,7 +38,6 @@ namespace CSharp2_A1
         public MainWindow()
         {
             InitializeComponent();
-            assemblyHelpers = new();
             idGenerator = new();
             animalRegistry = new(idGenerator);
             foodManager = new();
@@ -81,7 +79,7 @@ namespace CSharp2_A1
         /// </summary>
         private void LoadCategories()
         {
-            categoryListBox.ItemsSource = assemblyHelpers.CategoriesAndSpecies.Keys;
+            categoryListBox.ItemsSource = AssemblyHelpers.CategoriesAndSpecies.Keys;
         }
 
         /// <summary>
@@ -97,9 +95,9 @@ namespace CSharp2_A1
 
                 //A bit of an inefficient lookup, but the dictionary is small.
                 //Could be changed to TryGetValue if application was bigger but this feels more readable.
-                if (assemblyHelpers.CategoriesAndSpecies.ContainsKey(category))
+                if (AssemblyHelpers.CategoriesAndSpecies.ContainsKey(category))
                 {
-                    speciesListBox.ItemsSource = assemblyHelpers.CategoriesAndSpecies[category];
+                    speciesListBox.ItemsSource = AssemblyHelpers.CategoriesAndSpecies[category];
                 }
             }
         }
@@ -114,7 +112,7 @@ namespace CSharp2_A1
             categoryListBox.IsEnabled = false;
             speciesListBox.ItemsSource = null;
 
-            foreach (var listOfSpecies in assemblyHelpers.CategoriesAndSpecies.Values)
+            foreach (var listOfSpecies in AssemblyHelpers.CategoriesAndSpecies.Values)
             {
                 foreach (string species in listOfSpecies)
                 {
@@ -186,7 +184,7 @@ namespace CSharp2_A1
                     //If categories are disabled to highlight the category based on species selection
                     if (listAllCheckBox.IsChecked == true)
                     {
-                        string category = assemblyHelpers.GetCorrespondingCategory(animalInterface.Animal.GetType().Name); //Get corresponding category
+                        string category = AssemblyHelpers.GetCorrespondingCategory(animalInterface.Animal.GetType().Name); //Get corresponding category
                         categoryListBox.SelectionChanged -= LoadSpecies; //Remove subscription to prevent exception
                         categoryListBox.SelectedItem = category; //Highlight the category
                         categoryListBox.SelectionChanged += LoadSpecies; //Re-assign subscription
@@ -223,7 +221,7 @@ namespace CSharp2_A1
         private InterfaceService TryCreateAnimal()
         {
             string selectedSpecies = speciesListBox.SelectedItem.ToString()!.Trim();
-            string selectedCategory = assemblyHelpers.GetCorrespondingCategory(selectedSpecies);
+            string selectedCategory = AssemblyHelpers.GetCorrespondingCategory(selectedSpecies);
             InterfaceService animalInterface;
 
             try
@@ -636,6 +634,41 @@ namespace CSharp2_A1
             connectionsWindow.ShowDialog();
 
             DisplayAnimal(sender, e);
+        }
+
+        private void New_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void OpenJson_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void OpenTxt_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Save_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SaveAsJson_Click(Object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SaveAsTxt_Click(Object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SaveXML_Click(Object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

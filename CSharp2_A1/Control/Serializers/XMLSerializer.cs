@@ -27,9 +27,9 @@ namespace Csharp2_A1.Control.Serializers
                     xmlSerializer.Serialize(write, data);
                 }
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                throw new IOException("Unable to deserialize XML");
+                throw new UserDefinedException("Unable to deserialize XML", e.Message);
             }
         }
 
@@ -48,7 +48,7 @@ namespace Csharp2_A1.Control.Serializers
             }
             catch (Exception e)
             {
-                throw new UserDefinedException("XML deserialization failed", "Most likely wrong filepath");
+                throw new UserDefinedException("XML deserialization failed", e.Message);
             }
 
             return result;

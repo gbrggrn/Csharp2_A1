@@ -66,6 +66,6 @@ namespace Csharp2_A1
             return string.Empty;
         }
 
-        public static Dictionary<string, List<string>> CategoriesAndSpecies { get => categoriesAndSpecies}
+        public static Dictionary<string, List<string>> CategoriesAndSpecies { get => categoriesAndSpecies; }
     }
 }
