@@ -638,7 +638,12 @@ namespace CSharp2_A1
 
         private void New_Click(object sender, RoutedEventArgs e)
         {
-
+            if (MessageBoxes.DisplayQuestion("Are you sure?\nUnsaved data will be lost.", "New?"))
+            {
+                MainWindow newWindow = new();
+                newWindow.Show();
+                this.Close();
+            }
         }
 
         private void OpenJson_Click(object sender, RoutedEventArgs e)
