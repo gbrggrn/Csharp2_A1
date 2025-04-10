@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Csharp2_A1.Control
 {
     [Serializable]
-    internal class FoodManager : ObservableCollectionManager<FoodItem>
+    public class FoodManager : ObservableCollectionManager<FoodItem>
     {
         private readonly Dictionary<Animal, List<FoodItem>> connections;
 
@@ -73,6 +73,6 @@ namespace Csharp2_A1.Control
         }
 
         //Properties
-        public Dictionary<Animal, List<FoodItem>> Connections => connections;
+        internal Dictionary<Animal, List<FoodItem>> Connections => connections;
     }
 }

@@ -48,7 +48,7 @@ namespace Csharp2_A1.Control.Serializers
             }
             catch (Exception e)
             {
-                throw new UserDefinedException("XML deserialization failed", e.Message);
+                throw new UserDefinedException("XML deserialization failed", e);
             }
             return result;
         }

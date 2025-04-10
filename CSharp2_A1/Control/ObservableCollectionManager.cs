@@ -9,7 +9,7 @@ using Csharp2_A1.Control.Interfaces;
 
 namespace Csharp2_A1.Control
 {
-    internal class ObservableCollectionManager<T> : IObservableCollectionManager<T>
+    public class ObservableCollectionManager<T> : IObservableCollectionManager<T>
     {
         private ObservableCollection<T> collection;
 

@@ -2,6 +2,7 @@
 using Csharp2_A1.Control;
 using Csharp2_A1.Control.Interfaces;
 using Csharp2_A1.Control.Serializers;
+using Csharp2_A1.Control.UserDefinedExceptions;
 using Csharp2_A1.Models;
 using Csharp2_A1.Models.AnimalCategories;
 using Csharp2_A1.Models.Enums;
@@ -28,7 +29,7 @@ namespace CSharp2_A1
     public partial class MainWindow : Window
     {
         private readonly AnimalRegistry animalRegistry;
-        private readonly FoodManager foodManager;
+        private FoodManager foodManager;
         private readonly IdGenerator idGenerator;
         private (string path, string format) userFilePath;
 
@@ -658,11 +659,18 @@ namespace CSharp2_A1
 
             if (open.ShowDialog() == true)
             {
-                IFileSerializer<ObservableCollection<Animal>> jsonInterface = new JSONSerializer();
-                ObservableCollection<Animal> result = jsonInterface.Deserialize(open.FileName);
-                animalRegistry.Replace(result);
-                userFilePath = (open.FileName, "json");
-                DisplayAnimals(sender, e);
+                try
+                {
+                    IFileSerializer<ObservableCollection<Animal>> jsonInterface = new JSONSerializer();
+                    ObservableCollection<Animal> result = jsonInterface.Deserialize(open.FileName);
+                    animalRegistry.Replace(result);
+                    userFilePath = (open.FileName, "json");
+                    DisplayAnimals(sender, e);
+                }
+                catch (UserDefinedException ex)
+                {
+                    MessageBoxes.DisplayErrorBox(ex.Message);
+                }
             }
         }
 
@@ -675,29 +683,50 @@ namespace CSharp2_A1
 
             if (open.ShowDialog() == true)
             {
-                IFileSerializer<ObservableCollection<Animal>> txtInterface = new TxtSerializer();
-                ObservableCollection<Animal> result = txtInterface.Deserialize(open.FileName);
-                animalRegistry.Replace(result);
-                userFilePath = (open.FileName, "txt");
-                DisplayAnimals(sender, e);
+                try
+                {
+                    IFileSerializer<ObservableCollection<Animal>> txtInterface = new TxtSerializer();
+                    ObservableCollection<Animal> result = txtInterface.Deserialize(open.FileName);
+                    animalRegistry.Replace(result);
+                    userFilePath = (open.FileName, "txt");
+                    DisplayAnimals(sender, e);
+                }
+                catch (UserDefinedException ex)
+                {
+                    MessageBoxes.DisplayErrorBox(ex.Message);
+                }
             }
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            if (userFilePath.format == "json")
+            if (string.IsNullOrEmpty(userFilePath.path))
             {
-                IFileSerializer<ObservableCollection<Animal>> jsonInterface = new JSONSerializer();
-                jsonInterface.Serialize(userFilePath.path, animalRegistry.Collection);
+                MessageBoxes.DisplayErrorBox("No previous filepath to save to");
+            }
+            else if (userFilePath.format == "json")
+            {
+                try
+                {
+                    IFileSerializer<ObservableCollection<Animal>> jsonInterface = new JSONSerializer();
+                    jsonInterface.Serialize(userFilePath.path, animalRegistry.Collection);
+                }
+                catch (UserDefinedException ex)
+                {
+                    MessageBoxes.DisplayErrorBox(ex.Message);
+                }
             }
             else if (userFilePath.format == "txt")
             {
-                IFileSerializer<ObservableCollection<Animal>> txtInterface = new TxtSerializer();
-                txtInterface.Serialize(userFilePath.path, animalRegistry.Collection);
-            }
-            else if (string.IsNullOrEmpty(userFilePath.path))
-            {
-                MessageBoxes.DisplayErrorBox("No previous filepath to save to");
+                try
+                {
+                    IFileSerializer<ObservableCollection<Animal>> txtInterface = new TxtSerializer();
+                    txtInterface.Serialize(userFilePath.path, animalRegistry.Collection);
+                }
+                catch (UserDefinedException ex)
+                {
+                    MessageBoxes.DisplayErrorBox(ex.Message);
+                }
             }
             else
             {
@@ -707,37 +736,94 @@ namespace CSharp2_A1
 
         private void SaveAsJson_Click(Object sender, RoutedEventArgs e)
         {
-            SaveFileDialog save = new()
-            {
-                Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*"
-            };
+            SaveFileDialog save = new()!;
+            save.Filter = GetFilter("json");
 
             if (save.ShowDialog() == true)
             {
-                IFileSerializer<ObservableCollection<Animal>> jsonInterface = new JSONSerializer();
-                jsonInterface.Serialize(save.FileName, animalRegistry.Collection);
-                userFilePath = (save.FileName, "json");
+                try
+                {
+                    IFileSerializer<ObservableCollection<Animal>> jsonInterface = new JSONSerializer();
+                    jsonInterface.Serialize(save.FileName, animalRegistry.Collection);
+                    userFilePath = (save.FileName, "json");
+                }
+                catch (UserDefinedException ex)
+                {
+                    MessageBoxes.DisplayErrorBox(ex.Message);
+                }
             }
         }
 
         private void SaveAsTxt_Click(Object sender, RoutedEventArgs e)
         {
-            SaveFileDialog save = new()
-            {
-                Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*"
-            };
+            SaveFileDialog save = new()!;
+            save.Filter = GetFilter("txt");
 
             if (save.ShowDialog() == true)
             {
-                IFileSerializer<ObservableCollection<Animal>> txtInterface = new TxtSerializer();
-                txtInterface.Serialize(save.FileName, animalRegistry.Collection);
-                userFilePath = (save.FileName, "txt");
+                try
+                {
+                    IFileSerializer<ObservableCollection<Animal>> txtInterface = new TxtSerializer();
+                    txtInterface.Serialize(save.FileName, animalRegistry.Collection);
+                    userFilePath = (save.FileName, "txt");
+                }
+                catch (UserDefinedException ex)
+                {
+                    MessageBoxes.DisplayErrorBox(ex.Message);
+                }
             }
         }
 
         private void SaveXML_Click(Object sender, RoutedEventArgs e)
         {
+            SaveFileDialog save = new()!;
+            save.Filter = GetFilter("xml");
 
+            if (save.ShowDialog() == true)
+            {
+                try
+                {
+                    IFileSerializer<FoodManager> foodInterface = new XMLSerializer<FoodManager>();
+                    foodInterface.Serialize(save.FileName, foodManager);
+                }
+                catch (UserDefinedException ex)
+                {
+                    MessageBoxes.DisplayErrorBox(ex.Message);
+                }
+            }
+        }
+
+        private void OpenXML_Click(Object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog open = new()!;
+            open.Filter = GetFilter("xml");
+
+            if (open.ShowDialog() == true)
+            {
+                try
+                {
+                    IFileSerializer<FoodManager> foodInterface = new XMLSerializer<FoodManager>();
+                    FoodManager result = foodInterface.Deserialize(open.FileName);
+                    foodManager = result;
+                }
+                catch (UserDefinedException ex)
+                {
+                    MessageBoxes.DisplayErrorBox(ex.Message);
+                }
+            }
+        }
+
+        private string GetFilter(string type)
+        {
+            Dictionary<string, string> typesAndFilters = new()
+            {
+                { "txt", "Text files (*.txt)|*.txt|All files (*.*)|*.*" },
+                { "json", "JSON files (*.json)|*.json|All files (*.*)|*.*" },
+                { "xml", "XML files (*.xml)|*.xml|All files (*.*)|*.*" }
+
+            };
+
+            return typesAndFilters[type];
         }
     }
 }

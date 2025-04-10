@@ -84,6 +84,7 @@
                         <Separator/>
                         <MenuItem Header="_XML">
                             <MenuItem Header="_Save food schedule" Click="SaveXML_Click"/>
+                            <MenuItem Header="_Open food schedule" Click="OpenXML_Click"/>
                         </MenuItem>
                         <MenuItem Header="_Exit" Click="ExitButton_Click"/>
                     </MenuItem>

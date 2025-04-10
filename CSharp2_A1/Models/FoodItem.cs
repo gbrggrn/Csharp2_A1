@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Csharp2_A1.Models
 {
     [Serializable]
-    internal class FoodItem
+    public class FoodItem
     {
         private List<string> ingredients;
         private string name;
@@ -22,6 +22,15 @@ namespace Csharp2_A1.Models
         {
             ingredients = [];
             name = nameIn;
+        }
+
+        /// <summary>
+        /// Paramaterless constructor to allow [Serializable]
+        /// </summary>
+        public FoodItem() 
+        {
+            ingredients = [];
+            name = string.Empty;
         }
 
         /// <summary>

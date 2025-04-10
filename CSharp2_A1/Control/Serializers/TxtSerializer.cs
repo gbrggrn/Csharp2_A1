@@ -78,20 +78,20 @@ namespace Csharp2_A1.Control.Serializers
             } 
             catch (FileNotFoundException fnfe)
             {
-                throw new UserDefinedException("File could not be found", fnfe.Message);
+                throw new UserDefinedException("File could not be found", fnfe);
             }
             catch (DirectoryNotFoundException dnfe)
             {
-                throw new UserDefinedException("Directory could not be found", dnfe.Message);
+                throw new UserDefinedException("Directory could not be found", dnfe);
             }
             catch (IOException ioe)
             {
-                throw new UserDefinedException("Filepath could not be read", ioe.Message);
+                throw new UserDefinedException("Filepath could not be read", ioe);
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                throw new UserDefinedException("Something went wrong", e.Message);
+                throw new UserDefinedException("Something went wrong", e);
             }
             //"using" already handles disposal - this just to show usage of "finally"
             finally

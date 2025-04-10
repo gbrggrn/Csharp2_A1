@@ -86,19 +86,19 @@ namespace Csharp2_A1.Control.Serializers
             }
             catch (FileNotFoundException fnfe)
             {
-                throw new UserDefinedException("File not found", fnfe.Message);
+                throw new UserDefinedException("File not found", fnfe);
             }
             catch (DirectoryNotFoundException dnfe)
             {
-                throw new UserDefinedException("Directory not found", dnfe.Message);
+                throw new UserDefinedException("Directory not found", dnfe);
             }
             catch (IOException ioe)
             {
-                throw new UserDefinedException("File could not be read", ioe.Message);
+                throw new UserDefinedException("File could not be read", ioe);
             }
             catch (Exception e)
             {
-                throw new UserDefinedException("Something went wrong", e.Message);
+                throw new UserDefinedException("Something went wrong", e);
             }
             return deserializedAnimals;
         }
