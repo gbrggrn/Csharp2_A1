@@ -166,33 +166,33 @@ namespace CSharp2_A1
         /// <param name="e"></param>
         private void UpdateInputControls(Object sender, EventArgs e)
         {
+            InterfaceService animalInterface = null;
+
+            if (displayAllListView.SelectedIndex != -1 && editingFlag)
+            {
+                int index = displayAllListView.SelectedIndex;
+                animalInterface = new InterfaceService(animalRegistry.GetAt(index));
+            }
             if (speciesListBox.SelectedIndex != -1)
             {
-                InterfaceService animalInterface = TryCreateAnimal();
+                animalInterface = TryCreateAnimal();
+            }
 
-                //If editing, retrieve interface of currently selected animal
-                if (displayAllListView.SelectedIndex != -1 && editingFlag)
+            if (animalInterface != null)
+            {
+                categoryQuestionLabel.Content = animalInterface.Animal.CategoryQuestion;
+                speciesQuestionLabel.Content = animalInterface.Animal.SpeciesQuestion;
+
+                firstQTextBox.Visibility = Visibility.Visible;
+                secondQTextBox.Visibility = Visibility.Visible;
+
+                //If categories are disabled to highlight the category based on species selection
+                if (listAllCheckBox.IsChecked == true)
                 {
-                    int index = displayAllListView.SelectedIndex;
-                    animalInterface = new InterfaceService(animalRegistry.GetAt(index));
-                }
-
-                if (animalInterface != null)
-                {
-                    categoryQuestionLabel.Content = animalInterface.Animal.CategoryQuestion;
-                    speciesQuestionLabel.Content = animalInterface.Animal.SpeciesQuestion;
-
-                    firstQTextBox.Visibility = Visibility.Visible;
-                    secondQTextBox.Visibility = Visibility.Visible;
-
-                    //If categories are disabled to highlight the category based on species selection
-                    if (listAllCheckBox.IsChecked == true)
-                    {
-                        string category = AssemblyHelpers.GetCorrespondingCategory(animalInterface.Animal.GetType().Name); //Get corresponding category
-                        categoryListBox.SelectionChanged -= LoadSpecies; //Remove subscription to prevent exception
-                        categoryListBox.SelectedItem = category; //Highlight the category
-                        categoryListBox.SelectionChanged += LoadSpecies; //Re-assign subscription
-                    }
+                    string category = AssemblyHelpers.GetCorrespondingCategory(animalInterface.Animal.GetType().Name); //Get corresponding category
+                    categoryListBox.SelectionChanged -= LoadSpecies; //Remove subscription to prevent exception
+                    categoryListBox.SelectedItem = category; //Highlight the category
+                    categoryListBox.SelectionChanged += LoadSpecies; //Re-assign subscription
                 }
             }
             else
@@ -251,82 +251,83 @@ namespace CSharp2_A1
         /// <param name="e"></param>
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            if (speciesListBox.SelectedIndex != -1)
+            InterfaceService animalInterface = null;
+
+            //If editing, retrieve interface of currently selected animal
+            if (editingFlag)
             {
-                InterfaceService animalInterface = TryCreateAnimal();
+                int index = displayAllListView.SelectedIndex;
+                animalInterface = new InterfaceService(animalRegistry.GetAt(index));
+            }
+            else if (speciesListBox.SelectedIndex != -1)
+            {
+                animalInterface = TryCreateAnimal();
+            }
+            else
+            {
+                MessageBoxes.DisplayErrorBox("No species selected!");
+            }
 
-                //If editing, retrieve interface of currently selected animal
-                if (editingFlag)
+            if (animalInterface != null)
+            {
+                List<string> errors = ValidateInput(animalInterface);
+
+                if (errors.Count > 0)
                 {
-                    int index = displayAllListView.SelectedIndex;
-                    animalInterface = new InterfaceService(animalRegistry.GetAt(index));
+                    MessageBoxes.DisplayErrorBox($"Faulty input!\nErrorMessages:\n{string.Join("\n", errors)}");
+                    return;
                 }
-
-                if (animalInterface != null)
+                else
                 {
-                    List<string> errors = ValidateInput(animalInterface);
-
-                    if (errors.Count > 0)
+                    //Creates a Dictionary where the key represents an action (in this case a setter)
+                    //and the value represents a string from a textbox in the UI.
+                    Dictionary<Action<string>, string> settersAndValues = new()
                     {
-                        MessageBoxes.DisplayErrorBox($"Faulty input!\nErrorMessages:\n{string.Join("\n", errors)}");
+                        [value => animalInterface.Animal.Age = value] = ageTextBox.Text,
+                        [value => animalInterface.Animal.Name = value] = nameTextBox.Text,
+                        [value => animalInterface.Animal.CategoryTrait = value] = firstQTextBox.Text,
+                        [value => animalInterface.Animal.SpeciesTrait = value] = secondQTextBox.Text
+                    };
+
+                    //Execute each action (key) with the value (value) as an argument
+                    foreach (var pair in settersAndValues)
+                    {
+                        pair.Key(pair.Value);
+                    }
+
+                    //Sets the rest of the animal-attributes that are not strings.
+                    animalInterface.Animal.IsDomesticated = domesticatedCheckBox.IsChecked!.Value;
+                    animalInterface.Animal.EaterType = (Enums.EaterType)eaterTypeComboBox.SelectedItem;
+                    animalInterface.Animal.Gender = (Enums.Gender)genderComboBox.SelectedItem;
+
+                    //Adds the current animal to the AnimalRegistry
+                    if (editingFlag)
+                    {
+                        int index = displayAllListView.SelectedIndex;
+                        animalRegistry.ChangeAt(animalInterface.Animal.ThisAnimal, index);
+                        ResetInputFields();
                         return;
                     }
                     else
                     {
-                        //Creates a Dictionary where the key represents an action (in this case a setter)
-                        //and the value represents a string from a textbox in the UI.
-                        Dictionary<Action<string>, string> settersAndValues = new()
+                        try
                         {
-                            [value => animalInterface.Animal.Age = value] = ageTextBox.Text,
-                            [value => animalInterface.Animal.Name = value] = nameTextBox.Text,
-                            [value => animalInterface.Animal.CategoryTrait = value] = firstQTextBox.Text,
-                            [value => animalInterface.Animal.SpeciesTrait = value] = secondQTextBox.Text
-                        };
-
-                        //Execute each action (key) with the value (value) as an argument
-                        foreach (var pair in settersAndValues)
-                        {
-                            pair.Key(pair.Value);
+                            animalRegistry.AddAnimal(animalInterface.Animal.ThisAnimal);
+                            animalInterface.Animal.Id = idGenerator.GenerateId();
                         }
-
-                        //Sets the rest of the animal-attributes that are not strings.
-                        animalInterface.Animal.IsDomesticated = domesticatedCheckBox.IsChecked!.Value;
-                        animalInterface.Animal.EaterType = (Enums.EaterType)eaterTypeComboBox.SelectedItem;
-                        animalInterface.Animal.Gender = (Enums.Gender)genderComboBox.SelectedItem;
-
-                        //Adds the current animal to the AnimalRegistry
-                        if (editingFlag)
+                        catch (Exception ex)
                         {
-                            int index = displayAllListView.SelectedIndex;
-                            animalRegistry.ChangeAt(animalInterface.Animal.ThisAnimal, index);
-                            ResetInputFields();
+                            MessageBoxes.DisplayErrorBox($"Something went wrong:\n{ex.Message}");
                             return;
                         }
-                        else
-                        {
-                            try
-                            {
-                                animalRegistry.AddAnimal(animalInterface.Animal.ThisAnimal);
-                                animalInterface.Animal.Id = idGenerator.GenerateId();
-                            }
-                            catch (Exception ex)
-                            {
-                                MessageBoxes.DisplayErrorBox($"Something went wrong:\n{ex.Message}");
-                                return;
-                            }
-                            ResetInputFields();
-                        }
+                        ResetInputFields();
                     }
-                }
-                else
-                {
-                    MessageBoxes.DisplayErrorBox("Could not create an animal");
-                    return;
                 }
             }
             else
             {
-                MessageBoxes.DisplayErrorBox("No animaltype selected!");
+                MessageBoxes.DisplayErrorBox("Could not create an animal");
+                return;
             }
         }
 
@@ -710,6 +711,7 @@ namespace CSharp2_A1
                 {
                     IFileSerializer<ObservableCollection<Animal>> jsonInterface = new JSONSerializer();
                     jsonInterface.Serialize(userFilePath.path, animalRegistry.Collection);
+                    MessageBoxes.DisplayInfoBox($"Saved to {userFilePath}", "Successful save");
                 }
                 catch (UserDefinedException ex)
                 {
@@ -722,6 +724,7 @@ namespace CSharp2_A1
                 {
                     IFileSerializer<ObservableCollection<Animal>> txtInterface = new TxtSerializer();
                     txtInterface.Serialize(userFilePath.path, animalRegistry.Collection);
+                    MessageBoxes.DisplayInfoBox($"Saved to {userFilePath}", "Successful save");
                 }
                 catch (UserDefinedException ex)
                 {
@@ -746,6 +749,7 @@ namespace CSharp2_A1
                     IFileSerializer<ObservableCollection<Animal>> jsonInterface = new JSONSerializer();
                     jsonInterface.Serialize(save.FileName, animalRegistry.Collection);
                     userFilePath = (save.FileName, "json");
+                    MessageBoxes.DisplayInfoBox("Succesful save!", "Successful save");
                 }
                 catch (UserDefinedException ex)
                 {
@@ -766,6 +770,7 @@ namespace CSharp2_A1
                     IFileSerializer<ObservableCollection<Animal>> txtInterface = new TxtSerializer();
                     txtInterface.Serialize(save.FileName, animalRegistry.Collection);
                     userFilePath = (save.FileName, "txt");
+                    MessageBoxes.DisplayInfoBox("Successful save!", "Succesful save");
                 }
                 catch (UserDefinedException ex)
                 {
@@ -785,6 +790,7 @@ namespace CSharp2_A1
                 {
                     IFileSerializer<FoodManager> foodInterface = new XMLSerializer<FoodManager>();
                     foodInterface.Serialize(save.FileName, foodManager);
+                    MessageBoxes.DisplayInfoBox("Successful save!", "Successful save");
                 }
                 catch (UserDefinedException ex)
                 {
