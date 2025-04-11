@@ -10,17 +10,17 @@ using System.Threading.Tasks;
 namespace Csharp2_A1.Models
 {
     [Serializable]
-    public class FoodItem
+    public class FoodItem : ObservableCollectionManager<Ingredient>
     {
-        private List<string> ingredients;
         private string name;
+        //private ObservableCollectionManager<Ingredient> ingredients;
 
         /// <summary>
         /// Constructor initializes instance variables
         /// </summary>
         public FoodItem(string nameIn)
         {
-            ingredients = [];
+            //ingredients = new();
             name = nameIn;
         }
 
@@ -29,10 +29,10 @@ namespace Csharp2_A1.Models
         /// </summary>
         public FoodItem() 
         {
-            ingredients = [];
+            //ingredients = new();
             name = string.Empty;
         }
-
+        /*
         /// <summary>
         /// Adds an instruction to the foodItems list so long as it is not null
         /// </summary>
@@ -96,13 +96,8 @@ namespace Csharp2_A1.Models
 
             return false;
         }
-
+        */
         //Properties
-        public List<string> Ingredients
-        {
-            get => ingredients;
-            set => ingredients = value;
-        }
 
         public string Name
         {

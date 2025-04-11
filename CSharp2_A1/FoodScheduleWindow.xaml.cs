@@ -64,7 +64,7 @@ namespace Csharp2_A1
                 foodManager.Collection.Add(new FoodItem(foodItemNameTextBox.Text));
                 if (itemContent != string.Empty)
                 {
-                    foodManager.Collection[foodManager.Collection.Count - 1].AddIngredient(itemContent);
+                    foodManager.GetAt(foodManager.Count - 1).Add(new Ingredient(itemContent));
                 }
                 UpdateItems();
                 itemEntryRichTextBox.Document.Blocks.Clear();
@@ -117,9 +117,10 @@ namespace Csharp2_A1
             if (foodItemNamesListBox.SelectedIndex != -1)
             {
                 int index = foodItemNamesListBox.SelectedIndex;
-                foreach (string ingredient in foodManager.Collection[index].Ingredients)
+                foreach (Ingredient ingredient in foodManager.Collection[index].Collection)
                 {
-                    string ingredientView = ingredient.Length > 15 ? ingredient[..10] : ingredient;
+                    string ingredientContent = ingredient.IngredientContent;
+                    string ingredientView = ingredientContent.Length > 15 ? ingredientContent : ingredientContent[..10];
                     ingredientsShortListBox.Items.Add(ingredientView);
                 }
             }
@@ -165,14 +166,14 @@ namespace Csharp2_A1
                 int ingredientIndex = ingredientsShortListBox.SelectedIndex;
                 ToggleControlsUponEdit(false);
                 itemEntryRichTextBox.Document.Blocks.Clear();
-                string toEdit = foodManager.Collection[foodItemIndex].GetSpecificIngredient(ingredientIndex);
+                string toEdit = foodManager.GetAt(foodItemIndex).GetAt(ingredientIndex).IngredientContent;
                 itemEntryRichTextBox.Document.Blocks.Add(new Paragraph(new Run(toEdit)));
                 foodItemNameTextBox.Text = foodManager.GetAt(foodItemIndex).Name;
             }
             //If editing:
             else if (foodItemNamesListBox.SelectedIndex != -1 && ingredientsShortListBox.SelectedIndex != -1 && editing)
             {
-                foodManager.Collection[foodItemIndex].EditIngredient(GetRichTextBoxString(itemEntryRichTextBox), ingredientsShortListBox.SelectedIndex);
+                foodManager.GetAt(foodItemIndex).GetAt(ingredientsShortListBox.SelectedIndex).IngredientContent = GetRichTextBoxString(itemEntryRichTextBox);
                 itemEntryRichTextBox.Document.Blocks.Clear();
                 foodItemNameTextBox.Text = string.Empty;
                 UpdateItems();
@@ -181,8 +182,8 @@ namespace Csharp2_A1
             }
             else if (foodItemNamesListBox.SelectedIndex != -1 && editing)
             {
-                foodManager.Collection[foodItemIndex].AddIngredient(GetRichTextBoxString(itemEntryRichTextBox));
-                foodManager.Collection[foodItemIndex].Name = foodItemNameTextBox.Text;
+                foodManager.GetAt(foodItemIndex).Add(new Ingredient(GetRichTextBoxString(itemEntryRichTextBox)));
+                foodManager.GetAt(foodItemIndex).Name = foodItemNameTextBox.Text;
                 itemEntryRichTextBox.Document.Blocks.Clear();
                 foodItemNameTextBox.Text = string.Empty;
                 UpdateItems();
@@ -210,7 +211,7 @@ namespace Csharp2_A1
             if (foodItemNamesListBox.SelectedIndex != -1 && ingredientsShortListBox.SelectedIndex == -1)
             {
                 int index = foodItemNamesListBox.SelectedIndex;
-                if (MessageBoxes.DisplayQuestion($"Remove {foodManager.Collection[index].Name} and all its ingredients?", "Remove?"))
+                if (MessageBoxes.DisplayQuestion($"Remove {foodManager.GetAt(index).Name} and all its ingredients?", "Remove?"))
                 {
                     foodManager.Collection.RemoveAt(index);
                     UpdateItems();
@@ -227,7 +228,7 @@ namespace Csharp2_A1
                 int foodItemIndex = foodItemNamesListBox.SelectedIndex;
                 if (MessageBoxes.DisplayQuestion("Remove the selected ingredient?", "Remove?"))
                 {
-                    foodManager.Collection[foodItemIndex].RemoveIngredient(ingredientIndex);
+                    foodManager.GetAt(foodItemIndex).Collection.RemoveAt(ingredientIndex);
                     UpdateIngredients(sender, e);
                 }
                 else
