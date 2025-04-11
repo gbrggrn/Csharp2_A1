@@ -9,9 +9,14 @@ using System.Threading.Tasks;
 
 namespace Csharp2_A1.Control
 {
+    /// <summary>
+    /// Manages FoodItems and connections between Animals and FoodItems.
+    /// </summary>
     [Serializable]
     public class FoodManager : ObservableCollectionManager<FoodItem>
     {
+        //Do not save connections
+        [NonSerializedAttribute]
         private readonly Dictionary<Animal, List<FoodItem>> connections;
 
         /// <summary>

@@ -9,6 +9,11 @@ using System.Threading.Tasks;
 
 namespace Csharp2_A1.Models
 {
+    /// <summary>
+    /// Class defining a FoodItem.
+    /// Has a Name property and a collection of ingredients.
+    /// Earlier methods commented out when implementing ObservableCollectionManager.
+    /// </summary>
     [Serializable]
     public class FoodItem : ObservableCollectionManager<Ingredient>
     {

@@ -120,7 +120,7 @@ namespace Csharp2_A1
                 foreach (Ingredient ingredient in foodManager.Collection[index].Collection)
                 {
                     string ingredientContent = ingredient.IngredientContent;
-                    string ingredientView = ingredientContent.Length > 15 ? ingredientContent : ingredientContent[..10];
+                    string ingredientView = ingredientContent.Length > 15 ? ingredientContent.Substring(0, 15) : ingredientContent;
                     ingredientsShortListBox.Items.Add(ingredientView);
                 }
             }
@@ -166,17 +166,22 @@ namespace Csharp2_A1
                 int ingredientIndex = ingredientsShortListBox.SelectedIndex;
                 ToggleControlsUponEdit(false);
                 itemEntryRichTextBox.Document.Blocks.Clear();
-                string toEdit = foodManager.GetAt(foodItemIndex).GetAt(ingredientIndex).IngredientContent;
-                itemEntryRichTextBox.Document.Blocks.Add(new Paragraph(new Run(toEdit)));
+                if (ingredientsShortListBox.SelectedIndex != -1)
+                {
+                    string ingredientToEdit = foodManager.GetAt(foodItemIndex).GetAt(ingredientIndex).IngredientContent;
+                    itemEntryRichTextBox.Document.Blocks.Add(new Paragraph(new Run(ingredientToEdit)));
+                }
                 foodItemNameTextBox.Text = foodManager.GetAt(foodItemIndex).Name;
             }
             //If editing:
             else if (foodItemNamesListBox.SelectedIndex != -1 && ingredientsShortListBox.SelectedIndex != -1 && editing)
             {
                 foodManager.GetAt(foodItemIndex).GetAt(ingredientsShortListBox.SelectedIndex).IngredientContent = GetRichTextBoxString(itemEntryRichTextBox);
+                foodManager.GetAt(foodItemIndex).Name = foodItemNameTextBox.Text;
                 itemEntryRichTextBox.Document.Blocks.Clear();
                 foodItemNameTextBox.Text = string.Empty;
                 UpdateItems();
+                UpdateIngredients(sender, e);
                 editing = false;
                 ToggleControlsUponEdit(true);
             }

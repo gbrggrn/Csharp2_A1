@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Csharp2_A1.Control.UserDefinedExceptions
 {
+    /// <summary>
+    /// User defined exception class.
+    /// </summary>
     public class UserDefinedException : Exception
     {
         public UserDefinedException() { }

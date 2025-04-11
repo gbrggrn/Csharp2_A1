@@ -57,6 +57,11 @@ namespace Csharp2_A1.Control
             generatedIds.Remove(idIn);
         }
 
+        internal void DeleteAll()
+        {
+            generatedIds = [];
+        }
+
         /// <summary>
         /// Generates a random number in the range of registrySize.
         /// </summary>

@@ -120,7 +120,7 @@ namespace Csharp2_A1.Control
         {
             if (CheckIndex(indexIn))
             {
-                return collection[indexIn];
+                return Collection[indexIn];
             }
             else
             {

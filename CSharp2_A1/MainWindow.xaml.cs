@@ -641,6 +641,11 @@ namespace CSharp2_A1
             DisplayAnimal(sender, e);
         }
 
+        /// <summary>
+        /// Prompts question to reload app or not. If reload: initializes new window.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void New_Click(object sender, RoutedEventArgs e)
         {
             if (MessageBoxes.DisplayQuestion("Are you sure?\nUnsaved data will be lost.", "New?"))
@@ -651,6 +656,11 @@ namespace CSharp2_A1
             }
         }
 
+        /// <summary>
+        /// Calls deserialization on a json file, loads its contents and calls updates to the GUI.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OpenJson_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog open = new()
@@ -664,7 +674,13 @@ namespace CSharp2_A1
                 {
                     IFileSerializer<ObservableCollection<Animal>> jsonInterface = new JSONSerializer();
                     ObservableCollection<Animal> result = jsonInterface.Deserialize(open.FileName);
-                    animalRegistry.Replace(result);
+                    animalRegistry.DeleteAll();
+                    idGenerator.DeleteAll();
+                    foreach (Animal animal in result)
+                    {
+                        animal.Id = idGenerator.GenerateId();
+                        animalRegistry.Add(animal);
+                    }
                     userFilePath = (open.FileName, "json");
                     DisplayAnimals(sender, e);
                 }
@@ -675,6 +691,11 @@ namespace CSharp2_A1
             }
         }
 
+        /// <summary>
+        /// Calls deserialization on a txt file, loads its contents and calls updates to the GUI.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OpenTxt_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog open = new()
@@ -688,7 +709,13 @@ namespace CSharp2_A1
                 {
                     IFileSerializer<ObservableCollection<Animal>> txtInterface = new TxtSerializer();
                     ObservableCollection<Animal> result = txtInterface.Deserialize(open.FileName);
-                    animalRegistry.Replace(result);
+                    animalRegistry.DeleteAll();
+                    idGenerator.DeleteAll();
+                    foreach (Animal animal in result)
+                    {
+                        animal.Id = idGenerator.GenerateId();
+                        animalRegistry.Add(animal);
+                    }
                     userFilePath = (open.FileName, "txt");
                     DisplayAnimals(sender, e);
                 }
@@ -699,6 +726,36 @@ namespace CSharp2_A1
             }
         }
 
+        /// <summary>
+        /// Calls deserialization on a xml file, loads its contents and calls updates to the GUI.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OpenXML_Click(Object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog open = new()!;
+            open.Filter = GetFilter("xml");
+
+            if (open.ShowDialog() == true)
+            {
+                try
+                {
+                    IFileSerializer<FoodManager> foodInterface = new XMLSerializer<FoodManager>();
+                    FoodManager result = foodInterface.Deserialize(open.FileName);
+                    foodManager = result;
+                }
+                catch (UserDefinedException ex)
+                {
+                    MessageBoxes.DisplayErrorBox(ex.Message);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Saves to an existing file (if user has previously saved).
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Save_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrEmpty(userFilePath.path))
@@ -737,6 +794,11 @@ namespace CSharp2_A1
             }
         }
 
+        /// <summary>
+        /// Saves the collection of Animals to a json file and updates the userFilePath.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SaveAsJson_Click(Object sender, RoutedEventArgs e)
         {
             SaveFileDialog save = new()!;
@@ -758,6 +820,11 @@ namespace CSharp2_A1
             }
         }
 
+        /// <summary>
+        /// Saves the collection of Animals to a txt file and updates the userFilePath.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SaveAsTxt_Click(Object sender, RoutedEventArgs e)
         {
             SaveFileDialog save = new()!;
@@ -779,6 +846,11 @@ namespace CSharp2_A1
             }
         }
 
+        /// <summary>
+        /// Saves the FoodItem structure to an xml file.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SaveXML_Click(Object sender, RoutedEventArgs e)
         {
             SaveFileDialog save = new()!;
@@ -799,26 +871,11 @@ namespace CSharp2_A1
             }
         }
 
-        private void OpenXML_Click(Object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog open = new()!;
-            open.Filter = GetFilter("xml");
-
-            if (open.ShowDialog() == true)
-            {
-                try
-                {
-                    IFileSerializer<FoodManager> foodInterface = new XMLSerializer<FoodManager>();
-                    FoodManager result = foodInterface.Deserialize(open.FileName);
-                    foodManager = result;
-                }
-                catch (UserDefinedException ex)
-                {
-                    MessageBoxes.DisplayErrorBox(ex.Message);
-                }
-            }
-        }
-
+        /// <summary>
+        /// Returns the filter for which files to present to the user when opening/saving files.
+        /// </summary>
+        /// <param name="type">The type of file to be presented</param>
+        /// <returns>The filter for that type</returns>
         private string GetFilter(string type)
         {
             Dictionary<string, string> typesAndFilters = new()

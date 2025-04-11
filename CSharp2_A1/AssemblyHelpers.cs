@@ -8,6 +8,9 @@ using Csharp2_A1;
 
 namespace Csharp2_A1
 {
+    /// <summary>
+    /// Helper-class that provides methods for retrieving category and species names from the assembly.
+    /// </summary>
     internal static class AssemblyHelpers
     {
         private static readonly Dictionary<string, List<String>> categoriesAndSpecies = GetCategoriesAndSpecies();

@@ -20,6 +20,12 @@ namespace Csharp2_A1.Control.Serializers
     /// </summary>
     internal class JSONSerializer : IFileSerializer<ObservableCollection<Animal>>
     {
+        /// <summary>
+        /// Serializes Animal objects in the form of a DTO (AnimalDTO) and writes them to a user specified file
+        /// </summary>
+        /// <param name="filePath">The path to write to</param>
+        /// <param name="animalsIn">The collection of Animals to be serialized</param>
+        /// <exception cref="UserDefinedException">Throws if any exception occurs</exception>
         public void Serialize(string filePath, ObservableCollection<Animal> animalsIn)
         {
             try
@@ -57,6 +63,12 @@ namespace Csharp2_A1.Control.Serializers
             }
         }
 
+        /// <summary>
+        /// Deserializes a json file saved using the AnimalDTO-pattern.
+        /// </summary>
+        /// <param name="filePath">The path of the file to deserialize</param>
+        /// <returns>The deserialized list of DTOs</returns>
+        /// <exception cref="UserDefinedException">Throws if any exception occurs</exception>
         public ObservableCollection<Animal> Deserialize(string filePath)
         {
             ObservableCollection<Animal> deserializedAnimals = [];
@@ -72,15 +84,22 @@ namespace Csharp2_A1.Control.Serializers
                     {
                         InterfaceService currentInterface = AnimalFactory.CreateAnimal(animalDTO.Category, animalDTO.Species);
 
-                        currentInterface.Animal.IsDomesticated = animalDTO.IsDomesticated;
-                        currentInterface.Animal.Gender = (Enums.Gender)Enum.Parse(typeof(Enums.Gender), animalDTO.Gender);
-                        currentInterface.Animal.EaterType = (Enums.EaterType)Enum.Parse(typeof(Enums.EaterType), animalDTO.EaterType);
-                        currentInterface.Animal.Name = animalDTO.Name;
-                        currentInterface.Animal.Age = animalDTO.Age;
-                        currentInterface.Animal.CategoryTrait = animalDTO.CategoryTrait;
-                        currentInterface.Animal.SpeciesTrait = animalDTO.SpeciesTrait;
+                        if (currentInterface != null)
+                        {
+                            currentInterface.Animal.IsDomesticated = animalDTO.IsDomesticated;
+                            currentInterface.Animal.Gender = (Enums.Gender)Enum.Parse(typeof(Enums.Gender), animalDTO.Gender);
+                            currentInterface.Animal.EaterType = (Enums.EaterType)Enum.Parse(typeof(Enums.EaterType), animalDTO.EaterType);
+                            currentInterface.Animal.Name = animalDTO.Name;
+                            currentInterface.Animal.Age = animalDTO.Age;
+                            currentInterface.Animal.CategoryTrait = animalDTO.CategoryTrait;
+                            currentInterface.Animal.SpeciesTrait = animalDTO.SpeciesTrait;
 
-                        deserializedAnimals.Add(currentInterface.Animal.ThisAnimal);
+                            deserializedAnimals.Add(currentInterface.Animal.ThisAnimal);
+                        }
+                        else
+                        {
+                            throw new UserDefinedException("Animal could not be created from json DTO");
+                        }
                     }
                 }
             }
@@ -95,6 +114,10 @@ namespace Csharp2_A1.Control.Serializers
             catch (IOException ioe)
             {
                 throw new UserDefinedException("File could not be read", ioe);
+            }
+            catch (UserDefinedException uex)
+            {
+                throw new UserDefinedException("Unable to create animal", uex);
             }
             catch (Exception e)
             {

@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Csharp2_A1.Models
 {
+    /// <summary>
+    /// Class holds a string representing an ingredient in a FoodItem.
+    /// </summary>
     [Serializable]
     public class Ingredient
     {

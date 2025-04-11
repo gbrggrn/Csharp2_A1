@@ -19,6 +19,12 @@ namespace Csharp2_A1.Control.Serializers
     /// </summary>
     internal class TxtSerializer : IFileSerializer<ObservableCollection<Animal>>
     {
+        /// <summary>
+        /// Serializes the Animal objects in the provided collection in a txt pattern and writes it to file.
+        /// </summary>
+        /// <param name="filePath">The path to be saved to</param>
+        /// <param name="data">The collection to be serialized</param>
+        /// <exception cref="UserDefinedException">Throws if any exception occurs</exception>
         public void Serialize(string filePath, ObservableCollection<Animal> data)
         {
             try
@@ -38,12 +44,18 @@ namespace Csharp2_A1.Control.Serializers
                     }
                 }
             } 
-            catch (IOException ioe)
+            catch (Exception ioe)
             {
                 throw new UserDefinedException("Could not write to file", ioe.Message);
             }
         }
 
+        /// <summary>
+        /// Deserializes Animal objects and adds them to a collection.
+        /// </summary>
+        /// <param name="filePath">The path of the file to be deserialized</param>
+        /// <returns>The collection of deserialized Animal objects</returns>
+        /// <exception cref="UserDefinedException">Throws if any exception occurs</exception>
         public ObservableCollection<Animal> Deserialize(string filePath)
         {
             ObservableCollection<Animal> data = [];
