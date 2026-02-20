@@ -12,6 +12,7 @@
 
 * **Logic** MVC-inspired OOP architechture with event driven UI updates through observables.
 * **Tech Stack** C# WPF + XAML
+* **Data Persistance** JSON + XML Serialization
 
 ---
 
